@@ -19,12 +19,15 @@ const prevEleSib =  document.querySelector(".secondChild").previousElementSiblin
 const nextEleSib =  document.querySelector(".secondChild").nextElementSibling.textContent; // welcome
 
 
-// create element()
 
 const menu = document.querySelector(".menu");
+
+// create element()
+
 const li = document.createElement("li");
 li.innerText = "cake";
-menu.appendChild(li);
+
+menu.appendChild(li);       // appendChild() add only element at last child element.
 
 // console.log(menu.innerText);     // if display: none... does not shows
 // console.log(menu.textContent);     // if dispaly: none .. still shows
@@ -53,8 +56,6 @@ menu.before(rum);           // before menu..
 const wine = document.createElement("li");
 wine.innerText = "wine";
 menu.after(wine);          // after menu.. 
-
-
 
 
 
@@ -101,25 +102,57 @@ document.getElementById("title").classList.toggle("newer");         // if classL
 
 // Event Listner
 
-document.querySelector(".event").addEventListener("click", function(event) {
+function divEvent(event) {
     console.log("div-event", event);
-});
+    // event.stopPropagation();
+}
+document.querySelector(".event").addEventListener("click", divEvent);
 
 
 // if we want to removeEventListner then we must have to define function outside
-function btnEvent (event) {
+function btnEvent(event) {
     // console.log("this", this);
-    console.log("btn-event 🌈", event);
     // console.log("btn-event-type 🌈", event.type);
+    console.log("btn-event 🌈", event);
+    // event.stopPropagation();
 }
-
 document.querySelector(".btn").addEventListener("click", btnEvent);
 
-// also chatgpt removeEventListner.
+// also chatgpt removeEventListner() examples and stopImmediatePropagation()
 
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------
+
+
+/* 
+    Event Bubbling  => event starts from target element and then propagate upwards through its
+    parent elements up to the document.
+
+    child => parent => document.    =>  all must have same event type.
+
+    by default its bubling, third paramaeter is false.
+*/
+
+/* 
+    Event Capturing => Its phase where event travels from top ( document ) to target element.
+
+    document => parent => child.
+    
+    to capture we have to pass third parameter that is ' true ' at all level of heirarchy.
+
+    document.querySelector(".event").addEventListener("click", divEvent, true);
+    document.querySelector(".btn").addEventListener("click", btnEvent, true);
+
+    in event capturing phase even if we click on child element first, it first execute parent and then downward to the child.
+*/
+
+/* 
+    event.stopPropagation() =>  does not allow event to bubble or capture
+
+*/
+
+
 
 
 
