@@ -32,7 +32,6 @@
 
         console.log(first);     // 1        // destructure
         console.log(second);    // 2        // destructure
-
         console.log(rest);      // [4, 5, 6]        // rest
 
         const user = {
@@ -51,24 +50,56 @@
 
 // -----------------------------------------------------
 
+/* 
 const arr = [1, 2, 3];
 const arr2 = [...arr, 4, 5]     // [1, 2, 3, ,4, 5]
 
 
 // copy array.. to prevent mutation of original array
-const copy = [...arr];
+const copy = [...arr];          // copy using spread operator
+
 
 const user = {
     name: 'sandesh',
     role: 'admin'
 }
 
+const copyUser = { ...user }        // copy
+const copyUser1 = Object.assign({}, user);
+
 const newUser = {
     ...user,        // copied all the properties of user object
     company: "Google"   // added new property
 };
+// console.log(newUser);     // { name: 'sandesh', role: 'admin', company: 'Google' }
+ 
+*/
+// -----------------------------------------------------
 
-console.log(newUser);       // { name: 'sandesh', role: 'admin', company: 'Google' }
+/* 
+        shallow copy, deep copy
+
+        using spread operator and Object.assign, we can make shallow copy only
+        nested elements obj/array still share the same reference
+*/
+
+const user = {
+  name: "Sandesh",
+  address: {
+    city: "Pune",
+  },
+};
+
+const copy = { ...user }; // shallow copy
+/* 
+copy.address.city = "Mumbai";
+console.log(user.address.city); // ❗ Mumbai (original changed)
+ */
+
+const deepCopy = structuredClone(user);
+deepCopy.address.city = "Mumbai";
+
+// console.log(user.address.city);  // // ✅ Pune (original safe)
 
 // -----------------------------------------------------
 
@@ -97,6 +128,3 @@ console.log(newUser);       // { name: 'sandesh', role: 'admin', company: 'Googl
     role: 'superadmin' → overrides the role property in the new object
 
 */
-
-
-
