@@ -1,43 +1,5 @@
 * {
-    /* margin: 0; */
-    padding: 0;
+    margin: 0;
+    padding: 20px;
     box-sizing: border-box;
-}
-
-
-.title {
-    border: 1px solid red;
-    padding: 20px;
-}
-
-.div {
-    border: 1px solid blue;
-    padding: 20px;
-}
-.menu {
-    border: 1px solid red;
-    padding: 20px;
-}
-
-.form input[type="text"] {
-    padding: 4px;
-    font-size: 16px;
-}
-
-.form input[type="text"]:focus {
-    outline: none;
-}
-
-
-button {
-    all: unset;
-}
-
-.btn {
-    padding: 10px 20px;
-    border-radius: 4px;
-    border: 1px solid gray;
-    background-color: orangered;
-    color: white;
-    letter-spacing: 1px;
 }

@@ -1,156 +1,420 @@
+ 
+    /*  1. 🔹  What is DOM? (Document Object Model)
 
-// target parent from child.
+                When a browser loads a webpage, 
+                it converts the HTML into a tree-like structure called the DOM.
 
-const parentNode = document.querySelector(".txt").parentNode;
-// console.log(parentNode);
+                👉 Each HTML element becomes a node (object)  = html element =  <p> content </p> .  open tag - content - close tag
+                👉 JavaScript can read, modify, add, or delete these nodes.
+                
 
+                <!DOCTYPE html>
+                    <html>
+                        <body>
+                            <h1 id="title">Hello</h1>
+                            <button>Click Me</button>
+                        </body>
+                    </html>
 
-// target child from parent.
+                👉DOM Tree Representation
 
-const firstElChild = document.querySelector(".list").firstElementChild;   // li
-const first = document.querySelector(".list").firstElementChild.textContent;   // hello
-const last = document.querySelector(".list").lastElementChild.textContent;   // javascript
-const allChildren = document.querySelector(".list").children;     // [li, li, li, li];     all childs.
+                Document
+                    └── html
+                        └── body
+                            ├── h1 (id="title")
+                            └── button
 
+    */
 
-// target previous and next child from childItself.
-
-const prevEleSib =  document.querySelector(".secondChild").previousElementSibling;  // li
-const nextEleSib =  document.querySelector(".secondChild").nextElementSibling.textContent; // welcome
-
-
-
-const menu = document.querySelector(".menu");
-
-// create element()
-
-const li = document.createElement("li");
-li.innerText = "cake";
-
-menu.appendChild(li);       // appendChild() add only element at last child element.
-
-// console.log(menu.innerText);     // if display: none... does not shows
-// console.log(menu.textContent);     // if dispaly: none .. still shows
+// ---------------------------------------------------------------------------------------------
 
 
+    /*  2. 🔹  What is a Node?
 
-// append(), prepend(), before(), after()
+                A node is any object in the DOM tree.
 
-const pizza = document.createElement("li");
-pizza.innerText = "pizza";
+                👉 Types of nodes:
 
-const faluda = document.createElement("li");
-faluda.innerText = "faluda";
+                    ✅Document Node - 👉 Represents the whole HTML document
+                    ✅<div> → element node
+                    ✅Text inside element → text node
+                    ✅Comment → comment node  [  document.createComment("write your comment")  ]
 
-menu.append(pizza, faluda);     // append method can add multile elements at last. can also add string.
+                        So basically: DOM = collection of nodes
+     */
 
+// ---------------------------------------------------------------------------------------------
 
-const beer = document.createElement("li");
-beer.innerText = "beer";
-menu.prepend(beer);         // will be first child..
+                     
+    /*  3. 🔹  Selecting Elements
 
-const rum = document.createElement("li");
-rum.innerText = "rum";
-menu.before(rum);           // before menu..
+            we use the document object to find elements and then manipulate them.
 
-const wine = document.createElement("li");
-wine.innerText = "wine";
-menu.after(wine);          // after menu.. 
-
-
-
-// beforeend, afterend, beforebegin, afterbegin
-menu.insertAdjacentHTML("beforeend", "<li>puranpoli</li>");    // last element
-
-
-const newNode = menu.cloneNode();   // copy menu.
-const newNodeWithAllChilds = menu.cloneNode(true);   // copy menu. with all childs
-
-menu.removeChild(menu.firstChild);      // remove child.
+            
+            1. document.getElementById('idName')
+            
+            2. document.getElementsByClassName("className");
+                    
+                    👉 Returns HTMLCollection (array-like) but not real array
+                        can access elements items[0].style.color = "red";
 
 
-// attributes.... attributes gives additional info about tag. like claas, id, src, these are attributes
+            3. document.getElementsByTagName("div");
 
-document.querySelector(".username").getAttribute("type");       // text
-document.querySelector(".username").setAttribute("class", "user username");    //overwrites
-document.querySelector(".username").hasAttribute("class");      // true false
-document.querySelector(".username").removeAttribute("placeholder");    
+                    👉 Selects all <div> elements
 
 
-// manipulation of inline css...
+            <div class='item'>A</div>
+            <div class='item'>B</div>
+            
+            4. document.querySelector(".item");  (Most Used) ( css based selector )
 
-console.log(document.querySelector(".username").style.fontSize);    // if we set inline-css.
-document.querySelector(".username").style.padding = "4px";
-document.querySelector(".username").style.cssText = "width: 400px";  // overwrites all other inline css
-document.querySelector(".username").style.cssText += "width: 400px; color: red"; // can also write multiple properties.
+                    👉Returns first matching element.  // A
 
-// console.log(window.getComputedStyle(document.querySelector(".username")).fontFamily);
-
-
-
-// classList
-
-console.log(document.getElementById("title").classList);     // ['title', 'headin']  show available classnames
-document.getElementById("title").classList.add("new", "other");
-document.getElementById("title").classList.remove("other");
-document.getElementById("title").classList.replace("new", "newest");   // ("old", "new")
-document.getElementById("title").classList.contains("newest");      // true, false
-document.getElementById("title").classList.toggle("newer");         // if classList availabel it removes, if not available it adds
-
-
-// ----------------------------------------------------------------------------------------------------------------------------------------
-
-// Event Listner
-
-function divEvent(event) {
-    console.log("div-event", event);
-    // event.stopPropagation();
-}
-document.querySelector(".event").addEventListener("click", divEvent);
-
-
-// if we want to removeEventListner then we must have to define function outside
-function btnEvent(event) {
-    // console.log("this", this);
-    // console.log("btn-event-type 🌈", event.type);
-    console.log("btn-event 🌈", event);
-    // event.stopPropagation();
-}
-document.querySelector(".btn").addEventListener("click", btnEvent);
-
-// also chatgpt removeEventListner() examples and stopImmediatePropagation()
-
-
-
-// ------------------------------------------------------------------------------------------------------------------------------------------
-
-
-/* 
-    Event Bubbling  => event starts from target element and then propagate upwards through its
-    parent elements up to the document.
-
-    child => parent => document.    =>  all must have same event type.
-
-    by default its bubling, third paramaeter is false.
-*/
-
-/* 
-    Event Capturing => Its phase where event travels from top ( document ) to target element.
-
-    document => parent => child.
     
-    to capture we have to pass third parameter that is ' true ' at all level of heirarchy.
+            
+            5.   const items =  document.querySelectorAll(".item");
 
-    document.querySelector(".event").addEventListener("click", divEvent, true);
-    document.querySelector(".btn").addEventListener("click", btnEvent, true);
+                ✅ Returns NodeList     // A B
+                ✅ Can use forEach
 
-    in event capturing phase even if we click on child element first, it first execute parent and then downward to the child.
+                items.forEach(item => {
+                    item.style.color = "blue";
+                });
+
+            🔹 HTMLCollection vs NodeList (Interview 🔥)
+
+            | Feature         | HTMLCollection      | NodeList         |
+            | --------------- | ------------------- | ---------------- |
+            | Returned by     | getElementsBy*      | querySelectorAll |
+            | Live or Static  | Live (auto updates) | Static           |
+            | forEach support | ❌ No              | ✅ Yes           |
+
+
+    */
+
+// ---------------------------------------------------------------------------------------------
+
+
+    /*  4. 🔹  Traversing element
+                👉1. Child Traversal ( target child from parent. ) 👉( most used )
+                👉2. Parent traversal (target parent from child.)
+                👉3  Sibling Traversal (target previous and next child from childItself. )
+
+                
+                <div class="parent">
+                    <p class="child1">A</p>
+                    <p class="child2">B</p>
+                    <p class="child3">C</p>
+                </div>
+
+
+
+            🔹1. Child Traversal ( target child from parent. )( most used )
+
+
+                    const parent = document.querySelector('.parent');
+
+                        👉parent.children (prefered)
+                        ✅ Returns all element only.
+
+                        👉parent.childNodes; (not prefered)
+                        ✅ Returns nodes (spaces, line breaks), comments
+
+                        👉parent.firstElementChild      
+                        👉parent.lastElementChild       
+
+
+            🔹2. Parent traversal (target parent from child.)
+
+                    const child2 = document.querySelector('.child2');
+
+                        👉child2.parentElement; // div
+
+
+            🔹 3. Sibling Traversal
+
+                    const child2 = document.querySelector('.child2');
+
+                        👉child2.previousElementSibling; // child1
+                        👉child2.nextElementSibling;     // child3
+
+                        👉child2.nextSibling ( not prefered )
+
+
+    */
+
+// ---------------------------------------------------------------------------------------------
+
+
+/*      5 🔹  Manipulating HTML Elements
+
+                🔥  <div class="menu" style="border: 1px solid red;">
+                        <p class="item-1">item-1</p>
+                        <p class="item-2">item-2</p>
+                        <p class="item-3">item-3</p>
+                    </div>
+
+                🔥  <div class="demo">
+                        Hello <span style="display:none;">hidden</span> World
+                    </div>
+
+                
+                🔹const menu = document.querySelector('.menu'); 🔹
+
+                🔹const demo = document.querySelector('.demo'); 🔹
+
+// *********************************************************************************************************************
+
+
+                    🔹innerHTML
+                        👉get or set the HTML element.
+
+                        ✅menu.innerHTML      // get existing elements including child
+
+                        ✅menu.innerHTML = "<p>Hello world</p>"   //  replace entire existing element with specified element.
+
+
+                    🔹innerText and textContent
+                        👉both used to get and set text content of an element
+
+                        ✅demo.innerText      // Hello World        
+                        // .. shows only visible part . The content which hidden with css property [ display: none ] will not be shown
+
+                        ✅demo.textContent    //  Hello hidden World    
+                        // .. shows hidden part as well. The content which hidden with css property [ display: none ] will also be shown
+
+                        ✅demo.innerText = "Hello\nWorld";
+                        // .. \n  adds new line. world will be on new line,
+                        // .. if used with template literal will take specified white spaces and line breaks as well
+
+                        ✅demo.textContent = "Hello\nWorld";
+                        // .. \n  not adds new line. world will be same line
+                        // .. template literal does not affect
+
+// *********************************************************************************************************************
+
+
+
+                    👉Creating Elements            
+                            🔹const p = document.createElement('p')
+
+                    👉Add text to it
+                            🔹p.textContent = "item-4"  (prefered)
+
+                            🔹p.innerText = "item-4"    (not preferd)
+
+                    👉display in dom ( here after last item [item-3])
+                            🔹menu.appendChild(p)
+
+// *********************************************************************************************************************
+
+
+                🔹  we can insert node[element, text, comment] 
+                    at specific position relative to target(.menu) element. using following methods.
+
+                    👉append()      - last child
+                    👉prepend()     - first child
+                    👉before()      - before element itself
+                    👉after()       - after element itself
+
+
+                    const pizza = document.createElement('p')
+                    pizza.innerText = "pizza"
+
+                    const burger = document.createElement('p')
+                    burger.innerText = "burger"
+
+                        👉menu.append(pizza, burger)            // with append() multiple node can be added.
+                        👉menu.append(pizza, burger, 'new message')   //can also add text..        
+                                
+                        👉menu.prepend('Hello World') 
+
+                        👉menu.before(pizza)
+
+                        👉const comment = document.createComment("This is comment..")
+                            menu.after(comment)
+
+// *********************************************************************************************************************
+
+
+                🔹  insertAdjacentHTML(position, "html code")
+
+                        👉  we can insert HTML at specific positions, relative to an target element(.menu)
+                            without replacing existing content (unlike innerHTML) 🔥
+
+
+                    | Position          | Meaning                |
+                    | ---------------   | ---------------------- |
+                    | "beforebegin"     | Before the element     |
+                    | "afterbegin"      | Inside element (start) |
+                    | "beforeend"       | Inside element (end)   |
+                    | "afterend"        | After the element      |
+
+                    🔹menu.insertAdjacentHTML('beforebegin', "<p>pizza</p>")
+
+                
+                   
+                
+                🔹insertAdjacentText('position', "text")
+                        👉  it add text only.
+
+                    🔹demo.insertAdjacentText('afterend', "sandesh")
+
+                
+                🔹insertAdjacentElement('position', element);
+                        👉  it adds element.
+
+                    
+                    const newItem = document.createElement('p')
+                    newItem.textContent= "new item"
+
+                    🔹menu.insertAdjacentElement('beforeend',newItem)
+
+// *********************************************************************************************************************
+
+
+                🔹cloneNode() 
+                        - make copy of html element without its children
+
+                    const copyMenu = menu.cloneNode();
+
+                
+                🔹cloneNode(true)
+                        - make copy of html element with all its children
+
+                    const copyMenuWithChilds = menu.cloneNode(true);
+
+// *********************************************************************************************************************
+
+                🔹remove()
+                        - remove html element
+
+                    menu.remove()
+
+                🔹removeChild()
+                        - remove direct child only
+
+                    const item_1 = document.querySelector(".item-1")
+                    menu.removeChild(item_1)
+
+
+// *********************************************************************************************************************
+
+                🔹 we can access and manupulate  any attribute of any html element
+
+                    👉demo.getAttribute('class')          // demo
+
+                    👉demo.setAttribute("id", 'demo')     // ("attribute", "value") 
+                    👉demo.setAttribute("class", 'demo new-demo')  // it overwrites existing values
+                    
+                    👉demo.hasAttribute("class")  // true false
+                    
+                    👉demo.removeAttribute("class")
+
+
+// *********************************************************************************************************************
+
+                🔹 .classList
+                        provides an easy way to manipulate CSS classes on that element. 
+                        It’s much more convenient than using getAttribute("class") or setAttribute("class", ...).
+
+                    👉demo.classList        //show availabel classlists
+                    
+                    👉demo.classList.add('demo-1', "demo-2")    // add one or more, also keep existing
+
+                    👉demo.classList.remove('demo-2')
+
+                    👉demo.classList.replace('demo-1', 'new-demo')   // replace("oldVal", "newVal")
+
+                    👉demo.classList.contains("demo")       // true / false
+
 */
 
-/* 
-    event.stopPropagation() =>  does not allow event to bubble or capture
+// ---------------------------------------------------------------------------------------------
 
-*/
+/*      🔹What is a JavaScript Event?
+
+               👉is an action that happens in the browser and javaScript can respond to.
+
+               👉Events can be triggered by:
+
+                    User interactions (clicks, typing, mouse movement)
+                    Browser actions (page load, resizing, scrolling)
+
+                👉When an event occurs: 
+                
+                    JavaScript passes an event object to the handler function, which contains useful information.
+
+        
+        🔹Common Types of JavaScript Events
+
+            Mouse Events
+
+                    👉click – when a user clicks an element
+                    👉dblclick – double-click
+                    👉contextmenu - right-click
+                    👉mouseenter / mouseleave – hovering in/out  ... does not bubble
+                    👉mouseover / mouseout – hovering in/out  ... does bubble
+                    👉mousemove – moving the mouse
+
+            Keyboard Events
+
+                    👉keydown – key is pressed
+                    👉keyup – key is released
+                    👉keypress – key is pressed and held (deprecated in modern use)
+            
+            Form Events
+
+                    👉submit – when a form is submitted
+                    👉focus / blur – when an input gains/loses focus
+                    👉change – when input value changes
+            
+            Window Events
+
+                    👉load – page finishes loading
+                    👉resize – window is resized
+                    👉scroll – page is scrolled
+
+        
+        🔹How to Listen for Events
+
+                1. Inline HTML
+
+                        <button onclick="alert('Button clicked!')">Click Me</button>
+
+                
+                2. Using JavaScript addEventListener() method   (recommended)
+
+                        const button = document.querySelector('button');
+
+                        button.addEventListener('click', function() {
+                            alert('Button clicked!');
+                        });
+
+        // ***********************************************************************************
+
+                3. when have to use removeEventListner()  
+                        we have to define handler functiion separately.
+
+                        const sayHi = function() {
+                            alert("hi..")    
+                        }
+
+                        button.addEventListner('click', sayHi)
+
+                        setTimeout(()=>{
+                            button.removeEventListener('click', sayHi)      // after 10s  listner will not work..
+                        },10000)
+
+*/              
+   
+
+        
+
+                        
+
+
 
 
 
