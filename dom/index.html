@@ -8,17 +8,32 @@
   </head>
   <body>
 
-    <div class="menu" style="border: 1px solid green;">
-        <p class="item-1">item-1</p>
-        <p class="item-2">item-2</p>
-        <p class="item-3">item-3</p>
-    </div>
+    <!-- <div class="menu" style="border: 1px solid green">
+      <p class="item-1">item-1</p>
+      <p class="item-2">item-2</p>
+      <p class="item-3">item-3</p>
+    </div> -->
 
-    <div class="demo">
+    <!-- <div class="demo">
      Hello <span style="display:none;">hidden</span> World
     </div>
 
     <button>sayHi..</button>
+
+    <div id="parent">
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni, architecto.s</p>
+        <button id="child">Click</button>
+    </div> -->
+
+    <div id="grandparent" style="padding: 30px; background: lightblue">
+      Grandparent
+      <div id="parent" style="padding: 30px; background: lightgreen">
+        Parent
+        <div id="child" style="padding: 30px; background: lightcoral">
+          Child
+        </div>
+      </div>
+    </div>
 
     <script src="./index.js"></script>
   </body>

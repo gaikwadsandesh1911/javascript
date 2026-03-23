@@ -339,12 +339,13 @@
 
                👉Events can be triggered by:
 
-                    User interactions (clicks, typing, mouse movement)
-                    Browser actions (page load, resizing, scrolling)
+                    1. User interactions (clicks, typing, mouse movement)
+                    2. Browser actions (page load, resizing, scrolling)
+                    3. Custom js
 
                 👉When an event occurs: 
                 
-                    JavaScript passes an event object to the handler function, which contains useful information.
+                    JavaScript passes an event object to the handler function, which contains all useful information.
 
         
         🔹Common Types of JavaScript Events
@@ -394,7 +395,8 @@
 
         // ***********************************************************************************
 
-                3. when have to use removeEventListner()  
+                3. when we have a need, to use removeEventListner()  
+                        
                         we have to define handler functiion separately.
 
                         const sayHi = function() {
@@ -405,10 +407,120 @@
 
                         setTimeout(()=>{
                             button.removeEventListener('click', sayHi)      // after 10s  listner will not work..
-                        },10000)
+                        },10000);
 
-*/              
-   
+*/  
+
+/*      🟢Event propagation
+
+            means how an event travels through the DOM tree.
+
+            🔁 It happens in 3 phases.
+                    1.  Capturing phase (top → down) also called "Trickling Down"
+                    2.  Target phase (actual clicked element)
+                    3.  Bubbling phase (bottom → up)
+
+            🔵 Event Bubbling (Definition)
+
+                where an event starts from the target element and then 
+                propagates upward to its ancestors (parent → grandparent → document).
+                It is default behaviour.
+
+            🔵 Event Capturing (Definition)
+
+                where an event starts from the topmost ancestor (document) and then 
+                propagates downward to the target element.
+                it is not by default, It is enabled by passing true in addEventListener.
+
+                
+                <div id="grandparent" style="padding:30px; background:lightblue;">
+                    <p>Grandparent</p>
+                    <div id="parent" style="padding:30px; background:lightgreen;">
+                        <p>Parent</p>
+                        <div id="child" style="padding:30px; background:lightcoral;">
+                            <p>Child</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            ⚡Bubbling - default behavior
+
+                document.getElementById("grandparent").addEventListener("click", () => {
+                    console.log("Grandparent clicked");
+                });
+
+                document.getElementById("parent").addEventListener("click", () => {
+                    console.log("Parent clicked");
+                });
+
+                document.getElementById("child").addEventListener("click", () => {
+                    console.log("Child clicked");
+                });
+
+                👉 When you click Child, output will be:
+
+                    Child clicked
+                    Parent clicked
+                    Grandparent clicked
+
+                        👉 Why?
+                            Because event bubbles up:
+                            Child → Parent → Grandparent
+// ------------------------------------------------------------------------------------------------
+
+            ⚡ Capturing Phase:
+                    To enable capturing, pass true as third argument:
+
+                document.getElementById("grandparent").addEventListener("click", () => {
+                    console.log("Grandparent clicked");
+                }, true);
+
+                document.getElementById("parent").addEventListener("click", () => {
+                    console.log("Parent clicked");
+                }, true);
+
+                document.getElementById("child").addEventListener("click", () => {
+                    console.log("Child clicked");
+                }, true);
+
+                👉 Now output will be: When we click on Child.
+
+                    Grandparent clicked
+                    Parent clicked
+                    Child clicked
+
+                👉 Now output will be: When we click on Parent.
+
+                    Grandparent clicked
+                    Parent clicked
+
+                        👉 Because capturing goes:
+                            Grandparent → Parent → Child
+
+// ------------------------------------------------------------------------------------------------
+            🛑 Stop Propagation
+                    We can stop the flow using event.stopPropagation():
+
+                document.getElementById("child").addEventListener("click", (e) => {
+                    console.log("Child clicked");
+                    e.stopPropagation();
+                });
+
+                👉 Output:
+                    Child clicked
+
+// ------------------------------------------------------------------------------------------------
+            
+            🧠 Quick Summary
+                    Bubbling (default) → Child → Parent → Grandparent
+                    Capturing → Grandparent → Parent → Child
+                    stopPropagation() → stops event flow
+
+
+*/
+
 
         
 

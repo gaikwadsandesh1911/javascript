@@ -4,7 +4,7 @@
     
     🎯Machine Code
             But computer processor does not understand high-level language, It only understand 0's and 1's
-            So in order to get it execute on processor, source code need to be converted into 0's and 1's
+            So in order to get it executed on processor, source code need to be converted into 0's and 1's.
             This converted code is called 'machine code'.  ( we cant see machine code directly )
             
             ** This conversion is happen either by 'Compilation process' or 'Interpretation process',
@@ -149,7 +149,7 @@
 
         🔁js Engine has got.
 
-            🎯Stack( Call Stack ) -     👉primitive type stores in stack memory
+            🎯Stack( Call Stack ) -     👉primitive type stores in stack memory. and where actual js code get exexcuted.
 
             🎯Heap memory -             👉reference type (array, object, function as an object) stores in Heap memory.
                                             with their refernece(memory address) kept in stack 
@@ -170,25 +170,62 @@
                 👉greet(reference)  -> stores in stack    
                 👉function() { console.log("Hello") }  -> stores in  Heap
 
-                👉when call greet()  => function execution context created to executed the function
+                👉when call greet()  => function execution context created to executed that function
 
 ------------------------------------------------------------------------
 
-            🌍 Global Execution Context (JavaScript)
-                    When a JavaScript program starts running, the engine creates something called a Global Execution Context (GEC). 
-                    GEC is pushed first into Call Stack, It stays there until program finishes.
-                    This is the default environment where your code begins execution.
-                    There is only one GEC.
+            🔹Execution Context ( EC ) :
 
-                    👉Every time function is called new function execution context is created for that function on top of GEC.
-                        After the function finishes execution, its Execution Context is removed (popped) from the Call Stack
-                   
-                    Before execution ends:
-                        [ Function EC ]
-                        [ Global EC ]
+                Execution Context is the environment where javascript code is executed.
+                It is inside call stack.
 
-                    After function completes:
-                        [ Global EC ]
+                🔹Types: 
+
+                    1. Global Execution Context ( GEC )
+
+                            When js file runs first time, js Engine create Global Execution context.
+                            GEC is pushed first into Call Stack, It stays there until program ends.
+                            There is only one GEC.
+                            This is the default environment where your code begins execution.
+
+                    2. Functional Execution Context ( FEC )
+
+                            Every time function is called new function execution context is created for that function on top of GEC.
+                            After the function finishes execution, its Execution Context is removed (popped) from the Call Stack.
+
+                                🎯Before execution ends:
+                                    [ Function EC ]
+                                           |
+                                     [ Global EC ]
+
+                                🎯After function completes:
+                                    [ Global EC ]
+
+                    
+                🔹Phases of Execution Context
+
+                    1. Declaration phase( memory creation phase ) :
+
+                            js scan your code and setup memory, during this phase :
+                                👉variable are declared.
+                                👉functions are stored in memory.
+
+                                    👉 If variable is declared with var only
+                                        Then only it is assigned value undefined.
+                                        But not for let and const, they are assigned value in execution phase.
+                                            **learn what is Hoisting and TDZ.
+                                    👉 Hoisting happens because of memory creation phase.
+                                    
+
+                    
+                    2. Execution phase ( Initialization phase ) :
+
+                            js engine run code line by line.
+                                👉values are assigned.
+                                👉expressions are evaluted.
+
+                                    👉variable with var keyword replace with provided value.
+
         
 */
 
@@ -197,12 +234,12 @@
 
 
 /*  🎯javascript code Execution
-            As we run js code. js engine comes in pic.
+            As we run js code. js engine comes in picture.
 
                 1.  It parse (read) code. not get executed.
                     if error occurs stop parsing and throw error.
 
-                2.  if no error, it produces (AST) abastact syntax tree.
+                2.  if no error, it produces (AST) abastact syntax tree. It's tree like structure.
 
                 3.  Just-in-time compiler get AST and generate machine code.
 
@@ -210,13 +247,14 @@
 
                 5.  we not done yet. 
                         To get execute as soon as possible,
-                        In the beginning js engine do not create optimize version of machine code,
+                        In the beginning js engine do not create fully-optimize version of machine code,
 
-                        But in the background this machine code get optimize and recompile  
-                        during already running program execution. 
-                        This happen multiple time. un-optimize code swap with optimized code.
+                        But in the background ( during already running program execution ) 
+                        This machine code get optimize and recompile again and again  
+                        where un-optimize code swap with optimized code.
+                         
 
-                        🎯This process make, modern js engine like V8 makes so fast.
+                        🎯This process makes, modern js engine like V8 so fast.
                         
 */
 
