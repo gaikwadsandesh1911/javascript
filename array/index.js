@@ -6,16 +6,24 @@
 */
 
 /*  
-    const array = [1, 3, 5];            // obj literal, is syntactic sugar of new Array(1, 3, 5)
-    const array = new Array(1, 3, 5);   // behind the scene js engine
+    👉 const array = [1, 3, 5];            // array literal, is syntactic sugar of new Array(1, 3, 5)
     
-    All the standard array methods like push, pop, map, filter, forEach, slice, etc., live on Array.prototype.
+        const array = new Array(1, 3, 5);   // behind the scene js engine
 
-    When you call a method on an array, JavaScript looks up the prototype chain and finds the method in Array.prototype.
 
-    console.log(arr.push === Array.prototype.push); // true
+    
+    👉All the standard array methods like 
+        push, pop, map, filter, forEach, slice, etc., 
+        live on Array.prototype.
 
-    2. Prototype Chain for Array
+    👉When you call a method on an array, 
+        JavaScript looks up the prototype chain and finds the method in Array.prototype.
+
+    👉console.log(arr.push === Array.prototype.push); // true
+
+
+
+    🛑2. Prototype Chain for Array
 
     👉array --> Array.prototype --> Object.prototype --> null
 
@@ -35,7 +43,7 @@
 */
 
 /* 
-        1. Methods that mutate the original array
+        🛑1. Methods that mutate the original array
 
             ✅Adding / Removing Elements.
 
@@ -61,7 +69,7 @@
 
                 copyWithin(target, start, end?) – Copies a sequence of elements within the same array.
 
-        2. Methods that return a new array (non-mutating) do not change the original array:
+        🛑2. Methods that return a new array (non-mutating) do not change the original array:
 
                 concat(...) – Returns a new array combining arrays.
 
@@ -80,7 +88,7 @@
                 flat() / flatMap(fn) – Returns a new flattened array.
 
         
-        3.  Other commonly used
+        🛑3.  Other commonly used
 
             forEach(fn)   - Iterates array, no return, no mutation
 

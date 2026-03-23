@@ -1,5 +1,53 @@
- 
-    /*  1. 🔹  What is DOM? (Document Object Model)
+/* 🔹   BOM (Browser Object Model ) : 
+            is a set of objects provided by the browser that allows JavaScript 
+            to interact with the browser window.
+
+    window (global object).
+    |
+    ├── document (DOM)  -   to control html elements
+    ├── navigator   -   browser info
+    ├── location    -   page url
+    ├── scroll      -   page scrolling
+    ├── history     -   browser history
+    ├── screen      -   user screen
+    ├── localStorage    -   stores data permanantly. [ upto 5mb per domain ]
+    ├── sessionStorage  -   stores data temporarily for single tab/session [ upto 5mb per domain ]
+    ├── console
+    ├── fetch           - to make http request.
+    └── timers (setTimeout, setInterval).
+
+
+    ⚡window
+
+        Is global object. Everything comes under window object.
+        
+        👉 Even global variables/functions are part of window object.
+            
+            var name = 'sandesh' 
+            
+            function hello() { }
+
+            window.name   ...  window.hello()
+
+        
+        👉 Common Window Methods
+
+                    🔔 Alert, Prompt, Confirm
+
+        
+        💡 Simple Analogy
+            BOM = Outside the page (browser controls)
+            DOM = Inside the page (HTML elements)
+
+            window represents browser
+            document represents webpage
+            
+            
+ */
+
+// ---------------------------------------------------------------------------------------------
+
+/*  1. 🔹  What is DOM? (Document Object Model)
 
                 When a browser loads a webpage, 
                 it converts the HTML into a tree-like structure called the DOM.
@@ -28,8 +76,7 @@
 
 // ---------------------------------------------------------------------------------------------
 
-
-    /*  2. 🔹  What is a Node?
+/*  2. 🔹  What is a Node?
 
                 A node is any object in the DOM tree.
 
@@ -45,8 +92,7 @@
 
 // ---------------------------------------------------------------------------------------------
 
-                     
-    /*  3. 🔹  Selecting Elements
+/*  3. 🔹  Selecting Elements
 
             we use the document object to find elements and then manipulate them.
 
@@ -95,8 +141,7 @@
 
 // ---------------------------------------------------------------------------------------------
 
-
-    /*  4. 🔹  Traversing element
+/*  4. 🔹  Traversing element
                 👉1. Child Traversal ( target child from parent. ) 👉( most used )
                 👉2. Parent traversal (target parent from child.)
                 👉3  Sibling Traversal (target previous and next child from childItself. )
@@ -145,7 +190,6 @@
     */
 
 // ---------------------------------------------------------------------------------------------
-
 
 /*      5 🔹  Manipulating HTML Elements
 
@@ -385,13 +429,33 @@
                         <button onclick="alert('Button clicked!')">Click Me</button>
 
                 
-                2. Using JavaScript addEventListener() method   (recommended)
+                2. Using JavaScript addEventListener() method   (recommended)...
 
-                        const button = document.querySelector('button');
+                        ** recommended. because.. 
+                        👉 We can attach:
 
-                        button.addEventListener('click', function() {
-                            alert('Button clicked!');
+                            1.  Multiple handler function for the same event.
+                            
+                            2.  Different events on the same element.
+                        
+                        
+                        👉const btn = document.querySelector("button");
+
+                        
+                        👉btn.addEventListener("click", function () {
+                            alert("Button clicked! - 1...");
                         });
+
+                        👉btn.addEventListener("click", function () {
+                            alert("Button clicked! - 2...");
+                        });
+
+                        // differnt event
+                        👉btn.addEventListener("mouseenter", function () {
+                            console.log("...hello")
+                        });
+
+                        // event will occur in specified order...
 
         // ***********************************************************************************
 
@@ -409,7 +473,7 @@
                             button.removeEventListener('click', sayHi)      // after 10s  listner will not work..
                         },10000);
 
-*/  
+*/
 
 /*      🟢Event propagation
 
@@ -423,7 +487,7 @@
             🔵 Event Bubbling (Definition)
 
                 where an event starts from the target element and then 
-                propagates upward to its ancestors (parent → grandparent → document).
+                propagates upward to its ancestors (target → parent → grandparent → document).
                 It is default behaviour.
 
             🔵 Event Capturing (Definition)
@@ -468,7 +532,7 @@
                         👉 Why?
                             Because event bubbles up:
                             Child → Parent → Grandparent
-// ------------------------------------------------------------------------------------------------
+-
 
             ⚡ Capturing Phase:
                     To enable capturing, pass true as third argument:
@@ -494,42 +558,70 @@
                 👉 Now output will be: When we click on Parent.
 
                     Grandparent clicked
-                    Parent clicked
+                    Parent clicked ( target level )
 
                         👉 Because capturing goes:
                             Grandparent → Parent → Child
 
+        
+        🧠event bubbling and capturing happen with same events only...
+
+            🧠 Your Scenario (Capturing Phase)
+                Grandparent → click
+                Parent → mouseenter
+                Child → click
+
+                👉 You click on child
+                
+                👉 Output:
+                    Child clicked
+                    Grandparent clicked
+
+
 // ------------------------------------------------------------------------------------------------
-            🛑 Stop Propagation
-                    We can stop the flow using event.stopPropagation():
+            
+            🛑 e.stopPropagation()
+                    We can stop the flow at target level. using event.stopPropagation():
 
                 document.getElementById("child").addEventListener("click", (e) => {
                     console.log("Child clicked");
-                    e.stopPropagation();
+                    👉e.stopPropagation();
                 });
 
                 👉 Output:
                     Child clicked
 
+            🛑 e.stopImmediatPropagation()
+                        if target element has multiple event handlers, and same event()
+
+                    it does two things...
+
+                    1.  Stops event propogation
+
+                    2.  Stops other handlers on the same element.
+
+
+                    document.getElementById("child").addEventListener("click", (e) => {
+                        console.log("Child clicked");
+                        e.stopImmediatePropagation()
+                    });
+
+                    document.getElementById("child").addEventListener("click", () => {
+                        console.log("Child clicked -2 ");
+                    });
+
+                    👉 Output:
+                        Child clicked
+
+
 // ------------------------------------------------------------------------------------------------
             
             🧠 Quick Summary
-                    Bubbling (default) → Child → Parent → Grandparent
-                    Capturing → Grandparent → Parent → Child
-                    stopPropagation() → stops event flow
-
+                    Bubbling (default) → Child → Parent → Grandparent   
+                    Capturing → Grandparent → Parent → Child        
+                    stopPropagation() → stops event flow        ( stop at target level )
 
 */
-
-
-        
-
-                        
-
-
-
-
-
 
 
 
