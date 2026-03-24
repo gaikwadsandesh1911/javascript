@@ -1,7 +1,7 @@
 /* 🧠this keyword..
 
         🔑this keyword refers to an object,
-            whose is executing current function.
+            the object that is executing current function/method.
 
 
         🧠Easy Way to Remember
@@ -12,7 +12,7 @@
 
                 👉in global context this belongs to → window
         
-                console.log(this)       // window object
+                    console.log(this)       // window object
 
                 👉// because console.log()  is method of window object
                     and this is inside console.log() method
@@ -124,7 +124,7 @@
         
         👉simple words.
             call(), apply(), bind() let us decides, which object 'this' keyword should be when function runs.
-            The control is in our hand.(explicit binding)
+            The control is in user hand.(explicit binding)
 
             
             ⚡  const user = { 
@@ -256,20 +256,7 @@
                 sayHello("Rahul");   // Hello Rahul
 
 
-
-
 */
-
-
-
-const user = {
-  name: "Sandesh",
-  greet() {
-    console.log(this.name);
-  }
-};
-
-setTimeout(user.greet, 1000);
 
 
 
