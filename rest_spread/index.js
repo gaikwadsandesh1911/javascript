@@ -6,10 +6,13 @@
             
             👉  const arr = [1, 2, 4, 5, 6];
 
-                const [first, second] = arr;
+                const [first, second, , fourth] = arr;            
 
                         insted of       arr[0]
                         we have         first
+
+                // in array order matter.
+                console.log(fourth)             // 5
     
     
 
@@ -89,9 +92,9 @@
         
         👉deep copy 
 
-            ✅with structuredClone(obj) method we can make deep copy
             ✅ Entire object is copied
                 👉so change in nested properties of copied obj, will not reflect in original obj.
+            ✅with structuredClone(obj) method we can make deep copy
 
 
         const deepCopy = structuredClone(user);
@@ -100,4 +103,5 @@
         // console.log(user.address.city);  // // ✅ Pune (original safe)
 
 
- */   
+ */
+                
