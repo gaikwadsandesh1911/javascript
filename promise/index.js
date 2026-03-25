@@ -216,7 +216,7 @@
 
 
 
-        🔹. we also have some other static methods...
+        🔹. we also have some other static methods on Promise object
 
 */
 

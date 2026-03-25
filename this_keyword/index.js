@@ -133,7 +133,7 @@
 
     
     1. call()
-            call() invokes function immediately.
+            call() invokes function immediately. 
             and pass values one by one
 
             function greet(city, country) {

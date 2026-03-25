@@ -34,7 +34,7 @@
 
                 unshift(...items) – Adds items at the beginning.
 
-                splice(start, deleteCount, ...items) – Add/remove items at any position.
+                splice(startIndex, deleteCount, ...items to add) – Add/remove items at any position.
 
             ✅Reordering / Sorting
 
@@ -54,7 +54,9 @@
 
                 concat(...) – Returns a new array combining arrays.
 
-                slice(start, end) – Returns a shallow copy.
+                join(separator)  -  convert array into a string, return string
+
+                slice(start, end) – extract specified portion.
 
                 map(fn) – Returns a new array.
 
@@ -66,19 +68,153 @@
 
                 findIndex(fn) - Find index of first element that satisfies condition.
 
-                some(fn) / every(fn) / includes(val)  / indexOf() - All read-only, do not change array
+                indexOf(val) - return index of provided val
+
+                at(index)  - return element at given index
+
+                some(fn) / every(fn) / includes(val)  / - return boolean
 
                 flat() / flatMap(fn) – Returns a new flattened array.
 
         
         🛑3.  Other commonly used
 
-            forEach(fn)   - Iterates array, no return, no mutation
-
-            at(indx)  - return element at given index
-
-            join()  -  Returns a string concatenation
+            forEach(fn)   - Iterates array, no return, no mutation 
 
             toString() - convert array tot string
 
 */
+
+// --------------------------------------------------------
+
+/* 
+
+        🔹splice(startIndex, deleteCount, ...items to add) – Add/remove items at any position.
+        
+        let arr = [1, 2, 3, 4];
+
+        arr.splice(1, 2);       
+        👉op [ 1, 4 ]
+        // remove 2 elements starting from index 1
+        
+
+        arr.splice(1, 0, 20, 30)   
+        👉op[ 1, 20, 30, 2, 3, 4 ]     
+        // start adding 20, 30 from index 1 and do not delete. 
+        
+        
+        const removed = arr.splice(1, 2)    
+        // we can also store removed elements console.log(removed)
+        👉op[ 2, 3 ]
+        
+        arr.splice(1)       // if delete ommited, will delete everything from specified index
+        👉op[ 1, 2 ]
+*/
+
+
+
+/* 
+        🔹slice(start, end)   -  extract specified position. end index excluded. also works with string
+
+        let arr = [1, 2, 3, 4];
+
+        const result = arr.slice(1, 3)
+        👉op [ 2, 3 ] 
+        
+        let copy = arr.slice();
+        👉op [1, 2, 3, 4]
+
+*/
+
+
+/*      🔹map()
+
+            👉  Iterate over each element. 
+                Also can transforms each element.  
+
+                * length will be same of original array
+            
+            let arr = [1, 2, 3];
+            
+            let result = arr.map(x => x * 2);
+            console.log(result); // [2, 4, 6]
+
+
+/*      🔹filter()
+
+            👉  selects elements based on condition.
+
+                * length based on condition met
+            
+            let result = arr.filter(x => x % 2 === 0);
+            console.log(result); // [2, 4]
+
+
+            🔹 Real-World Example
+
+            let users = [
+                { name: "A", active: true },
+                { name: "B", active: false }
+            ];
+            
+            
+            let names = users.map(u => u.name);
+            console.log(names); // ["A", "B"]
+            
+            let activeUsers = users.filter(u => u.active);
+            console.log(names); // ["A"]
+*/
+
+/*      🔹reduce()
+            used to reduce an array into a single value (number, object, array, etc.)
+
+        🔹  array.reduce((accumulator, currentValue) => {
+                return updatedAccumulator;
+            },initialValue);
+
+        🔹  accumulator (acc) → stores result
+            currentValue (curr) → current element
+            initialValue → starting value of accumulator
+
+        ❗ If no initialValue, first element becomes acc
+
+        let arr = [1, 2, 3, 4];
+
+        let sum = arr.reduce((acc, curr) => acc + curr, 0);
+
+*/
+
+/*      🔹sort()
+
+        let arr = [10, 2, 5];
+
+            👉number is considered as string.. so we need compareFn for numeric val
+
+            arr.sort((a, b)=> a - b)        //ascending
+
+            arr.sort((a, b)=> b - a)        // descending
+
+
+
+        let names = ["banana", "apple", "cherry"];
+
+            👉for string val we do not need compareFn
+
+            names.sort()
+
+
+*/
+
+let names = ["banana", "apple", "cherry"];
+
+names.sort()
+
+console.log(names);
+
+
+
+
+
+
+
+
