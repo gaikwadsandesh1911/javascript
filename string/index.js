@@ -24,18 +24,18 @@
 /* 
     string is primitive data type still we use property on it using . operator. How ?
 
-    When you try to access a property or method on a primitive, JavaScript temporarily wraps it in a corresponding object type:
+    👉“Strings in JavaScript inherit properties and methods from String.prototype.”
+
+    👉console.log(s.__proto__ == String.prototype);    // true
+
+    When you try to access a property or method on a primitive, 
+    JavaScript temporarily wraps it in a corresponding object type:
 
         String for string
         Number for number
         Boolean for boolean
 
-        let str = 'sandesh';
-            console.log(str.toUpperCase()); 
-            // JS internally does:
-            // let temp = new String(str); 
-            // temp.toUpperCase();
-            // then discards temp
+        let s = new String("hello")   // behind the scene
 */
 
 /* 
@@ -68,6 +68,7 @@
 */
 
 let str = "sandesh gaikwad";
+
 
 // Step 1: split into words
 let words = str.split(" ");

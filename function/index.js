@@ -4,6 +4,19 @@
           function can accept inputs (parameters), and return an output. 
           It can be assigned to variables, passed as arguments, and returned from other functions.”
 
+          function greet() { }
+
+          👉console.log(typeof greet)    // function
+
+          👉function is also object. but to distinguish itself from other object 
+            typeof function return function
+
+            👉function is an object thats why we access property on it like... greet.call()
+
+            👉function inherits properties and method from Function.prototype.
+
+            👉console.log(greet.__proto__ == Function.prototype)   // true
+
 
    🎯different ways to create function in js.
 
@@ -15,9 +28,13 @@
       }
       const res = greet("sandesh");
       console.log(res);
+
+      console.log(typeof greet)     // function
             
       // when function return something we have to store 
       // it in variabale at the time calling.
+
+
 
  
       👉2. Function Expression
