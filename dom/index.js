@@ -475,7 +475,7 @@
 
 */
 
-/*      🟢Event propagation
+/*      🔹Event propagation
 
             means how an event travels through the DOM tree.
 
@@ -592,7 +592,8 @@
                     Child clicked
 
             🛑 e.stopImmediatPropagation()
-                        if target element has multiple event handlers, and same event()
+                        if target element has multiple event handlers, 
+                        and same event()
 
                     it does two things...
 
@@ -619,9 +620,78 @@
             🧠 Quick Summary
                     Bubbling (default) → Child → Parent → Grandparent   
                     Capturing → Grandparent → Parent → Child        
-                    stopPropagation() → stops event flow        ( stop at target level )
+                    stopPropagation() → stops event flow ( stop at target level )
+                    stopImmediatePropagation() → it stop other listner also.
 
 */
 
 
+/*      🔹Event Delegation
+            👉 instead of adding event listners on multiple child elements
+                we add one listner on parent and event and handle event using event bubbling.
 
+            👉core idea is that,
+                when event happens on child, it bubble up to parent
+                we can catch it at parent and decide what to  do.
+
+
+
+
+            <ul class="list">
+                <li>hi...</li>
+                <li>hello...</li>
+                <li>bye...</li>
+                <li>tagName <span>closest</span></li>
+                <li><span>Task 1</span> <button class="del-btn">X</button></li>
+            </ul>
+
+            const list = document.querySelector('.list');
+
+            list.addEventListener('click', function(e) {
+                // console.log(e)
+                if(e.target.tagName == "LI"){
+                    console.log(e.target.textContent);  
+                }
+            });
+
+
+        🔹find def betn  tagName and closest()
+
+            list.addEventListener('click', function(e) {
+            console.log(e)
+            const li = e.target.closest('li');
+            if (li) {
+                console.log(li.textContent);
+            }               
+        });
+
+            
+        🔹 What is closest()?
+        👉 Finds the nearest ancestor (or itself) that matches a selector.
+
+        list.addEventListener('click', function(e) {
+            console.log(e)
+            const del = btn = e.target.closest('.del-btn');
+            if (del) {
+                const li = btn.closest('li')        // Finds the nearest ancestor (or itself)
+                li.remove();
+            }               
+        });
+
+
+
+
+*/
+    const list = document.querySelector('.list');
+
+    list.addEventListener('click', function(e) {
+        console.log(e)
+        const del = btn = e.target.closest('.del-btn');
+        if (del) {
+            const li = btn.closest('li')
+            li.remove();
+        }               
+    });
+
+
+    

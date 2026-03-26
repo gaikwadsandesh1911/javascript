@@ -44,7 +44,7 @@
 
         ✅ 2. Check for Errors (Very Important 🚨)
 
-                    Fetch does NOT throw error for HTTP errors (404, 500)
+                    👉Fetch does NOT throw error for HTTP errors (404, 500)
 
                     const res = await fetch(url);
 
@@ -72,9 +72,9 @@
             return null;
         }
 
-        createUser().then(data => {
-            if (data) console.log(data);
-        });
+        👍  createUser().then(data => {
+                if (data) console.log(data);
+            });
 
 */
 
@@ -151,4 +151,24 @@
                     console.log(error.message); // network error
                 }
             }
+*/
+
+/* 
+
+🌐 What are HTTP Status Codes?
+
+👉 When a client (browser / app) sends a request, the server responds with a status code
+
+👉 It tells whether the request was successful, failed, or needs action
+
+| Code | Meaning      | Use Case         |
+| ---- | ------------ | ---------------- |
+| 200  | OK           | GET success      |
+| 201  | Created      | POST success     |
+| 400  | Bad Request  | Validation error |
+| 401  | Unauthorized | Login required   |
+| 403  | Forbidden    | No permission    |
+| 404  | Not Found    | Wrong URL        |
+| 500  | Server Error | Backend crash    |
+
 */
