@@ -373,6 +373,14 @@
 
                     👉demo.classList.contains("demo")       // true / false
 
+                    👉demo.classList.toggle("className") // if className exist it remove, if not then added
+
+                        const btn = document.getElementById("btn");
+
+                        btn.addEventListener("click", () => {
+                            demo.classList.toggle("active");
+                        });
+
 */
 
 // ---------------------------------------------------------------------------------------------

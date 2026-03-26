@@ -42,18 +42,12 @@
 /* 
     🔹 Promise
 
-            👉 A Promise is an object that represents the result of an asynchronous operation 
-                (something that will finish in the future).
+            👉 A Promise is an object that represents the result of an asynchronous operation
+                the result may be fulfiled or failed.
 
-                🔹 Why do we need Promises?
+                    ⭐setTimeout(), fetch()  are async task.
+                    ⭐promise is not async itself, it just represent result of their operation.
 
-                    JavaScript is asynchronous, so tasks like:
-                        API calls (fetch)
-                        Timers (setTimeout)
-                        take time ⏳
-
-                    👉 Promises help us handle these operations cleanly 
-                        instead of callback hell.
 
                 🔹Promise object has three states...
 
@@ -62,14 +56,15 @@
                         3   rejected    =   measn async operation is failed
             
                 👉 promise is created using Promise constructor function which takes
-                    callback function with two parameter, resolve, reject respectively.
+                    callback function with two parameter, resolve function, reject function respectively.
 
-                👉 resolve is function which is called when async operation successfully completed
+                👉 resolve is function which is called when async operation successfully completed.
+                    resolve change  state from pending to fulfilled.
 
                 👉 reject is function which is called when async operation fails or some error occure.
+                    reject chages state from pending to rejected
 
                 👉promise is consumed using then(), and handle error using catch() 
-
 
 
         👉// creating promise
@@ -94,6 +89,7 @@
             .catch((error) => {
                 console.log(error)
             });
+
 
 // ----------------------------------------------------------
 
