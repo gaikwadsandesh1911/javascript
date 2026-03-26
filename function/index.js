@@ -73,6 +73,7 @@
 
 */
 
+// -------------------------------------------------------------
 
 /* 
 
@@ -134,3 +135,62 @@
 
 */
 
+// ------------------------------------------------------
+
+/* 👉 pure function
+
+        🔹does not modify global variable
+        🔹does not change input
+        🔹does not make api call, console.log()
+        🔹and if same input provided, same output produces
+
+        function add(a, b) {
+          return a + b;
+        }
+
+        add(2, 3); // 5
+        add(2, 3); // always 5 ✅
+
+
+
+    👉 Impure function
+
+        let total = 0;
+
+        function addToTotal(num) {
+          total += num;  // ❌ modifies external variable
+        }
+
+
+        function randomNum() {
+          return Math.random(); // ❌ different output every time
+        }
+
+
+    👉  eg1.  Impure to pure conversion
+
+          function addItem(arr, item) {
+            arr.push(item); // ❌ mutates original array
+            return arr;
+          }
+
+        function addItem(arr, item) {
+          return [...arr, item]; // ✅ new array
+        }
+          👉 Original data safe
+
+          
+
+
+    👉    eg2.  Impure to pure conversion
+
+        function greet(name) {
+            console.log("Hello " + name); // ❌ side effect
+        }
+        
+        function greet(name) {
+          return "Hello " + name;
+        }
+          👉 Let caller decide what to do with result
+
+*/

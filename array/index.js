@@ -107,7 +107,7 @@
         // we can also store removed elements console.log(removed)
         👉op[ 2, 3 ]
         
-        arr.splice(1)       // if delete ommited, will delete everything from specified index
+        arr.splice(2)       // if delete ommited, will delete everything from specified index
         👉op[ 1, 2 ]
 */
 

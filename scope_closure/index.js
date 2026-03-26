@@ -85,8 +85,6 @@
         that remembers the variables from its outer scope, 
         even after that outer function has finished its execution.
 
-            👉closure is possible because of lexical scope.
-
             function outer() {
 
                 let count = 0;
@@ -114,11 +112,17 @@
             console.log(counter());         // 2
             console.log(counter());         // 3 
 
+            👉 Scope is decided by where code is written, NOT where it is called.
+                our count variable is inside outer function.
+                and we increse its value from inner function. even though outer function finished its execution.
+
 
         🔥 Why this works?
             outer() => finished execution ✅
             But inner() still remembers count ❗
             👉 That’s closure
+
+            👉closure is possible because of lexical scope.            
 
 */
 
@@ -153,4 +157,56 @@
 
 
 */
+
+
+/* 
+    function memoize(){
+        return function(num){
+            console.log(num)
+        }
+    }
+    const memo = memoize();
+    memo(20) 
+*/
+
+// 👍 memoization is a classic example of closure 
+
+function memoize(){
+    let  cache = {};
+    return function(num){
+        if(num in cache){
+            console.log('...from cache...');
+            return cache[num]
+        }else{
+            cache[num] = num + 100;
+            return cache[num];
+        }
+    }
+}
+const memoFun = memoize();
+console.log(memoFun(20));
+console.log(memoFun(20));
+console.log(memoFun(40));
+
+/* 
+op
+    120
+    ...from cache...
+    120
+    140
+
+    first time 20 value provided.  120
+    second time 20 value provided.      ...from cache  120
+
+    
+
+    Memoization is a form of caching 
+    where the return value of a function is cached based on its parameters. 
+    If the parameter of that function is not changed, the cached version of the function is returned.
+
+        * memoization is used for expensive function.
+
+*/
+
+
 
