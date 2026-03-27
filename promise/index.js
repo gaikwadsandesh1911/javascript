@@ -10,7 +10,7 @@
 
             JavaScript executes long-running tasks like(api call, timers)
             in the background means inside (web api, callback queue, microtask queue)
-            but does not block the main thread, and its result is handled later.
+            It does not block the main thread, and its result is handled later.
                 simple Meaning
                     👉 JS does not wait for the async task to finish it execution.
                     👉 It moves to the next line immediately.
@@ -32,9 +32,11 @@
     
 
         ⚠️ Callback Hell
-            When multiple callbacks are nested inside each other, 
+            is a situation When multiple callbacks are nested inside each other
+            where result of one is depends on previous callback, 
             making code hard to read, maintain and debug.
-      
+        
+            promise solve this by chaining .then().
 */
 
 // -----------------------------------------------------------------------------------------
@@ -42,12 +44,8 @@
 /* 
     🔹 Promise
 
-            👉 A Promise is an object that represents the result of an asynchronous operation
-                the result may be fulfiled or failed.
-
-                    ⭐setTimeout(), fetch()  are async task.
-                    ⭐promise is not async itself, it just represent result of their operation.
-
+            👉 A Promise is an object that represents 
+                eventual completation or failure of an asynchronous operation.
 
                 🔹Promise object has three states...
 
@@ -56,15 +54,24 @@
                         3   rejected    =   measn async operation is failed
             
                 👉 promise is created using Promise constructor function which takes
-                    callback function with two parameter, resolve function, reject function respectively.
+                    callback function with two parameter, 
+                    1. resolve function, 
+                    2. reject function respectively.
 
                 👉 resolve is function which is called when async operation successfully completed.
-                    resolve change  state from pending to fulfilled.
+                    and result of async task is passed through resolve function.
+                    then() function consume the result and apply logic on it.
+                        🔹resolve change  state from pending to fulfilled.
 
                 👉 reject is function which is called when async operation fails or some error occure.
-                    reject chages state from pending to rejected
+                    and error is passed through reject function. 
+                    catch() function consume it and apply logic on it.
+                        🔹reject chages state from pending to rejected
 
-                👉promise is consumed using then(), and handle error using catch() 
+
+                ⭐setTimeout(), fetch()  are async operations.
+                ⭐promise is not async itself.
+ 
 
 
         👉// creating promise
@@ -107,7 +114,7 @@
                 
 
 
-            👉 Async/await style
+            👉 Async/await style (readable, modern way to write promise)
 
                 async function getUsers() {
                     try {
@@ -216,4 +223,32 @@
 
 */
 
+// login User
+function loginUser(email, password, role){
+    return new Promise((resolve, reject)=>{
+        console.log("checking credentials..");
+        setTimeout(()=>{
+            if(email == "sandesh@gmail.com" && password == 'sandesh1234'){
+                let user = { email: email, role: role }
+                resolve(user)
+            }
+            else{
+                reject(new Error("Invalid Email or Password !"))
+            }
+        },1000)
+    })
+};
 
+
+loginUser('sandesh@gmail.com', 'sandesh1234', 'admin')
+    .then((user)=>{
+        if(user.role == 'admin'){
+            console.log(`hello admin : ${user.email}`);
+        }
+        else{
+            console.log(`hi: ${user.email}`);  
+        }
+    })
+    .catch((error)=>{
+        console.log(error.message)
+    })
