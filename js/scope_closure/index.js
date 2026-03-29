@@ -19,6 +19,7 @@
     3.  Block Scope
 
             variable declared inside a block { } accessible only inside that block.
+            variable declared with let and const has block scope..
 
     4.  scope chain
 
@@ -96,10 +97,23 @@
             }
 
             const counter = outer();
+
+            const counter2 = outer();
+
+
+            console.log(counter());         // 1
+            console.log(counter());         // 2
+            console.log(counter());         // 3 
+
+            console.log(counter2())         // 1   .. new closure
+            console.log(counter2())         // 2   
+
         
         👉     when function return something, we store it in variable,
-                but that variable itself is a function,
-                because we return function from...  function outer() {}
+                at time of calling .... const counter = outer();
+
+                but that variable itself is a function,   
+                counter();      // actually calls inner()     
 
                 console.log(typeof counter)         // function. 
 
@@ -108,13 +122,11 @@
         👉      counter();      // actually calls inner()
 
 
-            console.log(counter());         // 1
-            console.log(counter());         // 2
-            console.log(counter());         // 3 
-
+            
             👉 Scope is decided by where code is written, NOT where it is called.
                 our count variable is inside outer function.
-                and we increse its value from inner function. even though outer function finished its execution.
+                and we increse its value from inner function. 
+                even though outer function finished its execution.
 
 
         🔥 Why this works?

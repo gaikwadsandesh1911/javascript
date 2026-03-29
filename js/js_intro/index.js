@@ -79,7 +79,9 @@
 
 // ---------------------------------------------------------------------------------------------------------
 
-/* 🎯Javscript is synchronous, dynamically typed, single-threaded programming language.
+/* 🎯   What is javascript ?
+
+        Javscript is synchronous, dynamically typed, single-threaded programming language.
 
         🔵synchronous 
             code execute line-by-line, 
