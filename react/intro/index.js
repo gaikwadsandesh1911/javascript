@@ -94,18 +94,45 @@
 
 /*  💡  Render and Re-Render
 
-        👉  Rendering is process where React executes your component
-            and generate JSX.
+        👉  Rendering is process of :
+                converting your component code into visible UI on the screen.
 
-                ** Rendering does not mean directly update the real DOM; 
-                    that happens later in the commit phase. ( diffing and re-concillation )
+            process :
+                1.  React call your component and return jsx,
+                2.  virtul dom is created,
+                3.  only changed part is updated in real dom => react stops here.
+                4.  finally Browser Paint on screen.
+
+                        ** useEffect runs after browser paint
 
 
-        👉  Re-rendering is the process where
-                
-                when its state or props or context value changes,
-                React re-executes a component, return jsx and creates a new copy of Virtual DOM.
+        👉  Re-rendering            
+                when component state or props or context value changes or parent re-renders, 
+                component re-renders.'
+                means.
+                    1   new  copy of virtual dom  created,
+                    2   react compare it with old copy of virtual  dom
+                    3   only changed part is updated in real dom
+                    4   and finally  browser paint ui on screen.
+*/
 
-        👉  This newly created copy of vdom, react compares it with the previous copy, 
-            and updates only the changed parts in the real DOM
+/*  💡  JSX
+
+        JSX is just syntax extension for javascript use in react,
+        which allow us to write html like code inside javscript file.
+*/
+
+/*  💡  Lifecycle of component
+
+        Mount, Update, Unmount.
+
+        🔹 Mounting
+                means component first time rendered on screen.
+ 
+        🔹 Updating
+                means component re-render deu to change in state, prop, etc..
+
+        🔹 Unmounting
+                means component removed from UI.
+
 */
