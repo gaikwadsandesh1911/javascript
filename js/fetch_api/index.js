@@ -1,10 +1,21 @@
 /* 🔹 Fetch API
     
     To make HTTP requests (GET, POST, PUT, DELETE) in JavaScript.
-    fetch api is used
+    fetch api is used.
 
-    👉 It returns a Promise
-    👉 Works in browsers (no need for Axios)
+    fetch return a Promise
+
+
+        👉fetch('url_string', {})     //  by default get method
+
+        // post method
+        👉  fetch.post('url_string', {
+                method: "",
+                headers: {},
+                body: JSON.stringify({
+
+                })
+            })
 
 
             async function createUser() {
@@ -21,7 +32,6 @@
                     });
 
                     // ✅ Handle HTTP errors manually
-
                     if (!res.ok) {
                         throw new Error(`HTTP error! Status: ${res.status}`);
                     }
@@ -42,7 +52,7 @@
             👉 Convert it: into json() format
                 const data = await res.json();
 
-        ✅ 2. Check for Errors (Very Important 🚨)
+        ✅ 2. Check for Errors Manually(Very Important 🚨)
 
                     👉Fetch does NOT throw error for HTTP errors (404, 500)
 

@@ -7,8 +7,10 @@
     const arr = [1, 2, 3, 4, 5];
 
     👉console.log(typeof arr);        // object
+    
 
     // to check if it is an actual array
+
     👉console.log(Array.isArray(arr));    // true
 
     👉array inherits properties and methods from Array.prototype

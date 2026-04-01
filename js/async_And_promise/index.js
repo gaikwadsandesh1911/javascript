@@ -1,4 +1,3 @@
-
 /* 
     👉 Synchronous:
 
@@ -11,7 +10,7 @@
             JavaScript executes long-running tasks like(api call, timers)
             in the background means inside (web api, callback queue, microtask queue)
             It does not block the main thread, and its result is handled later.
-                simple Meaning
+                simple Meaning..
                     👉 JS does not wait for the async task to finish it execution.
                     👉 It moves to the next line immediately.
 
@@ -21,6 +20,36 @@
                 Web APIs (browser / Node APIs)
                 Callback Queue / Microtask Queue
                 Event Loop
+
+
+            console.log("Start");
+
+            function greet() {
+            console.log("Function executed");
+            }
+
+            setTimeout(() => {
+            console.log("setTimeout callback");
+            }, 0);
+
+            Promise.resolve().then(() => {
+            console.log("Promise resolved");
+            });
+
+            greet();
+
+            console.log("End");
+
+
+    ✅ Output
+
+            Start
+            Function executed
+            End
+            Promise resolved
+            setTimeout callback
+
+         🔥js executes sync code first, then microtask queu and then callback queue
 */
 
 // -----------------------------------------------------------------------------------------
@@ -112,7 +141,6 @@
                     }
                 getData();
                 
-
 
             👉 Async/await style (readable, modern way to write promise)
 
@@ -223,32 +251,71 @@
 
 */
 
+
+/*
+
+
 // login User
-function loginUser(email, password, role){
-    return new Promise((resolve, reject)=>{
-        console.log("checking credentials..");
-        setTimeout(()=>{
-            if(email == "sandesh@gmail.com" && password == 'sandesh1234'){
-                let user = { email: email, role: role }
-                resolve(user)
-            }
-            else{
-                reject(new Error("Invalid Email or Password !"))
-            }
-        },1000)
-    })
-};
 
 
-loginUser('sandesh@gmail.com', 'sandesh1234', 'admin')
-    .then((user)=>{
-        if(user.role == 'admin'){
+    function loginUser(email, password, role) {
+        return new Promise((resolve, reject) => {
+            console.log("checking credentials..");
+            setTimeout(() => {
+                if (email == "sandesh@gmail.com" && password == "sandesh1234") {
+                    let user = { email: email, role: role };
+                    resolve(user);
+                } else {
+                    reject(new Error("Invalid Email or Password !"));
+                }
+            }, 1000);
+        });
+    }
+
+    loginUser("sandesh@gmail.com", "sandesh1234", "admin")
+    .then((user) => {
+        if (user.role == "admin") {
             console.log(`hello admin : ${user.email}`);
-        }
-        else{
-            console.log(`hi: ${user.email}`);  
+        } else {
+            console.log(`hi: ${user.email}`);
         }
     })
-    .catch((error)=>{
-        console.log(error.message)
-    })
+    .catch((error) => {
+        console.log(error.message);
+    }); 
+  
+*/
+
+// --------------------------------------------
+
+// async await version..
+
+    function loginUser(email, password, role) {
+        return new Promise((resolve, reject) => {
+            console.log("checking credentials..");
+            setTimeout(() => {
+                if (email === "sandesh@gmail.com" && password === "sandesh1234") {
+                    resolve({ email, role });
+                } else {
+                    reject(new Error("Invalid Email or Password !"));
+                }
+            }, 1000);
+        });
+    }
+
+// async/await usage
+    async function main() {
+        try {
+            const user = await loginUser("sandesh@gmail.com", "sandesh1234", "admin");
+
+            if (user.role === "admin") {
+                console.log(`hello admin : ${user.email}`);
+            } else {
+                console.log(`hi: ${user.email}`);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    main();

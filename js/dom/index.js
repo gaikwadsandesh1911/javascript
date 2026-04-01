@@ -21,7 +21,7 @@
 
         Is global object. Everything comes under window object.
         
-        👉 Even global variables/functions are part of window object.
+        👉 Even var variables / functions declaration, become properties of window object.
             
             var name = 'sandesh' 
             
@@ -94,7 +94,7 @@
 
 /*  3. 🔹  Selecting Elements
 
-            we use the document object to find elements and then manipulate them.
+        👉on document object we have different methods to find elements.
 
             
             1. document.getElementById('idName')
@@ -109,9 +109,9 @@
 
                     👉 Selects all <div> elements
 
-
             <div class='item'>A</div>
             <div class='item'>B</div>
+
             
             4. document.querySelector(".item");  (Most Used) ( css based selector )
 
@@ -133,7 +133,6 @@
             | Feature         | HTMLCollection      | NodeList         |
             | --------------- | ------------------- | ---------------- |
             | Returned by     | getElementsBy*      | querySelectorAll |
-            | Live or Static  | Live (auto updates) | Static           |
             | forEach support | ❌ No              | ✅ Yes           |
 
 
@@ -636,7 +635,7 @@
 
 /*      🔹Event Delegation
             👉 instead of adding event listners on multiple child elements
-                we add one listner on parent and event and handle event using event bubbling.
+                we add one listner on parent element and handle event using event bubbling.
 
             👉core idea is that,
                 when event happens on child, it bubble up to parent
@@ -663,7 +662,7 @@
             });
 
 
-        🔹find def betn  tagName and closest()
+        🔹find difference  tagName and closest()
 
             list.addEventListener('click', function(e) {
             console.log(e)
@@ -690,16 +689,24 @@
 
 
 */
+    
+
+/* 
+
     const list = document.querySelector('.list');
 
     list.addEventListener('click', function(e) {
         console.log(e)
-        const del = btn = e.target.closest('.del-btn');
-        if (del) {
+        const delbtn = e.target.closest('.del-btn');
+        if (delbtn) {
             const li = btn.closest('li')
             li.remove();
         }               
     });
+    
+    
+*/
+ 
 
 
     

@@ -24,8 +24,6 @@
 
 
 /*  💡 Component      
-
-        👉 Simple definition.
         
             Component is just a function in react, which return UI called JSX.
             and we can re-use it across the application.
@@ -34,7 +32,7 @@
 
 
         👉  we combine multiple components together to build complx UI
-            for eg.   inside App  componet, we have Navbar, Main, Footer 
+            for eg.   Inside App  componet, we have Navbar, Main, Footer 
 
                 App
                     Navbar
@@ -44,28 +42,54 @@
         👉  we have two types of component :
 
                 1.  Functional Components.
-                2.  Class Components  [ not used now, Replaced by hooks ].
+                
+                2.  Class Components  [ it's not used now, Replaced by hooks ].
 
+*/
+
+/*  💡  JSX
+
+        JSX is just syntax extension for javascript use in react,
+        which allow us to write html like code inside javscript file.
 */
 
 
 /*  💡 Virtual Dom ( VDOM ).
 
-        👉  Virtual DOM is a lightweight copy of the real DOM in memory, 
+        👉  Virtual DOM is a light-weight copy of the real DOM in memory, 
             that React uses to optimizely update the UI.
+                
+*/
 
-            when state or prop or context value is changed, component re-render
-            and new copy of vdom is created.
+/*  💡 Diffing and Reconcillation, React Fiber
 
-            React compare this copy with previous copy is called "Diffing". Diffing is algo.
+        Diffing and Reconcilliation
+        
+                when state or prop or context value is changed, component re-render
+                and new copy of vdom is created.
 
-            and update only changed part in real dom is called "Re-conciliation".
+                React compare this copy with previous copy is called "Diffing". Diffing is algo.
+
+                and update only changed part in real dom. 
+            
+                This whole process is called called "Re-conciliation".
+
+                👉Re-concilliation = diffing + update real dom.
+
+        
+        React Fiber
+
+                React Fiber is internal architecture in react that controls how and when
+                Reconcillation is performed.
+
+                Each component in react is Fiber Node(object)
+
 */
 
 /*  💡  State
 
         👉  state is data means any data ( string, number, object, array etc.) that change over time.
-            and we manage state inside component.
+             state is managed inside component.
 
                 we use useState() hook to in react to store state, 
                 and state is updated via setter function of useState.
@@ -83,7 +107,7 @@
 /*  💡  Props (short for properties)
 
         👉  Props is a data pass from parent component to child component.
-            Child component recieves it in form of object.
+            Child component recieves it as an object.
 
             props are read-only and can not modified in child component.
 
@@ -107,22 +131,18 @@
 
 
         👉  Re-rendering            
-                when component state or props or context value changes or parent re-renders, 
-                component re-renders.'
-                means.
+                when component state or props or context value changes  component re-render 
+                when parent re-renders child also re-renders'
+                
+                when re-render happens :
                     1   new  copy of virtual dom  created,
                     2   react compare it with old copy of virtual  dom
                     3   only changed part is updated in real dom
                     4   and finally  browser paint ui on screen.
 */
 
-/*  💡  JSX
 
-        JSX is just syntax extension for javascript use in react,
-        which allow us to write html like code inside javscript file.
-*/
-
-/*  💡  Lifecycle of component
+/*  💡  Lifecycle of component: 
 
         Mount, Update, Unmount.
 
@@ -133,6 +153,6 @@
                 means component re-render deu to change in state, prop, etc..
 
         🔹 Unmounting
-                means component removed from UI.
+                means component removed from screen. deu to navigation or conditional rendering etc..
 
 */

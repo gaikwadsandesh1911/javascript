@@ -35,6 +35,9 @@
 
         🔹   if [ value ] provided then will Run on when value change.
 
+    
+    👉 ** useEffect runs after browser paint
+
 
     👉It also has cleanup function which runs in two situation
 
