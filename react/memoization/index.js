@@ -4,7 +4,7 @@
         where the return value of a function is cached based on its parameters. 
         If the parameter of that function is not changed, the cached version of the function is returned.
 
-        // 👍 memoization is a classic example of closure 
+        // 👍 memoization is a classic example of closure. 
 
         function memoize(){
             let  cache = {};
@@ -49,10 +49,11 @@
         These hook are used to optimize performance of an application.
 */
 
-/*  When component re-renders
+/*  When component re-renders.
 
-        when state, prop, context value change, component re-render
-        when parent re-renders child re-renders
+        1.  when state, prop, context value change, component re-render.
+
+        2.  when parent re-renders child re-renders.
 */
 
 /*  function creation and function execution are different thing.
@@ -65,7 +66,7 @@
                     const fn = () => {};
                         👉 This step:
                             allocates memory
-                            assigns a reference
+                            assigns a reference.
 
         🔹 Function execution
 
@@ -86,18 +87,15 @@
 /*
         🔹 Re-render behavior.
 
-            When a component re-renders, it's entire body executes again.
+            When a component re-renders, it's entire body get executed again.
 
-        🔹 What gets re-created on every render?
+        🔹  And Every renders creates new instances (new memory references) of:
 
-            Every render creates new instances (new memory references) of:
-
-                👉Inline functions → const handleClick = () => {}
+                👉functions → const handleClick = () => {}
                 👉Objects / arrays → {}, []
                 👉Variables defined inside the component
 
             👉 This is normal behavior and not a problem.
-
 
 
         🔹 When does the problem start?
@@ -126,12 +124,12 @@
 
                 🔹 Important condition (very important)
 
-                    useCallback is only effective when the child component 
-                    is wrapped with React.memo.
+                    ✅  useCallback is only effective when the child component 
+                        is wrapped with React.memo.
 
-                        useCallback → stabilizes function reference
+                            useCallback → stabilizes function reference.
 
-                        React.memo → skips re-render if props are unchanged (shallow comparison)
+                            React.memo → skips re-render if props are unchanged (shallow comparison)
 
 */
 
@@ -152,7 +150,8 @@
         useMemo is a React Hook used to memoize or (cache) value of expensive calculation, 
         so it does not get re-computed on every render.
 
-        It recomputes the value only when its dependencies change; otherwise, it returns the cached result.
+        It recomputes the value only when its dependencies change; 
+        otherwise, it returns the cached result.
 
         👉 
             ** it cache value of any type.. like array, object, number
@@ -169,7 +168,7 @@
     const [text, setText] = useState("");
 
     const expensiveValue = useMemo(() => {
-        console.log("Calculating...");
+        console.log("Calculating...we have simple calculation here..");
         return count * 2;
     }, [count]);
 
@@ -182,14 +181,15 @@
 
 
         when we type each word in input box component re-renders.
-        if we do not use useMemo() then this expensiveValue also re-computed on every re-renders
-        but because of dependency we provided it only re-computed when it's dependency value changed.
+        if we do not use useMemo() then this expensiveValue also re-computed on every re-renders.
+
+        but because of usememo and  dependency we provided it only re-computed when it's dependency value changed.
 
 
     // ----- eg. 2  ---------------------------------------------------------
 
             const filteredList = useMemo(() => {
-            return items.filter(item => item.price > 1000);
+                return items.filter(item => item.price > 1000);
             }, [items]);
 
         
@@ -206,12 +206,14 @@
 /* 🔹 What is useCallback?
 
         useCallback is a React Hook used to memoize a function, 
-        to prevent unnecessary re-creation of the function on every render.
+        so it prevent unnecessary re-creation of the function on every render.
         
         The same function reference is reused between renders 
         unless it's dependencies change.
 
-        but it is effective only when child wrapped with React.memo()
+        when we pass same reference to child component, child component does not re-renders
+
+        But it is effective only when child wrapped with React.memo()
         
  -----------------------------------------------------------------------
 
@@ -226,7 +228,7 @@
                 const handleClick = useCallback(() => {
                     console.log("handleClick re-created...");
                     setCount((prev) => prev + 1);
-                }, [count]);
+                }, []);
 
                 return (
                     <>
@@ -234,7 +236,7 @@
                         <p>input: {input}</p>
                         <input
                             type="text"
-                            placeholder="write something.."
+                            placeholder="write something..."
                             onChange={(e) => setInput(e.target.value)}
                         />
                         <hr />
@@ -253,5 +255,70 @@
 
             // when we write in input box child component not re-rendered.
 
+            //  in this example we dont event need to add dependency for count change.
+
+*/
+
+/* 
+
+// ---------------------------------------------------------------------------
+
+👉 If function is:
+
+            reused elsewhere (button click, multiple effects) passed as prop
+            ➡️ Use useCallback
+
+
+        const Parent = () => {
+
+            const [query, setQuery] = useState("");
+
+            const fetchResults = useCallback(() => {
+                console.log("Fetching for:", query);
+            }, [query]); // ✅ stable reference
+
+            return (
+                <>
+                <input onChange={(e) => setQuery(e.target.value)} />
+                <Child fetchResults={fetchResults} />
+                </>
+            );
+        };
+
+
+        const Child = ({ fetchResults }) => {
+
+            useEffect(() => {
+                fetchResults();
+            }, [fetchResults]); // ✅ runs only when query changes
+
+            return <div>Child</div>;
+        };
+
+
+// --------------------------------------------------------------------------
+
+👉 if function is used inside only useEffect, no need of useCallback.
+
+        const App = () => {
+            
+            const [query, setQuery] = useState("");
+
+            const fetchResults = useCallback(async () => {
+                if (!query) return;
+                console.log("API call for:", query);
+            }, [query]);
+
+            useEffect(() => {
+                fetchResults();
+            }, [fetchResults]);
+
+            return (
+                <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                />
+            );
+        };
 
 */

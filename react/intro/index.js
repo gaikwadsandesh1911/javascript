@@ -65,16 +65,19 @@
 
         Diffing and Reconcilliation
         
-                when state or prop or context value is changed, component re-render
-                and new copy of vdom is created.
+                when component re-render deu to change in state or prop or anything
+                new copy of vdom is created.
 
-                React compare this copy with previous copy is called "Diffing". Diffing is algo.
+                React compare this new copy with old copy that is called "Diffing". Diffing is algo.
 
                 and update only changed part in real dom. 
             
                 This whole process is called called "Re-conciliation".
 
                 👉Re-concilliation = diffing + update real dom.
+
+                        ** after comparison old copy of vdom 
+                        automatecally set to garbage collection.
 
         
         React Fiber
@@ -94,6 +97,8 @@
                 we use useState() hook to in react to store state, 
                 and state is updated via setter function of useState.
 
+                state is immutable, we can not update state directly, we have to make copy first.
+
                 const [count, setCount] = useState(0);
                         count is state which has initial value 0
                         and we update it via setCount which is setter function.
@@ -106,7 +111,7 @@
 
 /*  💡  Props (short for properties)
 
-        👉  Props is a data pass from parent component to child component.
+        👉  Props is a data which is pass from parent component to child component.
             Child component recieves it as an object.
 
             props are read-only and can not modified in child component.
@@ -137,8 +142,8 @@
                 when re-render happens :
                     1   new  copy of virtual dom  created,
                     2   react compare it with old copy of virtual  dom
-                    3   only changed part is updated in real dom
-                    4   and finally  browser paint ui on screen.
+                    3   only changed part is updated in real dom. React work is done here.
+                    4   and finally  browser paint ui on the screen.
 */
 
 
