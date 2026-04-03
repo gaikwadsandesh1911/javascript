@@ -167,3 +167,14 @@
         })
 
 */  
+
+
+/* Keys in react.
+
+    when we iterate over array, 
+    key attribute is given to each array element for providing unique identity to each element.
+
+    key helps react identify which element were added, updated or romoved,
+    so it can efficiently update the UI
+
+*/

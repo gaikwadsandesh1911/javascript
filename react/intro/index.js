@@ -172,6 +172,4 @@
 
         hooks are functions in react that let you use 
         state and lifecycle feature inside functional components.
-
-
 */
