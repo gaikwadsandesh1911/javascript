@@ -3,18 +3,18 @@
     To make HTTP requests (GET, POST, PUT, DELETE) in JavaScript.
     fetch api is used.
 
-    fetch return a Promise
+    🔹fetch return a Promise.
 
 
         👉fetch('url_string', {})     //  by default get method
 
         // post method
-        👉  fetch.post('url_string', {
-                method: "",
+        👉  fetch('url_string', {
+                method: "POST",
                 headers: {},
                 body: JSON.stringify({
 
-                })
+                })  // because server accepts data in json format
             })
 
 
@@ -44,7 +44,7 @@
                 }
             }
 
-        ✅ 1. Response is NOT actual data its Response object
+        ✅ 1. Response is NOT actual data. its Response object
 
                 const res = await fetch(url);
                 console.log(res);               // Response object
@@ -98,15 +98,15 @@
         try {
             const res = await axios.post(
                 'https://jsonplaceholder.typicode.com/users',
-            {
-                name: 'Sandesh',
-                email: 'sandesh@gmail.com'
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json'
+                {
+                    name: 'Sandesh',
+                    email: 'sandesh@gmail.com'
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 }
-            }
             );
 
             console.log("User created:", res.data);
@@ -123,7 +123,7 @@
 
     ✅ 1. No JSON.stringify
 
-        fetch.post(url, {
+        fetch(url, {
             method: "",
             headers: {
 

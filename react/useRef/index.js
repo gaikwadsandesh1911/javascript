@@ -74,7 +74,7 @@
 
         Click button:
             count = 1 → component re-renders
-            useEffect runs AFTER render
+            useEffect runs AFTER render(means after browser pent)
             prevCount.current = 1 (stored for next render)
 
         Next render:

@@ -9,6 +9,8 @@
             EventListners,
             Subscription(socke.io etc.)
 
+            👉 ** useEffect runs after browser paint
+
     
     👉    useEffect(() => {
 
@@ -27,7 +29,7 @@
 
 
 
-    👉useEffect runs in followin three situations :
+    👉useEffect runs in following three situations :
 
         🔹    if no dependecy provided, useEffect runs after evey render of the component.
     
@@ -35,15 +37,13 @@
 
         🔹   if [ value ] provided then will Run on when value change.
 
-    
-    👉 ** useEffect runs after browser paint
 
 
     👉It also has cleanup function which runs in two situation
 
         🔹 just before effect runs again.
                 when state change component re-renders, and useEffect runs
-                but before it runs again, cleanup runs before it.
+                but before useEffect runs again, cleanup runs before it.
 
         🔹  before component unmount. means component removed from UI 
             ( eg. conditional rendering, route change, parent unmount )

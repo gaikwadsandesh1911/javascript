@@ -31,8 +31,9 @@
         
                 🔹index.html
 
-        <div id="root"></div>
-        <script src="main.js"></script>
+                <div id="root"></div>
+                <script src="main.js"></script>
+
 
         👉Browser 
                 Parses HTML → create DOM ( Real Dom )
@@ -46,22 +47,28 @@
                     <div id="root"></div>
 
         
-        2.  Now browser loads:
-                👉  Our bundled JS (main.js)
-                        React + our components
+        2.  Now browser loads: main.jsx
 
-        3.  React takes control and start execution...
+                ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
-                const root = ReactDOM.createRoot(document.getElementById("root"));
-                root.render(<App />);
+               👉 This file contains:
+
+                        React
+                        ReactDOM
+                        Your components (App, and all childs.)             
+
+                 React takes control and start execution...
+
 
                 🔹  React calls your components (App, children)
                     👉Builds Virtual DOM (JS object)
 
-        4.  then ReactDOM(library) creates corresponding real DOM nodes using browser api
-            and mounts them into the root element. <idv id='root'>
+        3.  ReactDOM Updates Real DOM
+        
+                ReactDOM creates corresponding real DOM nodes using browser api
+                and mounts them into the root element. <idv id='root'>
 
-        5.  Now, Browser sees DOM changes
+        4.  Now, Browser sees DOM changes
                 👉 It runs again:
                         Layout (Reflow)
                         Paint

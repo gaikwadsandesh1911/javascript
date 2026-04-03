@@ -89,7 +89,7 @@
 
                 👉 resolve is function which is called when async operation successfully completed.
                     and result of async task is passed through resolve function.
-                    then() function consume the result and apply logic on it.
+                    then() function consume the result and we can apply logic on it.
                         🔹resolve change  state from pending to fulfilled.
 
                 👉 reject is function which is called when async operation fails or some error occure.
@@ -99,7 +99,7 @@
 
 
                 ⭐setTimeout(), fetch()  are async operations.
-                ⭐promise is not async itself.
+                ⭐promise is not async itself. It just represent success or failure of async operation.
  
 
 
@@ -109,10 +109,10 @@
                 let login = true;
                 if (login) {
                     setTimeout(() => {
-                        resolve("login success.");
+                        resolve("send any data.. array object string");
                     }, 1000);
                 } else {
-                    reject("login failed");
+                    reject("operation failed.");
                 }
             });
 
@@ -184,7 +184,7 @@
             👉  async function always returns a Promise
 
                 await pauses execution inside function only.
-                ( do not jump to next line until response comes )
+                ( it does not jump to next line until response comes )
 
  
             ✅ then() vs async/await
@@ -193,7 +193,7 @@
 
                 👉  async/await → readable, modern way.
 
-            ✅Under the hood → both use Promises.
+            ✅Under the hood → both uses Promise.
 
 
 // -----------------------------------------------------------

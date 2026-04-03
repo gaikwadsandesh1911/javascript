@@ -49,8 +49,13 @@
 
 /*  💡  JSX
 
+        jsx stands for javascript xml.
+
         JSX is just syntax extension for javascript use in react,
+
         which allow us to write html like code inside javscript file.
+
+        and place them into DOM  without using functions like createElement(), appendChild().
 */
 
 
@@ -159,5 +164,14 @@
 
         🔹 Unmounting
                 means component removed from screen. deu to navigation or conditional rendering etc..
+
+*/
+
+
+/*   💡  hooks
+
+        hooks are functions in react that let you use 
+        state and lifecycle feature inside functional components.
+
 
 */
