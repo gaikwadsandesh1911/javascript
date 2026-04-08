@@ -51,20 +51,102 @@
 
     Node.js is built on two main components:
 
-        1. V8 Engine
+        1. V8 Engine 
+
+             which execute js code on single main thread.
 
         2. libuv Library
 
-            libuv has : 
+            libuv has two components: 
 
             a.  Event loop
 
             b.  Thread pool
 
 
-            Thread pool execute async task,
+            Thread pool execute async task, 
+            it has four threads. we can increase by programming
             
-            once task complete -> callback queued in event loop.
+            once async task complete -> callback queued in event loop.
+
+            ✅Event loop
+
+                Event loop has 4 main phase and each phase has its own callback queue.
+
+                    1. Timers Phase  
+                        setTimeout()
+                        setInterval()
+
+                    2. Polling Phase
+                        I/O operations like (fileSystem, DB, Network)
+
+                    3. check phase
+                        setImmediate()
+
+                    4. close callback
+                        server.close()
+                        socket.on('close', ()=> {})
+
+                ✅Event loop also has 2 most important Queues
+                    they have higher proirity than these 4 phases
+
+                    process.nextTick()  - highes priority
+                    Promise(.then, catch) 
+
+
+                console.log("Start");
+
+                setTimeout(() => {
+                    console.log("setTimeout");
+                }, 0);
+
+                setImmediate(() => {
+                    console.log("setImmediate");
+                });
+
+                fs.readFile(__filename, () => {
+                    console.log("File read");
+
+                    process.nextTick(() => {
+                        console.log("nextTick inside I/O");
+                    });
+
+                    Promise.resolve().then(() => {
+                        console.log("Promise inside I/O");
+                    });
+                });
+
+                process.nextTick(() => {
+                    console.log("nextTick");
+                });
+
+                Promise.resolve().then(() => {
+                    console.log("Promise");
+                });
+
+                console.log("End");
+
+
+                Start
+                End
+                nextTick
+                Promise
+                setTimeout
+                setImmediate
+                File read
+                nextTick inside I/O
+                Promise inside I/O
+
+            
+        🔥Order between setTimeout and setImmediate can not be  guranteed on top level
+            fbut
+        inside an I/O callback (executed in poll phase), setImmediate() runs before setTimeout()
+
+        if we have to perform something immediately after polling
+        
+
+
+                
 
 */
 
