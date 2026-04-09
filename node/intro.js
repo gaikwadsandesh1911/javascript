@@ -1,4 +1,4 @@
-/*  🔹 What is Node.js
+/* 🔹 What is Node.js
 
         Node js is a runtime environment built on Google Chrome V8 Engine.
         that allows us to run JavaScript on the server-side.
