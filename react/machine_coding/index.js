@@ -155,24 +155,48 @@ export default function ModalDemo() {
 
 // Modal.jsx
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 export default function Modal({ isOpen, onClose }) {
-  // if (!isOpen) return null;
+  if (!isOpen) return null;
+
+  const overlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      // e.targe = where the event happens, where you click
+      // e.currentTargetThe = DOM element on which the event handler is attached
+      onClose();
+    }
+  };
+
+  // close on Esc button
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const escHandler = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", escHandler);
+    return () => {
+      document.removeEventListener("keydown", escHandler);
+    };
+  }, [isOpen, onClose]);
 
   // prevent background scrolling...
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
 
+  useEffect(() => {
+    if (!isOpen) return;
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, []);
+  }, [isOpen]);
 
   return createPortal(
-    <div className="overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+    <div className="overlay" onClick={overlayClick}>
+      <div className="modal">
         <h1>modal Title</h1>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis,
@@ -184,6 +208,8 @@ export default function Modal({ isOpen, onClose }) {
     document.getElementById("modal-root")
   );
 }
+
+
 
 
 
