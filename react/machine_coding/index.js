@@ -31,7 +31,7 @@ export default function Tabs() {
 
 // -------------------------------------------------------------------------
 
-/* 
+/* Accordian
 
 import { useState, useRef } from "react";
 
@@ -120,6 +120,87 @@ export default function Accordian() {
 
         we have multiple elements thats why callback
         "I have many items → I need a map → store each in DOM using id"
+
+*/
+
+// -------------------------------------------------------------------------
+
+/* modal with portal
+
+"Portal allows us to render a component outside the parent DOM hierarchy."
+"So it avoid issues like z-index, overflow, and layering when building modals,
+
+from component we return createPortal(<div> </div/, document.getElementById("modal-root"))
+
+
+// index.html
+
+<div id="modal-root"></div>
+
+
+// ModalDemo.jsx
+
+import { useState } from "react";
+import Modal from "./Modal";
+export default function ModalDemo() {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div>
+      <button onClick={() => setIsOpen(true)}>open modal</button>
+      {isOpen && <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
+    </div>
+  );
+}
+
+
+// Modal.jsx
+
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
+
+export default function Modal({ isOpen, onClose }) {
+  // if (!isOpen) return null;
+
+  // prevent background scrolling...
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  return createPortal(
+    <div className="overlay" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <h1>modal Title</h1>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis,
+          ducimus.
+        </p>
+        <button onClick={onClose}>close</button>
+      </div>
+    </div>,
+    document.getElementById("modal-root")
+  );
+}
+
+
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 */
 

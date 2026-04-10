@@ -1,48 +1,62 @@
 /* 🔹 What is Node.js
 
-        Node js is a runtime environment built on Google Chrome V8 Engine.
+        Node.js is  runtime environment for javascript built on Google Chrome V8 Engine.
         that allows us to run JavaScript on the server-side.
 
         👉Runtime Environment
-            is a system that execute code and provide all the necessary resources.
-            like fs module, http module, os module etc.
+            is a system that execute code and provide all the necessary resources,
             to execute the code.
+            like fs module, http module, os module, event loop,  etc.
 
     🔹Node js uses :
     
         💡single threaded, 
         💡event driven 
-        💡non-blocking
+        💡non-blocking  ...  architecture
 
 
         👉single threaded 
-                One worker (thread) handles all requests.
-                It does not create a new thread per request like Java/Spring
 
-            “Node.js executes JavaScript in a single thread, 
-            but still handles multiple requests efficiently using async mechanisms.”
+            Node.js is single-threaded means,
+
+            Both the event loop and V8 engine run on the same thread.
+
+            Event loop handle all incoming requests, manages scheduling and callbacks, 
+            
+            while the V8 engine executes JavaScript code.
+            
+
+                ** Java / spring boot create a new thread per request like
 
 
         👉event driven
-                Node.js works based on events (actions) and listeners (responses).
+                
+                "Node.js follows an event-driven architecture,
 
-                👉 Real-world example:
-
-                    User sends request → event triggered
-                    Database responds → another event
-                    Response sent → another event
-
-                👉 Interview Insight:
-
-                “Node.js uses an event-driven architecture 
-                where actions trigger events, and listeners handle them asynchronously.”
+                where any actions like ( User sends request, Database responds, Response sent to user ) 
+                trigger events and listener functions handle them asynchronously. 
+                
+                When an event occurs, the event loop picks the corresponding callback 
+                and executes it without blocking other operations."
 
         
         👉non-blocking
-                Node.js does not wait for operations like file reading, DB calls, API calls.
+
+                "Node.js follows a non-blocking I/O model,
+
+                meaning it does not wait for operations like file handling, 
+                database calls, or API requests to complete. 
                 
-                “Non-blocking I/O allows Node.js to handle multiple operations concurrently 
-                without waiting for each to finish.”
+                Instead, these operations are handled asynchronously —
+                    some by the OS (like network I/O) 
+                    and some by the thread pool (like file system or crypto). 
+                
+                Once the operation completes, 
+                    its callback is queued in correspong the event loop phase
+                    and executed on the main thread by the V8 engine. 
+                
+                This allows Node.js to handle multiple operations concurrently 
+                without blocking the thread."”
 
 */
 
@@ -61,15 +75,28 @@
 
             a.  Event loop
 
-            b.  Thread pool
+            b.  Thread pool(default size = 4)
 
 
-            Thread pool execute async task, 
-            it has four threads. we can increase by programming
+            ✅Thread pool
+
+                "Event loop offloads only blocking operations like 
+
+                    file system   
+                    Crypto ( CPU-intensive tasks )
+                    Compression ( zlib )
+
+                to the thread pool
             
-            once async task complete -> callback queued in event loop.
+                once task complete -> callback queued in event loop for their execution on main thread.
+
+                [ other async operations like network I/O, timeres are handled by the OS." ]
 
             ✅Event loop
+
+                👉 "Once a background operation (thread pool / OS) completes, 
+                its callback is queued in the appropriate event loop phase, 
+                where it is later executed by js engine."
 
                 Event loop has 4 main phase and each phase has its own callback queue.
 
@@ -78,7 +105,7 @@
                         setInterval()
 
                     2. Polling Phase
-                        I/O operations like (fileSystem, DB, Network)
+                        I/O operations like (fileSystem, DB, Network). most busy one
 
                     3. check phase
                         setImmediate()
@@ -87,11 +114,11 @@
                         server.close()
                         socket.on('close', ()=> {})
 
-                ✅Event loop also has 2 most important Queues
+                ✅Event loop also has 2 most important Microtask Queues
                     they have higher proirity than these 4 phases
 
-                    process.nextTick()  - highes priority
-                    Promise(.then, catch) 
+                    1. process.nextTick()  - highes priority than Promise
+                    2. Promise(.then, catch) 
 
 
                 console.log("Start");
@@ -131,22 +158,19 @@
                 End
                 nextTick
                 Promise
-                setTimeout
-                setImmediate
+                setTimeout / setImmediate
                 File read
                 nextTick inside I/O
                 Promise inside I/O
 
             
-        🔥Order between setTimeout and setImmediate can not be  guranteed on top level
-            fbut
+        🔥Order between setTimeout and setImmediate can not be  guranteed on top level it depends on os
+        but
+
         inside an I/O callback (executed in poll phase), setImmediate() runs before setTimeout()
 
-        if we have to perform something immediately after polling
-        
-
-
-                
+        if we have to perform something immediately after I/O ( polling ) opration setImmediate() is used
+             
 
 */
 
@@ -174,86 +198,8 @@
         
         🔹 How to start REPL
 
-            👉 In terminal:  node
+            👉 In terminal: type  =>   node
                     now you can write js code in terminal
-
-*/
-
-
-/* 🌐 How the Web Works
-
-        🔹 1. You Enter a URL
-
-            👉 Browser breaks it into:
-
-                Protocol → HTTPS
-                Domain → example.com
-
-        Request is not sent directly to server.
-        Browser has to resolve domain name to ip address
-
-        it send request to dns [ domain name server. ]
-        it is like phone book of an internet 
-        which stores ip address of domain names.
-
-        so dns matches the domain to correspondin ip address.
-        
-        
-        🔹 2. DNS Lookup (Domain → IP)
-
-            👉 Browser asks:
-
-                “What is the IP address of this domain?
-
-                    Browser Uses DNS (Domain Name System)
-                        example.com → 93.184.216.34
-
-                    👉 Think:
-
-                    Domain = human-friendly name
-                    IP = actual server address
-
-
-        🔹 3. TCP Connection (Handshake)
-
-                Once DNS is resolve a TCP/IP socket connection is made
-                between browser and server.
-
-            👉 Browser connects to server using TCP
-
-                3-way handshake:
-                    SYN
-                    SYN-ACK
-                    ACK
-
-            ✅TCP/IP Connection established. and 
-            It kept alive entire time for send the req and recive the res
-
-        
-            ✅TCP/IP  => transmission control protocol / internet protocol  
-            Together they are communication protocol they define how data transfer across the web.
-        
-                    These are internet fundamental.
-
-            
-        🔹 4. HTTPS
-
-                now finally https req is sent.
-
-
-        🔹 5. Server Handles Request
-                👉 Server (could be Node.js, Java, etc.):
-                    
-                    Receives request
-                    Processes logic
-                    Talks to database if needed
-                    Prepares response
-
-        🔹 6. HTTP Response 
-
-                is sent back to browser
-
-        🔹 7. Browser Rendering
 
 */
 
@@ -264,55 +210,69 @@
         systems communicate by producing and consuming events.
 
 
-        👉Something happens → event
+        👉Something happens → event  ( Publisher )
                 eg. user login, order placed
 
-        👉Other parts react → listeners/handlers
+        👉Other parts react to an event → listeners/handlers function ( Subscriber )
 
 
         🔹 Core Components of EDA
 
             1. Event Producer (Publisher) - creates event.
 
-                    eg. Payment service → emits "payment_success"
-
             2. Event Consumer (Subscriber) - Listen and reacts to event
 
-                    eg. Email service → sends confirmation email
-
-            
-            3. Event Broker (Optional but common)  - manage event between services
-
-                eg. Apache Kafka, RabbitMQ
+            3. Event Broker - manage event between different services( microservice )
+                    eg. Apache Kafka, RabbitMQ
 
 
-        💡“Node.js itself follows an event-driven architecture using EventEmitter and the event loop.
-
-        👉 The "events" module allows Node.js to work with events 
-            and listeners using the EventEmitter class.
+        💡“Node.js itself follows an event-driven arch using "events" module,
+            with the help of EventEmitter class...
 
             
             import { EventEmitter } from "events";
 
             const emitter = new EventEmitter();
 
-            👉on() method listen to event, and recieve data. 
+            👉new EventEmitter ()        
+                create instance of EventEmitter class,
+                which allow us to handle custom events
 
-            👉emit() method trigger an event, here event name is greet.
+            👉on()            
+                method listen to event, and recieve data. 
+
+            👉emit()             
+                method trigger an event
+
                 
                 emitter.on("greet", (data) => { console.log(data) } )
 
                 emitter.emit("greet", 'send any type of data');
 
-                
-            👉execution flow => first listen to an event => then emit the event.
+                    ** "greet" is name of an event
+
+                👉 "EventEmitter is synchronous and does not store events, 
+                    so listeners must be registered before emitting; 
+                    otherwise, the event is lost."
 
 
-            we can attach multiple event-listners for same event.
+            👉we can attach multiple event-listners for same event.
 
-            we have different methods on emitter.
+                    emitter.on("greet", () => {
+                        console.log("Hello");
+                    });
 
-            if we need to remove listner then we have to define callback separetaly.
+                    emitter.on("greet", () => {
+                        console.log("Hi");
+                    });
+
+                    emitter.emit("greet");
+
+
+            👉we have different methods on emitter. .... chatgpt it.
+
+
+            👉if we need to remove listner then we have to define callback separetaly.
 
                 const fn = () => console.log("Hello");
                 emitter.on("greet", fn);
@@ -321,62 +281,96 @@
 */
 
 
-/* 🔹Stream
-
-        👉A stream is a way to handle data piece by piece (in chunks) 
-        instead of loading the entire data into system memory
-
-        👉 Without streams ❌
-
-            File is fully loaded → high memory usage
-
-        👉 With streams ✅
-
-            Data processed in chunks → efficient & fast
-
-        🔥 Real-Life Example
-
-            ❌ Download full movie → then watch
-            ✅ Stream movie → watch while downloading
-
-        
-        🔹 Key Benefits
-
-            ✅ Memory efficient
-            ✅ Faster processing
-            ✅ Handles large files
-            ✅ Works well with real-time data
-
-        🔹 chatgpt streams used on files.
-
-        🔹 req and res are streams:
-                req → Readable stream
-                res → Writable stream
-
-
-        🔹Backpressure => see details
-*/
-
-
 /* 🔹Process.
 
-            process is running instance of your application.
-            when we run node application os create process regarding our application.
+            In general process is running instance of your application.
+            when we run node application os create process regarding your node js application.
 
-        👉In Node.js process is global object, that provides information
-            and control over current running node.js application(process)
+        👉In Node.js process is global object, which provides information
+            about current running node.js application(process)
 
             👉console.log(process.pid);
 
             process help you in :
 
-            👉Access environment variables
-              
-            👉Communicate between processes
+                👉Access environment variables
+                👉Communicate between processes
 
-            👉process.on("uncaughtException", (err) => {
-            console.log("Error:", err.message);
-            });
+
+        👉we have process level events.
+
+            🔹 1. uncaughtException    => catch sync error only
+
+                    Triggered when: synchronous error is not caught by try...catch
+
+                    👉throw new Error("Something broke!");   // its sync error
+
+                    process.on("uncaughtException", (err) => {
+                        console.log("Caught:", err.message);
+                    });
+
+            
+            🔹 2. unhandledRejection   => catch async error only
+
+                    Triggered when: A Promise is rejected and not handled with .catch()
+
+                    👉Promise.reject("Error happened");     // its async error.
+
+                    process.on("unhandledRejection", (err) => {
+                        console.log("Unhandled:", err);
+                    });
+
+
+
+                    🎯"uncaughtException and unhandledRejection 
+                    are global error handlers in Node.js,
+
+                    used as a fallback mechanism, 
+                    not as a primary error-handling strategy."
+
+
+
+        👉we have,   "SIGINT and SIGTERM 
+                OS signals used in Node.js to perform graceful shutdown.
+
+            🔹 SIGINT
+
+                Triggered by Ctrl + C (manual stop)
+
+                Used during development
+
+            🔹 SIGTERM
+
+                Sent by:
+                    Docker
+                    Kubernetes
+                    Production servers
+
+                    Used for controlled shutdown
+
+            🔄 What is Graceful Shutdown?
+                    👉 Instead of killing app immediately ❌
+
+                    Stop accepting new requests
+                    Finish ongoing requests
+                    Close DB connections
+                    Close Server
+                    Exit process
+
+
+
+                process.on("SIGTERM", () => {
+                    console.log("Shutting down...");
+
+                    server.close(() => {
+                        console.log("Server closed");
+                        process.exit(0);
+                    });
+                });
+
+
+                process.exit(0); // success
+                process.exit(1); // error
 
 
 */
@@ -397,7 +391,7 @@
             Node.js is single-threaded
             Uses only one CPU core ❌
 
-            we are waisting our resources.
+            we are waisting our resources by not utilizing it.
 
         👉 Solution:
 
@@ -451,13 +445,13 @@
 
             👉 Cluster
 
-            Built-in Node module
-            Manual setup
+                Built-in Node module
+                Manual setup
 
             👉 PM2
 
-            Process manager
-            Handles clustering automatically
+                Process manager
+                Handles clustering automatically
 
 
         🔹 What is PM2
@@ -477,122 +471,125 @@
 
 /* 🔹 1. Worker Threads
 
+        👉 developer create worker thread by programming,
+            to perform CPU-intensive tasks like image processing, Large computing.
+
         👉Worker Thread → runs inside same process (shared memory)
-            
-        ✅ Use Worker Threads when:
-                CPU-intensive tasks
-                Image processing
-                Data computation
+
+            each worker thread have their own v8 instance, execution context and event loop
+        
+            but cannot directly handle HTTP responses. 
+            The result is sent back to the main thread, 
+            which then sends the response to the client.”
+
+                ** chatgpt for program...
+
+    
+    🔹 we have four thread in thread pool
+
+            👉they do not have their own v8 instance, execution context and event loop
+*/
 
 
-            🔹  Worker thread has its own JS execution context
-                ✅ Own V8 instance
-                ✅ Own memory heap (separate from main thread)
-                **Worker thread also has its own event loop
-                ✅ Can handle asynchronous operations just like the main thread
-                ✅ Can listen to messages, timers, or perform async I/O
+/* 🔹Stream
 
+        👉A stream is a way to handle data piece by piece (in chunks) 
+        instead of loading the entire data into system memory
 
-            Main Thread (Event Loop)
-            ├─ Handles HTTP requests
-            ├─ Handles I/O
-            └─ Creates Worker Thread
-                    │  worker Thread Receives data
-                    │  Does CPU-heavy calculation
-                    │  Posts result back
-                    ▼
-            Main Thread receives result → continues processing
+        👉 Without streams ❌
 
+            File is fully loaded → high memory usage
 
-            🔹 2. Flow of Execution
+        👉 With streams ✅
 
-                Main thread creates a worker thread.
-                Worker thread starts running its JS code in parallel with main thread on the CPU.
-                Worker thread finishes computation → sends result via postMessage.
-                Main thread receives a message event → handler executes in main thread’s event loop.
+            Data processed in chunks → efficient & fast
 
+        🔥 Real-Life Example
 
-            🔹 2. Why Send Result Back to Main Thread?
-
-                The main reason is: main thread controls the “application logic” and I/O.
-
-                Key Points:
-                    Main thread handles I/O and requests
-                    In Node.js, the main thread handles HTTP requests, DB calls, reading/writing files.
-                    Worker thread should not directly send HTTP responses.
-
-
-                Client Request
-                    │
-                    ▼
-                Main Thread (Node.js)
-                ├─ Receives HTTP request
-                ├─ Offloads CPU task to Worker Thread
-                └─ Continues listening for other requests
-
-                Worker Thread
-                ├─ Computes result (CPU-heavy)
-                └─ Sends result to Main Thread via postMessage
-
-                Main Thread
-                ├─ Receives result from Worker
-                └─ Sends HTTP response to client
+            ❌ Download full movie → then watch
+            ✅ Stream movie → watch while downloading
 
         
+        🔹 Key Benefits
 
-            🎯 Interview One-Liner
+            ✅ Memory efficient
+            ✅ Faster processing
+            ✅ Handles large files
+            ✅ Works well with real-time data
 
-                “Worker threads share memory within the same process and are used for CPU-intensive tasks, 
-                    
-                “Node.js uses worker threads for parallel computation 
+        🔹 chatgpt streams used on files.
 
-                “Worker threads have their own JS execution context and own event loop, 
-                so they can handle asynchronous tasks independently of the main thread 
-                while staying in the same process.”
-
-
-                // worker.js
-
-                import { parentPort } from "worker_threads";
-
-                parentPort.on("message", (num) => {
-                    let result = 0;
-                    for (let i = 0; i < 1e8; i++) result += num; // heavy CPU task
-                    parentPort.postMessage(result);
-                });
+        🔹 req and res are streams:
+                req → Readable stream
+                res → Writable stream
 
 
-
-                // main.js
-
-                import express from "express";
-                import { Worker } from "worker_threads";
-
-                const app = express();
-
-                app.get("/", (req, res) => {
-                    const worker = new Worker("./worker.js");
-
-                    worker.postMessage(100);
-
-                    worker.on("message", (result) => {
-                        // Only main thread can send response
-                        res.send(`Result is ${result}`);
-                    });
-
-                    worker.on("error", (err) => {
-                        res.status(500).send(err.message);
-                    });
-                });
-
-                app.listen(3000, () => console.log("Server running"));
-
-
-            🔹 Interview One-Liner
-
-                “In a Node.js web server, worker threads perform CPU-intensive tasks 
-                but cannot directly handle HTTP responses. 
-                The result is sent back to the main thread, 
-                which then sends the response to the client.”
+        🔹Backpressure => see details
 */
+
+
+/* 🌐 How the Web Works
+
+        🔹 1. You Enter a URL
+
+            👉 Browser breaks url into:
+
+                1. Protocol → HTTPS
+
+                2. Domain → google.com
+
+        Request is not sent directly to our node or java server.
+        Browser has to resolve domain name to ip address first
+
+        it send request to dns [ domain name server. ]
+        it is like phone book of an internet 
+        which stores ip address of domain names.
+
+        so dns matches the domain to correspondin ip address.
+        hence, dns is resolved
+        
+    
+        🔹 . TCP Connection (Handshake)
+
+                Once DNS is resolve a TCP/IP socket connection is made
+                between browser and server.
+
+            👉 Browser connects to server using TCP
+
+                3-way handshake:
+                    SYN
+                    SYN-ACK
+                    ACK
+
+            ✅TCP/IP Connection established. and 
+            It kept alive entire time for send the req and recive the res
+
+        
+            ✅TCP/IP  => transmission control protocol / internet protocol  
+            Together they are communication protocol they define how data transfer across the web.
+        
+                    These are internet fundamental.
+
+            
+        🔹 4. HTTPS
+
+                now finally https req is sent.
+
+
+        🔹 5. Server Handles Request
+                👉 Server (could be Node.js, Java, etc.):
+                    
+                    Receives request
+                    Processes logic
+                    Talks to database if needed
+                    Prepares response
+
+        🔹 6. HTTP Response 
+
+                is sent back to browser
+
+        🔹 7. Browser Rendering
+
+*/
+
 
