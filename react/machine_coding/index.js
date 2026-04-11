@@ -27,6 +27,13 @@ export default function Tabs() {
   );
 }
 
+      map over tabsData.
+      Render Title, and onClick of Title change state Index
+      Now, show tabsData[index].Content
+
+
+
+
 */
 
 // -------------------------------------------------------------------------
@@ -159,6 +166,7 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 export default function Modal({ isOpen, onClose }) {
+
   if (!isOpen) return null;
 
   const overlayClick = (e) => {
@@ -168,6 +176,8 @@ export default function Modal({ isOpen, onClose }) {
       onClose();
     }
   };
+
+  
 
   // close on Esc button
 
@@ -183,6 +193,8 @@ export default function Modal({ isOpen, onClose }) {
       document.removeEventListener("keydown", escHandler);
     };
   }, [isOpen, onClose]);
+
+
 
   // prevent background scrolling...
 
@@ -208,9 +220,6 @@ export default function Modal({ isOpen, onClose }) {
     document.getElementById("modal-root")
   );
 }
-
-
-
 
 
 .overlay {
