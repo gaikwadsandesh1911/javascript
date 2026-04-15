@@ -88,9 +88,9 @@
         we write instructions in Dockerfile
         to create an image.
 
-        👉 When you run an image → it becomes a container
+        👉  When you run an image → it becomes a container
 
-        A container is a running instance of a Docker image.
+        👉  A container is a running instance of a Docker image.
 
 */
 
@@ -106,10 +106,10 @@
 
         so docker maps it to our system
 
-        docker run -p <hostPort>:<containerPort> image_name
+        👉  docker run -p <hostPort>:<containerPort> image_name
 
-        👉Always use the host port when accessing from browser/Postman.
-        http://localhost:5000/api
+        👉  Always use the host port when accessing from browser/Postman.
+                http://localhost:5000/api
 
 */
 
@@ -127,6 +127,7 @@
             By default, Docker isolates containers.
 
             If you want two containers (like Node app + MongoDB) to talk → you need a network.
+            All containers must run on same network.
 
             Docker gives you different types of networks to manage communication.
 
@@ -178,17 +179,25 @@
             You can store database files, logs, uploads, etc.
 
 
-            docker run -d -v my-mongo-data:/data/db --name new-mongo mongo
+            ✅docker run -d -v my-mongo-data:/data/db --name my-mongo mongo
 
-            --name new-mongo   =>   name of the container
-            mongo              =>   name of the image
-            -v                 =>   name of volume
+            --name my-mongo    =>   name of the container
+            mongo               =>   name of the image
+            my-mongo-data       =>   name of volume
+            /data/db            =>   path inside container where ( mongo store data )             
+                
+                        
+            if container deleted        ..  docker rm my-mongo
+            Volume (my-mongo-data) →    ✅ still exists
+            Data →                      ✅ still safe
 
-            ✅/data/db    => storage  are insde container 
-                            if container deleted everything is lost
+            ✅we can Run new container with same volume.
+            
+            🔥If a container is deleted, its filesystem is lost, 
+            but data stored in Docker volumes persists and can be reused by new containers.
+            
+                    docker run -d -v my-mongo-data:/data/db --name another-mongo mongo
 
-                            but my-mongo-data will survive
-                            and can share with other container.
 
             
             ✅ if database is hosted we do not need  -v
@@ -285,6 +294,53 @@
                     - ./frontend:/app      # hot reload
                 depends_on:
                     - backend              # start backend first
+*/
+
+
+
+/* 🎯 Basic doker command
+
+        
+        docker -v
+
+
+        docker images                       .. list of images
+
+        docker pull <image-name>            .. pull image from dockerhub
+
+        docker rmi <image-name>             .. remove image from docker
+
+
+        docker ps                           .. list running containers
+
+        docker ps -a                        .. list all containers
+
+        docker stop <container-name>        .. stop container
+
+        docker start <container-name>       .. start container
+
+        docker restart <container-name>     .. restart container
+
+        docker rm <container-name>          .. remove container
+
+
+        💡pull nginx image from dockerhub and run it in container
+
+        docker run -d -it -p 8080:80 --name my-nginx nginx
+
+        -d          .. detached mode ( runs in background )
+
+        -it         .. i (input), t (terminal)  .. interactive mode .. can type in terminal
+
+        -p          .. port mapping
+
+        --name      .. to give container name
+
+        nginx       .. image-name
+
+
+
+
 */
 
 

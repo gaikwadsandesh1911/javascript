@@ -337,30 +337,6 @@
 */
 
 
-/* 🔷   Redis
-
-        “We use Redis as a caching layer between Express and database 
-        to reduce repeated DB calls and improve response time.”
-
-        Client → Express API → Redis (check cache)
-                      ↘
-                       MongoDB (if cache miss)
-
-        
-        Where SHOULD we use Redis?
-
-            Caching frequently read data
-                Product list
-                User profile
-
-            🚦 Rate limiting
-
-             📩 OTP / email verification
-                Store OTP in Redis
-
-*/
-
-
 /* 🔷 socket.io
 
     “Socket.io is used for real-time communication between client and server, 
