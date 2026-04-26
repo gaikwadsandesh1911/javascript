@@ -3,7 +3,7 @@
         React is a JavaScript library for building user interfaces (UI), 
         especially for single-page applications (SPA's).
 
-        React uses component based architecture, where your entire application.
+        React uses component based architecture, where your entire application
         is break into small reusable piece of UI and
         it efficiently update the UI using concept called virtual Dom [ VDOM ].
     
@@ -25,8 +25,8 @@
 
 /*  💡 Component      
         
-            Component is just a function in react, which return UI called JSX.
-            and we can re-use it across the application.
+            Component is basic building block of react application.
+            Because of component we can break entire react app into small re-usable piece of UI
 
         👉  Each component manage its own state and logic.
 
