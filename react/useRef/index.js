@@ -1,17 +1,15 @@
 /* useRef
 
-        useRef is react hook, which is used to..
+     1. useRef is react hook which is commonly used to directly access and manipulate DOM elements like:
+              input focus
+              scroll position
+     
+     2. it returns only one value that is current object.
+             const ref = useRef(0);
+              ref.current
 
-        1.  Store mutable value that does not cause-render
-
-        2.  Access DOM element directly
-
-        3.  useRef returns only one value that is [ .current ] object.
-
-        
-        🔹 Syntax
-
-            const ref = useRef(initialValue);
+     3. useRef stores mutable value inside .current property that persists across component re-renders
+        and also updating value .current++ does not cause component to be re-render.
 
 // -------------------------------------------------------------------------
 
@@ -66,7 +64,8 @@
         </>
     )
 
-    ✅ useEffect is run after first render.
+    ✅ useEffect is run after component render means after browser prints on screen
+     So prevCount.current is always one render behind
 
         First render:
             count = 0
@@ -141,6 +140,17 @@
                 <input type="text" placeholder="write something..." ref={inputRef} />
                 </>
             )
+            
+            
+            
+            
+            
+            search in chatgpt
+            different property and methods available on .current property
+            to manipulate dom 
+            give me categorywise result.
 
 
 */
+
+
