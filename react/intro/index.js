@@ -58,11 +58,23 @@
 
         jsx stands for javascript xml.
 
-        JSX is just syntax extension for javascript use in react,
+        It is a syntax extension for JavaScript used in React.
 
-        which allow us to write html like code inside javscript file.
+        JSX allows us to write HTML-like code inside JavaScript files,
+        making UI code easier to read and write.
 
-        and place them into DOM  without using functions like createElement(), appendChild().
+        It helps React create elements without manually using methods
+        like createElement() and appendChild().
+        
+        But JSX is not valid JavaScript. It must be converted into regular JavaScript before the browser can run it.
+
+        In React, JSX is transformed into React.createElement() calls using tools like:
+
+        * Babel
+        * Vite
+        * Webpack
+
+    
 */
 
 
@@ -146,7 +158,7 @@
 
 /*  💡  Props (short for properties)
 
-        👉  Props is a data which is pass from parent component to child component.
+        👉  Props are data passed from parent component to child component.
             Child component recieves it as an object.
 
             props are read-only and can not modified in child component.
