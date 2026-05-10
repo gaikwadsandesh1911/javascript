@@ -5,7 +5,10 @@
 
         React uses component based architecture, where your entire application
         is break into small reusable piece of UI and
-        it efficiently update the UI using concept called virtual Dom [ VDOM ].
+        
+        React also uses concept of virtual dom, means React keep copy of real dom in memory, and whenever 
+        component re-render new copy of dom is created, react compare these two copies and update only changed part in ream dom,
+        thats how it efficiently update the UI.
     
 */
 
