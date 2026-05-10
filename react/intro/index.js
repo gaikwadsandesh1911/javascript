@@ -16,14 +16,16 @@
 
 /*  💡 Single page application(SPA) and Multi page application(MPA)
 
-        A Single Page Application loads a single HTML page 
-        and dynamically updates the UI without reloading.
+        In a SPA (Single Page Application), the browser loads one HTML page initially. 
+        After that, as the user interacts with the application, 
+        JavaScript dynamically updates the UI without reloading the entire page.
+
         It Provide a faster and smoother user experience.
+        
+        In an MPA (Multi Page Application), every navigation sends a request to the server, 
+        and the server returns a new HTML page, causing a full page reload.
 
-        A Multi Page Application reloads the entire page for every request.
-
-        👉  SPAs rely on client-side rendering, 
-            while MPAs typically use server-side rendering.
+        
 */
 
 
@@ -31,7 +33,7 @@
 /*  💡 Component      
         
             Component is basic building block of react application.
-            Because of component we can break entire react app into small re-usable piece of UI
+            Because of component we can break entire react app into small re-usable pieces of UI
 
         👉  Each component manage its own state and logic.
 
@@ -66,8 +68,10 @@
 
 /*  💡 Virtual Dom ( VDOM ).
 
-        👉  Virtual DOM is a light-weight copy of the real DOM in memory, 
-            that React uses to optimizely update the UI.
+        👉  Virtual DOM is a light-weight, javascript object representation of the real DOM in memory, 
+            that React uses to efficiently update the UI.
+            
+            its not exact copy of real dom, its just lightweight javascript object representation of real dom.
                 
 */
 
@@ -76,9 +80,9 @@
         Diffing and Reconcilliation
         
                 when component re-render deu to change in state or prop or anything
-                new copy of vdom is created.
+                new copy of vdom tree is created.
 
-                React compare this new copy with old copy that is called "Diffing". Diffing is algo.
+                React compare this new copy of vdom with old copy that is called "Diffing". Diffing is algo.
 
                 and update only changed part in real dom. 
             
@@ -92,10 +96,31 @@
         
         React Fiber
 
-                React Fiber is internal architecture in react that controls how and when
-                Reconcillation is performed.
+                “React Fiber is the internal reconciliation engine introduced in React 16.
 
-                Each component in react is Fiber Node(object)
+                 Before Fiber, React used a synchronous rendering process, 
+                 meaning once rendering started, it could not stop until completed.
+                 If a large component tree was rendering, the browser UI could freeze because React blocked the main thread.
+                 
+                 “Fiber made React rendering asynchronous and priority-based instead of fully synchronous.”
+
+                 It improves rendering performance by breaking rendering work into small units called fibers.
+                
+                 This allows React to pause, prioritize, resume, and schedule updates efficiently,
+                 making the UI smoother and enabling features like concurrent rendering and suspense.”
+
+                 Each React component has its own Fiber node.
+
+                 Fiber stores:
+
+                  * component type
+                  * props
+                  * state
+                  * parent-child relation
+                  * update priority
+                  * side effects
+
+                  Together Fiber nodes form a Fiber Tree.
 
 */
 
