@@ -1,18 +1,15 @@
 /* ✅Controlled and Uncontrolled component.
 
-        👉Controlled component
+        Controlled component
             value of form elements are handled by react. using useState().
 
-        👉Un-Controlled component
-            value of form elements are handled by DOM itself using useRef().
+        Un-Controlled component
+            value of form elements are handled by DOM itself 
+            and those values are accessed by using useRef().
 
-            uncontrolled component work just like normal HTML form element.
-
-        👉👉
-            checkbox and radio buttons
-                ✅checked attribute is required to make them controlled by react.
-
-                ✅if no checked,  dom handles state.      
+            
+        checkbox and radio buttons
+            ✅checked attribute is required to make them controlled by react.    
 
 */
 
@@ -20,14 +17,23 @@
 
 /*  useState
 
-    👉 “useState is a React Hook that allows functional components to manage state 
-        and trigger re-renders when the state changes.”
+        “useState is a React Hook that allows functional components to store and manage state.
+         and it automatically re-renders the component when the state value changes.”
+        
+         const [state, setState] = useState(initialValue);
+        
+        useState returns an array with two values
+           1. current state value.
+           2. and function to update state value.
+        
+        
 
 */
 
 /*  Batching in React
 
-    👉 Batching means React groups multiple state updates into a single render for performance.
+        Batching means React groups multiple state updates together 
+        and performs only one re-render of the component for better performance.
 
         const [count, setCount] = useState(0);
 
@@ -35,27 +41,11 @@
         setCount(count + 1);
         setCount(count + 1);
 
-        👉// these are multiple state update
-        };
-
-        👉 You might expect 2
-            👉 But result is 1
-
-        ❓ Why?
-        Because React batches both updates and uses the same count value.
-
-
-        👉 What actually happens (Batching)
-
-        count = 0
-
-        React queues updates:
+    
         1st update → setCount(0 + 1) → 1
         2nd update → setCount(0 + 1) → 1
 
-        👉 Both use SAME old value (0)
-
-        React processes queue → final value = 1
+        👉 Both use SAME old value
         👉 Only ONE re-render
 
 
