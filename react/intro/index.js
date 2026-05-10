@@ -4,10 +4,12 @@
         especially for single-page applications (SPA's).
 
         React uses component based architecture, where your entire application
-        is break into small reusable piece of UI and
+        is break into small reusable piece of UI.
         
-        React also uses concept of virtual dom, means React keep copy of real dom in memory, and whenever 
-        component re-render new copy of dom is created, react compare these two copies and update only changed part in ream dom,
+        React also uses concept of virtual dom, means React keep lightweight copy of real dom in memory.
+        its not full copy of real dom, its just lightweight object representation of real dom.
+        whenever component re-render new virtual dom tree is created, react compare these two copies of virtual dom tree
+        and update only changed part in ream dom,
         thats how it efficiently update the UI.
     
 */
