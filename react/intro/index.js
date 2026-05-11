@@ -80,8 +80,8 @@
 
 /*  💡 Virtual Dom ( VDOM ).
 
-        👉  Virtual DOM is a light-weight, javascript object representation of the real DOM in memory, 
-            that React uses to efficiently update the UI.
+        👉  Virtual DOM is a light-weight copy of javascript object representation of the real DOM.
+            React keep this copy in memory to efficiently update the UI.
             
             its not exact copy of real dom, its just lightweight javascript object representation of real dom.
                 
