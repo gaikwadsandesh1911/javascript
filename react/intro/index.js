@@ -141,27 +141,18 @@
 
 /*  💡  State
 
-        👉  state is data means any data ( string, number, object, array etc.) that change over time.
-             state is managed inside component.
+             state is any data like string, number, object, array etc, 
+             that is belongs to component and managed inside component,
+             that data is changed over the time.
 
-                we use useState() hook to in react to store state, 
-                and state is updated via setter function of useState.
-
-                state is immutable, we can not update state directly, we have to make copy first.
-
-                const [count, setCount] = useState(0);
-                        count is state which has initial value 0
-                        and we update it via setCount which is setter function.
-                
-            when it changes → UI automatically updates
-
-        ** In class component state is object..
+             When state changes, React re-renders the component UI automatically.
+            
 
 */
 
 /*  💡  Props (short for properties)
 
-        👉  Props are data passed from parent component to child component.
+            Props are data passed from parent component to child component.
             Child component recieves it as an object.
 
             props are read-only and can not modified in child component.
