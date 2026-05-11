@@ -118,12 +118,15 @@
 
                  It improves rendering performance by breaking rendering work into small units called fibers.
                 
-                 This allows React to pause, prioritize, resume, and schedule updates efficiently,
-                 making the UI smoother and enabling features like concurrent rendering and suspense.”
+                 Fiber allows React to:
 
-                 Each React component has its own Fiber node.
+                   1. pause low-priority rendering,
+                   2. handle urgent work first,
+                   3. continue remaining work later.
 
-                 Fiber stores:
+                  So user interactions stay smooth
+
+                 Each React component is Fiber node. Fiber node is js object containing:
 
                   * component type
                   * props
