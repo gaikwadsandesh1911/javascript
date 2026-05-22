@@ -1,40 +1,38 @@
 /* 🔹 What is Prop Drilling?
 
-    👉while developing React applications, there is a need to pass data 
-    from a component that is higher in the hierarchy
+    TO BUILD COMPLETE REACT APPLICATION, we combine multiple components together.
+    sometimes these components are nested.
 
-    to a component that is deeply nested. 
+    so to pass the data from component that is higher in the heirarchy,
+    to the component that is deeply nested,
 
-    To pass data between such components, 
-
-    we pass props from a source component 
-    and keep passing the prop to the next component in the hierarchy
-
-    till we reach the deeply nested component.
-
-    👉The disadvantag of this approach is that some component in heirarchy
-    can un-neccesarily access to that data
-
+    we need to pass the data from each and every component in the heirarchy
+    till data is reached to target component, 
+    because we can pass data in unidirection only, from parent to child component only.
     
+    THIS is Prop Drilling.
     
+
+    👉The disadvantag of this approach is that some components in the heirarchy
+    can have un-neccessery access to that data.
+
     👉The solution to avoid prop drilling..  
-    
-        we have context api and state management libraries like Redux, Zustand. etc.
+    we have context api and state management libraries like Redux, Zustand. etc.
 
 
 */
 
 /*  ✅ Context api
 
-    useContext is a React Hook that lets you access data from 
-    Context means container that store data globally directly, 
-    without passing props manually (avoids prop drilling).
+    React Context API provides a way 
+    to share data globally, across all tue components 
+    without passing props manually through every level (prop drilling).
 
     we have Three steps to follow..
 
     👉createContext() → creates a global container
     👉Provider → shares data
-    👉useContext() → reads data
+    👉Consumer / useContext() → reads / consume data
 
     🔹 Step 1: Create Context
 
@@ -88,7 +86,6 @@
 import { createContext, useState } from "react";
 
 🔹export const TodoContext = createContext();
-
 
 
 🔹export const TodoProvider = ({ children }) => {
