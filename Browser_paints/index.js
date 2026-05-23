@@ -27,7 +27,8 @@
 
 /* 🧠 What Happens When You Open a React App First Time?
 
-        1.  When you open a React app, browser first gets:
+        1. browser receive, index.html file,
+         this file contains empty div and reference of javascript file
         
                 🔹index.html
 
@@ -36,7 +37,7 @@
 
 
         👉Browser 
-                Parses HTML → create DOM ( Real Dom )
+                Parse(read) HTML → create DOM ( Real Dom )
                 parse css - create CSSOM
                 Combine → DOM + CSSOM = Render Tree
                 Layout calculate
@@ -47,15 +48,17 @@
                     <div id="root"></div>
 
         
-        2.  Now browser loads: main.jsx
-
-                ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-
-               👉 This file contains:
+        2.  Now browser download and execute main.jsx
+             the javascript bundle file gendrated by tools like vite or webpack
+             and that bundle contains
 
                         React
                         ReactDOM
-                        Your components (App, and all childs.)             
+                        Your components (App, and all childs.)   
+
+               ReactDOM.createRoot(
+                 document.getElementById("root")
+               ).render(<App />);
 
                  React takes control and start execution...
 
@@ -64,9 +67,12 @@
                     👉Builds Virtual DOM (JS object)
 
         3.  ReactDOM Updates Real DOM
+
+             React compares the Virtual DOM structure and converts it into actual browser DOM nodes.
+             internally it uses browser api like
+             document.createElement() and appendChild()
         
-                ReactDOM creates corresponding real DOM nodes using browser api
-                and mounts them into the root element. <idv id='root'>
+            Then react mount these node into <idv id='root'>
 
         4.  Now, Browser sees DOM changes
                 👉 It runs again:
