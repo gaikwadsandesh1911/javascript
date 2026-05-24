@@ -1,156 +1,197 @@
-/* useRef
+/*  useRef
 
-     1. useRef is react hook which is commonly used to directly access and manipulate DOM elements like:
-              input focus
-              scroll position
-     
-     2. it returns only one value that is current object.
-             const ref = useRef(0);
-              ref.current
+    useRef is a React Hook that returns a mutable object with a [.current] property.
+    The value stored in .current persists across component re-renders, 
+    and updating it does not trigger a re-render.
 
-     3. useRef stores mutable value inside .current property that persists across component re-renders
-        and also updating value .current++ does not cause component to be re-render.
+    useRef() Commonly use for:
 
-// -------------------------------------------------------------------------
-
-    const countRef = useRef(0);
-
-    const increment = () => {
-        countRef.current++;
-        console.log("ref", countRef.current);
-    };
-
-    return (
-        <>
-            <p>UseRef..</p>
-            <p>{countRef?.current}</p>
-            <button onClick={increment}>Inc</button>
-        </>
-    )
-
-        🔹  on  click of button value get updated in console.
-            but it not reflected in UI. Because react does not track it so does not re-renders.
-
-            useRef is used for storing value, not displaying UI.
-
-// -------------------------------------------------------------------------
-
-
-        🔹 When to Use useRef
-            ✅ Accessing DOM (focus, scroll, etc.)
-            ✅ Storing previous values
-            ✅ Avoiding re-renders
-            ✅ Storing timers / IDs
-    
-
-// -------------------------------------------------------------------------
-
-    🔹 storing previous value...
-
-
-    const prevCount = useRef();
-
-    const [count, setCount] = useState(0);
-
-    useEffect(() => {
-        prevCount.current = count;
-    }, [count]);
-
-    return (
-        <>
-            <p>current count: {count}</p>
-            <p>prevCount: {prevCount.current}</p>
-            <button onClick={() => setCount((prev) => prev + 1)}>Inc</button>
-        </>
-    )
-
-    ✅ useEffect is run after component render means after browser prints on screen
-     So prevCount.current is always one render behind
-
-        First render:
-            count = 0
-            prevCount.current = undefined
-
-        Click button:
-            count = 1 → component re-renders
-            useEffect runs AFTER render(means after browser pent)
-            prevCount.current = 1 (stored for next render)
-
-        Next render:
-            count = 2
-            prevCount.current = 1 ✅ (previous value)
-
-// -------------------------------------------------------------------------
-
-    🔹 timers
-
-        we store timers in useRef, because timers need to persist across the renders
-        and should not cause re-rendes.
-
-
-    export default function UseRef() {
-    
-        const [count, setCount] = useState(0);
-        const timerRef = useRef();
-
-        const startTimer = () => {
-            if (timerRef.current) return;
-            timerRef.current = setInterval(() => {
-            setCount((prev) => prev + 1);
-            }, 1000);
-        };
-
-        const pauseTimer = () => {
-            clearInterval(timerRef.current);
-            timerRef.current = null;
-        };
-
-        const stop = () => {
-            clearInterval(timerRef.current);
-            timerRef.current = null;
-            setCount(0);
-        };
-
-        useEffect(() => {
-            clearInterval(timerRef.current);
-        }, []);
-
-        return (
-            <>
-                <p>useRef</p>
-                <h1>Time: {count}</h1>
-                <button onClick={startTimer}>Start</button>
-                <button onClick={pauseTimer}>Pause</button>
-                <button onClick={stop}>Stop</button>
-            </>
-        );
-    }
-
-// ---------------------------------------------------------------
-
-    🔹   access dom element
-
-        const inputRef = useRef(null);
-            useEffect(() => {
-                inputRef.current.focus();
-            }, []);
-
-            return (
-                <>
-                <input type="text" placeholder="write something..." ref={inputRef} />
-                </>
-            )
-            
-            
-            
-            
-            
-            search in chatgpt
-            different property and methods available on .current property
-            to manipulate dom 
-            give me categorywise result.
-
-
+    Access and manipulate DOM elements directly
+    Focus input fields
+    Track scroll position
+    Store mutable values without re-rendering
+    Store timer/interval IDs
+    Store previous values
 */
 
+/*  
+    value also persists with useState but updating it cause component re-render
+*/
 
+export default function App() {
+  const countRef = useRef(0);
+  const handleClick = () => {
+    console.log(countRef.current++);
+  };
+  return (
+    <div className="App">
+      <p>hi: {countRef.current}</p>
+      <button onClick={handleClick}>click</button>
+    </div>
+  );
+}
+
+// The UI will not update because changing countRef.current does not re-render the component.
+// It only stores value, value get updated in console on click, but not update UI
+
+// ---------------- focus input element -------------------------------------
+
+function App() {
+
+  const inputRef = useRef(null);
+
+  const handleFocus = () => {
+    inputRef.current.focus();
+  };
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={handleFocus}>Focus</button>
+    </>
+  );
+}
+
+// eg 2. when component mount input focuesed
+
+function App() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  return (
+    <div>
+      <input ref={inputRef} placeholder="Auto focused input" />
+    </div>
+  );
+}
+
+// ---------Track scroll position -------------------
+
+// when scroll > 300 show button at bottom and click of button scroll to  top
+
+import { useEffect, useRef, useState } from "react";
+
+function App() {
+  const scrollRef = useRef(0);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+
+    const handleScroll = () => {
+      scrollRef.current = window.scrollY;
+      setScrollY(scrollRef.current);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <div style={{ height: "2000px", padding: "20px" }}>
+      <h2>Scroll Y Position: {scrollY}</h2>
+
+      {scrollY > 300 && (
+        <button
+          onClick={scrollToTop}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            padding: "10px 15px",
+            cursor: "pointer",
+          }}
+        >
+          ↑ Back to Top
+        </button>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+
+// -------- store timers value ----------------------
+
+import "./styles.css";
+import { useRef, useState } from "react";
+
+export default function App() {
+  const timerRef = useRef(null);
+  const [count, setCount] = useState(0);
+
+  const startTimer = () => {
+    // reset first
+    clearInterval(timerRef.current);
+    timerRef.current = null;
+
+    timerRef.current = setInterval(() => {
+      setCount((prev) => prev + 1);
+    }, 1000);
+  };
+
+  const stopTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = null;
+  };
+
+  const resetTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = null;
+    setCount(0);
+  };
+
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+
+      <button onClick={startTimer}>Start</button>
+      <button onClick={stopTimer}>Pause</button>
+      <button onClick={resetTimer}>Reset</button>
+    </div>
+  );
+}
+
+
+// ------Store prev value or state
+
+import { useEffect, useRef, useState } from "react";
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const prevCountRef = useRef(0);
+
+  useEffect(() => {
+    prevCountRef.current = count;
+  }, [count]);
+
+  return (
+    <div>
+      <h2>Current: {count}</h2>
+      <h3>Previous: {prevCountRef.current}</h3>
+
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
+}
+
+// useEffect is basically run after browser paint
+
+// ----------------------------------------------
+
+/* 
+    search for different properties available on .current property
+    to manipulate or access dom
+
+    give me categorywise result
+*/
