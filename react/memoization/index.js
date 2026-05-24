@@ -1,4 +1,59 @@
-/* 🔹memoization
+/* 
+        What happens when a component re-renders ?
+        
+                Component re-renders deu to change in state, prop, context value, parent component re-render, 
+                Component re-renders means React calls the component function again.
+                
+                During every render:
+                        Primitive values are re-evaluated
+                        Objects are re-created
+                        Arrays are re-created
+                        Functions are re-created
+                means new reference ( memory address ) is assigned to them.
+
+        There is no problem in that, React is built like that way.
+        That is how react make comparisons( compare two references called shallow comparison) to effieciently update the UI.
+
+        But this re-creation become a problem?
+
+        1. when some functions insdie component perform Expensive/heavy calculations.
+                which can decrease performance or freeze the UI.
+                
+                ✅ Solution: useMemo
+                    Memoizes(cache) the computed value and
+                    Re-computes only when dependencies change
+
+        2. When Functions is passed as props,
+                because child component un-neccesory re-render when parent component re-rendes.
+
+                ✅ Solution: useCallback
+                    Returns the same function reference and
+                    Updates only when dependencies change
+
+                🔹 Important condition
+                        useCallback is only effective when the child component 
+                        is wrapped with React.memo.
+
+                            useCallback → stabilizes function reference(does not create new reference unless dependency is changed).
+                            React.memo → skips re-render of the child component if props are not changed.
+
+
+                useMemo()             memoize value
+                useCallback()         memoize function          
+                React.memo()          memoize component
+
+        These hook are used to optimize performance of an application.
+
+        
+        🔹 React.memo()
+        React.memo is a Higher-Order Component (HOC) 
+        that memoizes a component and prevents it from un-necessary-rendering 
+        if its props have not changed.
+
+
+// ------------------------------------------------------------------------
+
+🔹memoization
 
         Memoization is a form of caching. 
         where the return value of a function is cached based on its parameters. 
@@ -33,117 +88,7 @@
             first time 20 value provided.  120
             second time 20 value provided.      ...from cache  120
 
-
-// ----------------------------------------------------------
-
-        
-
-    🔹In react we have,
-    
-            useMemo()              memoize value
-
-            useCallback()          memoize function          
-
-            React.memo()           memoize component
-
-        These hook are used to optimize performance of an application.
-*/
-
-/*  When component re-renders.
-
-        1.  when state, prop, context value change, component re-render.
-
-        2.  when parent re-renders child re-renders.
-*/
-
-/*  function creation and function execution are different thing.
-
-        🔹 Function creation
-
-                Function creation means a new function object is created in memory 
-                with a unique reference (memory address).
-
-                    const fn = () => {};
-                        👉 This step:
-                            allocates memory
-                            assigns a reference.
-
-        🔹 Function execution
-
-                Function execution means invoking (calling) the function, 
-                which runs its code.
-
-                    fn();
-                        👉 This step:
-                            runs the function body
-                            executes logic inside it
-
-        🧠 Key insight (very important)
-                A function can be created many times but executed only when called.
-
-*/
-
-
-/*
-        🔹 Re-render behavior.
-
-            When a component re-renders, it's entire body get executed again.
-
-        🔹  And Every renders creates new instances (new memory references) of:
-
-                👉functions → const handleClick = () => {}
-                👉Objects / arrays → {}, []
-                👉Variables defined inside the component
-
-            👉 This is normal behavior and not a problem.
-
-
-        🔹 When does the problem start?
-
-            1. Expensive calculations
-
-                When a function performs heavy computation, it execute again on every render, 
-                which can impact performance or freeze the UI.
-
-                ✅ Solution: useMemo
-
-                    Memoizes the computed value
-                    Re-computes only when dependencies change
-
-
-            2. Functions passed as props
-
-                When a function is passed as a prop, a new reference is created on every render.
-                This causes child components to re-render un-necessarily, 
-                because child component get new memory reference each time.
-
-                ✅ Solution: useCallback
-
-                    Returns the same function reference and
-                    Updates only when dependencies change
-
-                🔹 Important condition (very important)
-
-                    ✅  useCallback is only effective when the child component 
-                        is wrapped with React.memo.
-
-                            useCallback → stabilizes function reference.
-
-                            React.memo → skips re-render if props are unchanged (shallow comparison)
-
-*/
-
-
-/*  🔹 React.memo()
-
-        React.memo is a Higher-Order Component (HOC) 
-        that memoizes a component and prevents it from un-necessary-rendering 
-        if its props have not changed.
-
-*/
-
-
-// -------------------------------------------------------------
+// -----------------------------------------------
 
 /*  🔹 What is useMemo?
 
@@ -161,6 +106,8 @@
 
 
 // -----  eg.1  -------------------------------------------------
+
+
 
         
     const [count, setCount] = useState(0);
