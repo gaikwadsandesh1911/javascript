@@ -37,7 +37,7 @@
             Component is basic building block of react application.
             Because of component we can break entire react app into small re-usable pieces of UI
 
-        👉  Each component manage its own state and logic.
+        👉  In each component we manage its own state and logic.
 
 
         👉  we combine multiple components together to build complx UI
@@ -61,20 +61,20 @@
         jsx stands for javascript xml.
 
         It is a syntax extension for JavaScript used in React.
-
         JSX allows us to write HTML-like code inside JavaScript files,
-        making UI code easier to read and write.
+        
 
         It helps React create elements without manually using methods
         like createElement() and appendChild().
+        so reading and writing component UI code becomes easier.
         
-        But JSX is not valid JavaScript. It must be converted into regular JavaScript before the browser can run it.
+        But JSX is not valid JavaScript. It must be transformed into regular JavaScript before the browser run it.
 
-        In React, JSX is transformed into React.createElement() calls using tools like:
+        This transformation is done by 
 
-        * Babel
-        * Vite
-        * Webpack
+        * Babel / Webpack
+        * Vite - dev server
+    
 
     
 */
@@ -82,10 +82,10 @@
 
 /*  💡 Virtual Dom ( VDOM ).
 
-        👉  Virtual DOM is a light-weight copy of javascript object representation of the real DOM.
+        👉  Virtual DOM is a light-weight copy of real dom.
+            Its not exact copy of real dom its just javascript object representation of the real DOM tree.
             React keep this copy in memory to efficiently update the UI.
             
-            its not exact copy of real dom, its just lightweight javascript object representation of real dom.
                 
 */
 
@@ -171,7 +171,7 @@
 
             process :
                 1.  React call your component and return jsx,
-                2.  virtul dom is created,
+                2.  virtul dom tree is created,
                 3.  only changed part is updated in real dom => react stops here.
                 4.  finally Browser Paint on screen.
 
@@ -183,8 +183,8 @@
                 when parent re-renders child also re-renders'
                 
                 when re-render happens :
-                    1   new  copy of virtual dom  created,
-                    2   react compare it with old copy of virtual  dom
+                    1   new  copy of virtual dom tree is created,
+                    2   react compare it with old copy of virtual dom tree
                     3   only changed part is updated in real dom. React work is done here.
                     4   and finally  browser paint ui on the screen.
 */
@@ -202,12 +202,18 @@
 
         🔹 Unmounting
                 means component removed from screen. deu to navigation or conditional rendering etc..
+                
+                
+                
+         In functional components, lifecycle behavior is usually handled using useEffect() 
+         instead of class lifecycle methods like componentDidMount() or componentWillUnmount().
+                
 
 */
 
 
 /*   💡  hooks
 
-        hooks are functions in react that let you use 
-        state and lifecycle feature inside functional components.
+        hooks are special functions in react that allow functional components to use 
+        state, lifecycle features, context, ref, side effect without using class component.
 */
