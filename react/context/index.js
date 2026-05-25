@@ -8,7 +8,7 @@
 
     we need to pass the data from each and every component in the heirarchy
     till data is reached to target component, 
-    because we can pass data in unidirection only, from parent to child component only.
+    because we can pass data in uni-direction only, from parent to child component only.
     
     THIS is Prop Drilling.
     
@@ -19,76 +19,47 @@
     👉The solution to avoid prop drilling..  
     we have context api and state management libraries like Redux, Zustand. etc.
 
-
 */
 
 /*  ✅ Context api
 
-    React Context API provides a way 
-    to share data globally, across all tue components 
+    React Context provides a way to share data globally, across all the components
     without passing props manually through every level (prop drilling).
 
-    we have Three steps to follow..
+    It's three steps to follow...
 
-    👉createContext() → creates a global container
-    👉Provider → shares data
-    👉Consumer / useContext() → reads / consume data
+    👉createContext() → Context acts as a shared data container.
 
-    🔹 Step 1: Create Context
+    👉Provider →  we wrap the required component tree inside the Context Provider 
+                  and pass the data using the value prop.
 
-        import { createContext } from "react";
+    👉useContext() → reads / consume data in child componet useContext() hook is used
 
-        export const UserContext = createContext();
+*/
 
-    🔹 Step 2: Provide Context
-        Wrap components with Provider:
+/* 
 
-        import { UserContext } from "./UserContext";
-
-        function App() {
-        const user = "Sandesh";
-            return (
-                <UserContext.Provider value={user}>
-                    <Child />
-                </UserContext.Provider>
-            );
-        }
-
-    🔹 Step 3: Consume Context using useContext
-
-            import { useContext } from "react";
-            import { UserContext } from "./UserContext";
-
-            function GrandChild() {
-                const user = useContext(UserContext);
-                return <h1>Hello {user}</h1>;
-            }
+ src
+ ├── context
+ │     └── TodoContext.jsx
+ │
+ ├── components
+ │     ├── AddTodo.jsx
+ │     ├── TodoList.jsx
+ │     └── TodoItem.jsx
+ │
+ └── App.jsx
 
 
 */
 
-
-/* 
-
-    src/
- ├── context/
- │    └── TodoContext.js
- ├── components/
- │    ├── AddTodo.jsx
- │    └── TodoList.jsx
- └── App.jsx
-
-
-
-
- // context/TodoContext.js
+// context/TodoContext.js
 
 import { createContext, useState } from "react";
 
-🔹export const TodoContext = createContext();
+export const TodoContext = createContext();
 
-
-🔹export const TodoProvider = ({ children }) => {
+export const TodoProvider = ({ children }) => {
 
   const [todos, setTodos] = useState([]);
 
@@ -99,7 +70,7 @@ import { createContext, useState } from "react";
 
   // Delete Todo
   const deleteTodo = (id) => {
-    setTodos(todos.filter(todo => todo.id !== id));
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -111,6 +82,96 @@ import { createContext, useState } from "react";
 
 
 
+// addTodo.jsx
+
+import { useContext, useState } from "react";
+import { TodoContext } from "../context/TodoContext";
+
+export default function AddTodo() {
+
+  const [text, setText] = useState("");
+  const { addTodo } = useContext(TodoContext);
+
+  const handleSubmit = () => {
+    addTodo(text);
+    setText("");
+  };
+
+  return (
+    <div>
+      <input
+        value={text}
+        placeholder="Enter todo..."
+        onChange={(e) => setText(e.target.value)}
+      />
+
+      <button onClick={handleSubmit}>
+        Add
+      </button>
+    </div>
+  );
+}
+
+
+// TodoList.jsx
+
+import { useContext } from "react";
+import { TodoContext } from "../context/TodoContext";
+import TodoItem from "./TodoItem";
+
+export default function TodoList() {
+
+  const { todos } = useContext(TodoContext);
+
+  return (
+    <div>
+      {todos.length === 0 ? (
+        <p>No Todos</p>
+      ) : (
+        todos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+          />
+        ))
+      )}
+    </div>
+  );
+};
+
+
+// TodoItem
+
+import { useContext } from "react";
+import { TodoContext } from "../context/TodoContext";
+
+export default function TodoItem({ todo }) {
+  const { deleteTodo } =
+    useContext(TodoContext);
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "10px",
+        margin: "10px 0",
+      }}
+    >
+      <span>{todo.text}</span>
+
+      <button
+        onClick={() =>
+          deleteTodo(todo.id)
+        }
+      >
+        Delete
+      </button>
+    </div>
+  );
+}
+
+
+
 // App.jsx
 
 import { TodoProvider } from "./context/TodoContext";
@@ -119,14 +180,11 @@ import TodoList from "./components/TodoList";
 
 function App() {
   return (
-🔹    <TodoProvider>
-        <AddTodo />
-        <TodoList />
+    <TodoProvider>
+      <AddTodo />
+      <TodoList />
     </TodoProvider>
   );
 }
 
 export default App;
-
-
-*/
