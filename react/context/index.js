@@ -31,7 +31,7 @@
     👉createContext() → Context acts as a shared data container.
 
     👉Provider →  we wrap the required component tree inside the Context Provider 
-                  and pass the data using the value prop.
+                  and pass the data using the value attribute
 
     👉useContext() → reads / consume data in child componet useContext() hook is used
 
