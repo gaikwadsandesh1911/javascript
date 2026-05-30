@@ -200,7 +200,7 @@ useQuery({
 staleTime: 0;
 /*  
      
-    staleTime decides how long data remain fresh, so it does not make new api call.
+    staleTime decides how long data remain fresh, so it does not make new api call during that time.
 
     staleTime: 0 meand data becomes stale(old) immediately after fetching
 
