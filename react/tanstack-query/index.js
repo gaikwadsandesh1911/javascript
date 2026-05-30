@@ -9,55 +9,6 @@
     “Redux or context manages client state, while TanStack Query specializes in async server state.”
 */
 
-import { useEffect, useState } from "react";
-
-export default function App() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        const result = await res.json();
-        setData(result);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  return (
-    <div>
-      <h2>API Fetch Example</h2>
-
-      {loading && <p>Loading...</p>}
-
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
-
-      {data && (
-        <div>
-          <h3>{data.title}</h3>
-          <p>{data.body}</p>
-        </div>
-      )}
-    </div>
-  );
-}
-
 // --------------------------------------------------------------------------
 
 // npm i @tanstack/react-query
