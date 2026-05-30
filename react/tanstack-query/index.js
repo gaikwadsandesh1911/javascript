@@ -198,9 +198,11 @@ useQuery({
 });
 
 staleTime: 0;
-/*  staleTime: 0,
+/*  
+     
+    staleTime decides how long data remain fresh, so it does not make new api call.
 
-    Query data becomes stale(old) immediately after fetching
+    staleTime: 0 meand data becomes stale(old) immediately after fetching
 
     Even though data becomes stale instantly:
 
