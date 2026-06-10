@@ -455,7 +455,7 @@ export async function getUser(id: number) {
   } catch (error) {
     console.error(error);
     throw new Error("Failed to fetch user");
-    // if prisma throws error, Next.js automatically render error.tsx file.
+    // if throws error, Next.js automatically render error.tsx file.
   }
 }
 
@@ -489,23 +489,6 @@ export default async function Page({ params }: Prop) {
       Route logic (notFound()) and UI rendering in page.tsx
 
 */
-
-// -------------------------------------------------
-
-// scenario 2: Mock data (interview)
-type Product = {
-  id: string;
-  name: string;
-};
-
-const products: Product[] = [
-  { id: "1", name: "Laptop" },
-  { id: "2", name: "Phone" },
-];
-
-export async function getProduct(id: string) {
-  return products.find((product) => product.id === id) ?? null;
-};
 
 
 // ----------------------------------------------
