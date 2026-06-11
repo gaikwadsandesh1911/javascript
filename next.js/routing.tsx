@@ -1,9 +1,9 @@
-
-/*  Routing
+/*  Routing (App router)
 
       Next.js uses file-based routing,
       where folders  inside the app directory automatically become routes.
-      but file name inside folder must be page.tsx or page.jsx
+      
+      file name inside folder must be page.tsx or page.jsx
 
 
       app/
@@ -22,7 +22,10 @@
       │   └─ Navbar.tsx
 
 
-      /components can not become route. it has no page.tsx
+      /components
+          can not become route. it has no page.tsx
+
+
 
 
 */
@@ -47,7 +50,10 @@
 
 /* Dynamic route 
 
-        created using [] square bracket folder
+        created using [] square bracket folder. 
+        It captures one URL segment =>  
+        
+        app/products/[id]/page.tsx
 
         app/
         └─ products/
@@ -77,7 +83,9 @@ export default async function ProductDetails({
 
 /* nested dynamic
 
-  We can have multiple dynamic segments.
+  We can have, multiple named dynamic routes combined together at different level.
+
+  app/products/[category]/[id]/page.tsx
 
 app/
  └─ products/
@@ -113,7 +121,88 @@ export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
 
   return <div>Category: {category}</div>;
+}
+
+// -----------------------------------------------
+
+/* Catch-all Route  and Optional Catch-all Route
+
+  both are useful when number of dynamic url segment not known in advance. for eg. docs sites.
+
+
+  1.  Catch-all Route
+
+        dynamic segment is wrapped with [...slug]
+
+        app/docs/[...slug]/page.tsx
+
+        It captures one or more remaining segments as an array.
+
+          with [...slug],  if zero segment means for /docs we have no page.tsx
+          will result in 404 Not Found which rendes not-found.tsx
+         
+        
+        /docs/react
+        /docs/react/hooks
+        /docs/react/hooks/useEffect
+
+
+    2.  Optional Catch-all Route
+
+          dynamic segment is wrapped with [[...slug]]
+
+          app/docs/[[...slug]]/page.tsx
+
+          It Captures zero or more segments as an array.
+
+          with [[...slug]], if zero segment means for /docs we have no page.tsx
+          then last return ( default return ) is executed
+
+          with /docs  slug = undefined in Optional catch-all seg.
+
+
+*/
+
+import Link from "next/link";
+
+type Props = {
+  params: Promise<{
+    slug: string[];
+  }>;
 };
+export default async function Features({ params }: Props) {
+  const { slug } = await params;
+  //   console.log("slug", slug);
+  if (slug?.length === 1) {
+    return (
+      <div>
+        <p>
+          hooks are special function in react which allow us to manage state and
+          other features without using class components
+        </p>
+        <Link href="/docs/hooks/usestate">usestate</Link>
+      </div>
+    );
+  }
+  if (slug?.length === 2) {
+    return (
+      <div>
+        useState() is react hook which is used to create and manage state in
+        functional component.
+      </div>
+    );
+  }
+  return (
+    <div>
+      <h2>Capture all segments.</h2>
+      <div className="flex gap-4">
+        <Link href="/docs/hooks">hooks</Link>
+      </div>
+    </div>
+  );
+}
+
+// one route handles everything.
 
 // --------------------------------------------
 
@@ -123,7 +212,7 @@ export default async function CategoryPage({ params }: Props) {
   are two different ways of accessing URL data, in RSC.
 
   params and searchParams are special props 
-  automatically injected by Next.js into Server Components 
+  automatically injected by Next.js into React Server Components 
   such as pages and layouts.
 
   params contains values extracted from dynamic route segments 
@@ -146,7 +235,7 @@ export default async function ProductDetails({ params }: Prop) {
   const { id } = await params;
 
   return <div>{id}</div>;
-};
+}
 
 // -------------------------------
 
@@ -170,7 +259,7 @@ async function Products({ searchParams }: SearchParamsProp) {
       </p>
     </div>
   );
-};
+}
 
 // ----------------------------------------
 
@@ -193,7 +282,7 @@ type PageProps = {
   searchParams: SearchParams;
 };
 
-export default async function Page({params,searchParams}: PageProps) {
+export default async function Page({ params, searchParams }: PageProps) {
   const { category } = await params;
   const { page, sort } = await searchParams;
 
@@ -204,34 +293,36 @@ export default async function Page({params,searchParams}: PageProps) {
       <p>{sort}</p>
     </div>
   );
-};
+}
 
+// -----------------------------------
+
+//    app/products/[category]/page.tsx
+
+//    app/products/laptop?page=2&sort=price
 
 // params in client component.
 
-"use client";
+("use client");
 
 import { useParams } from "next/navigation";
 
 export default function ProductDetails() {
-  const {id} = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
 
   return <div>{id}</div>;
 }
 
 // ----------------------------------------------------
 
-// in client component
-
-"use client";
+("use client");
 
 import { useParams, useSearchParams } from "next/navigation";
 
 export default function ProductPage() {
+  const params = useParams(); // for dynamic value.
 
-  const params = useParams();     // for dynamic value.
-
-  const searchParams = useSearchParams();   // for query string.
+  const searchParams = useSearchParams(); // for query string.
 
   const category = params.category as string;
   const page = searchParams.get("page");
@@ -244,7 +335,7 @@ export default function ProductPage() {
       <p>Sort: {sort}</p>
     </div>
   );
-};
+}
 
 // -------------------------------------------
 
@@ -264,11 +355,9 @@ async function ProductDetailsPage({ params }: Prop) {
       ProdcutCategory - category: {category}, id: {id}
     </div>
   );
-};
-
+}
 
 // --------------------------------------------------
-
 
 /*  some other special files we creates when needed
 
@@ -288,7 +377,7 @@ async function ProductDetailsPage({ params }: Prop) {
 /*  layout.tsx
 
     layout.tsx is a special file used to create a shared UI 
-    that persists(render once) across multiple pages in a route segment.
+    that persists across multiple pages in a route segment.
 
     It wraps pages using the children prop and is commonly used for navbars, sidebars, footers, and providers. 
     Layouts persist across client-side navigation, 
@@ -336,15 +425,11 @@ Better performance	              Useful when you need fresh state
 
 // by default template.tsx  is also server component, to use client side feature make it client component.
 
-"use client";
+("use client");
 
 import { motion } from "framer-motion";
 
-export default function Template({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -357,7 +442,6 @@ export default function Template({
 }
 
 // ------------------------------------------------
-
 
 /*  if we have both  layout.tsx and template.tsx
 
@@ -381,9 +465,7 @@ export default function Template({
     
 */
 
-
 // -----------------------------------------------
-
 
 /* loading.tsx
         
@@ -407,7 +489,6 @@ So we don't need to manually create a Suspense boundary( <Suspense fallback={}><
 for route loading states.
 
 */
-
 
 // ---------------------------------------------------
 
@@ -459,7 +540,6 @@ export async function getUser(id: number) {
   }
 }
 
-
 // app/user/[id]/page.tsx
 import { getUser } from "@/lib/user";
 import { notFound } from "next/navigation";
@@ -471,7 +551,6 @@ type Prop = {
 };
 
 export default async function Page({ params }: Prop) {
-    
   const { id } = await params;
 
   const user = await getUser(id);
@@ -483,21 +562,12 @@ export default async function Page({ params }: Prop) {
   return <div>hello: {user?.name}</div>;
 }
 
-/* 
-      Database access in lib/user.ts
-
-      Route logic (notFound()) and UI rendering in page.tsx
-
-*/
-
-
 // ----------------------------------------------
-
 
 /* error.tsx
 
     error.tsx is a special file in the Next.js App Router 
-    that acts as a route-level Error Boundary.
+    that act as a route-level Error Boundary.
 
     It catches runtime errors that occur during rendering, data fetching.
     and displays a fallback UI instead of crashing the entire application.
@@ -521,8 +591,13 @@ export default async function Page({ params }: Prop) {
 
       *** In Next.js App Router, 
       errors bubble up to the nearest error.tsx in the route hierarchy,
-      if no error.tsx file in any route segment we can have at => app/error.tsx
 
+      Error in app/user/[id]/page.tsx → handled by app/user/error.tsx.
+
+      Error in app/user/layout.tsx → not handled by app/user/error.tsx; it bubbles to app/error.tsx.
+
+      Error in app/layout.tsx → not handled by app/error.tsx.
+     
       
       app/
       ├── error.tsx
@@ -545,7 +620,9 @@ export default async function Page({ params }: Prop) {
 
 */
 
-"use client"
+// user/error.tsx
+
+("use client");
 
 import { useEffect } from "react";
 
@@ -557,67 +634,59 @@ type ErrorProps = {
 };
 
 export default function Error({ error, reset }: ErrorProps) {
-
   useEffect(() => {
-    console.error('error.tsx =>',error);
+    console.error("error.tsx =>", error);
   }, [error]);
 
   return (
-    <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4">
-      <h2 className="text-2xl font-bold">Something went wrong</h2>
+    <div>
+      <h2>Something went wrong</h2>
 
       {/* <p className="text-muted-foreground">Unable to load the user.</p> */}
-      <p className="text-muted-foreground">{error?.message}</p>
+      <p>{error?.message}</p>
 
-      <button
-        onClick={() => reset()}
-        className="rounded bg-black px-4 py-2 text-white cursor-pointer"
-      >
-        Try Again
-      </button>
+      <button onClick={() => reset()}>Try Again</button>
     </div>
   );
 }
 
+// ----------------------
+
+/* 
+    app/
+    ├─ global-error.tsx
+    └─ layout.tsx 
+
+    global-error.tsx catches errors occurring in the root layout itself.
+
+    must include <html>
+    must include <body>
+*/
+
+("use client");
+
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error;
+  reset: () => void;
+}) {
+  return (
+    <html>
+      <body>
+        <h2>Something went wrong</h2>
+        <button onClick={() => reset()}>Retry</button>
+      </body>
+    </html>
+  );
+}
 
 /*  Difference Between error.tsx and not-found.tsx
 
       error.tsx handles runtime unexpected errors (e.g., database failure, API failure, coding bugs).
 
       not-found.tsx handles missing resources via notFound().
-
-*/
-
-// ----------------------------------------------
-
-/* Link component
-
-    for navigation <Link> component is used instead of <a>
-
-    import Link from "next/link";
-
-    <Link href="/dashboard"> dashboard </Link>
-
-  
-
-  // to make active link style, we have to make it client component.
-    
-  'use client'
-  import Link from "next/link";
-  import { usePathname } from "next/navigation";
-
-  const pathName = usePathname();   // detect url
-
-  <Link
-        href="/dashboard"
-        className={
-          pathName == "/"
-            ? "font-bold text-blue-500"
-            : "text-gray-5000"
-        }
-      >
-        dashboard
-    </Link>
 
 */
 
@@ -667,3 +736,88 @@ app/
 
 // -------------------------------
 
+/* Link component
+
+    for navigation <Link> component is used instead of <a>
+
+    import Link from "next/link";
+
+    <Link href="/dashboard"> dashboard </Link>
+
+*/
+// to make active link style, we have to make it client component.
+
+("use client");
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const pathName = usePathname(); // detect url
+
+<Link
+  href="/dashboard"
+  className={pathName == "/" ? "font-bold text-blue-500" : "text-gray-500"}
+>
+  dashboard
+</Link>;
+
+// ------------------------------------------------------
+
+/* Parallel Routes
+
+  we can render multiple independent UI sections simultaneously inside the same layout. 
+  Each section is called a slot.
+
+  app/
+  dashboard/
+    layout.tsx
+    page.tsx
+    @team/
+      page.tsx
+      loading.tsx
+    @analytics/
+      page.tsx
+      loading.tsx
+
+    
+  @team and @analytics are slots. 
+  The @ folder name is not part of the URL.
+
+  Next.js automatically injects each slot as a prop in layout.tsx file.
+
+  They are useful for:
+
+      Dashboards (sidebar + analytics + notifications)
+      Modal overlays
+      Split-screen interfaces
+      Independent loading/error states
+      Different pages updating without affecting each other
+
+*/
+
+export default function DashboardLayout({
+  children,
+  team,
+  analytics,
+}: {
+  children: React.ReactNode;
+  team: React.ReactNode;
+  analytics: React.ReactNode;
+}) {
+  return (
+    <>
+      <header>Dashboard Header</header>
+
+       <main>{children}</main>    {/* children belongs to  =>   app/dashboard/page.tsx */}
+
+      <section>{team}</section>
+
+      <section>{analytics}</section>
+    </>
+  );
+}
+
+// ---------------------------------------------------------------------
+
+/* Intercepting Routes
+
+*/
