@@ -32,7 +32,7 @@
             Can handle multiple types of input and output
 
 
-    Characteristics of model
+    Characteristics of model:
 
       1.  context window
             How much information model can process in single conversation.
@@ -53,7 +53,7 @@
       output token
         what model generate in response.
 
-      different models have different input/output token limit
+      Different models have different input/output token limit
       also have different pricing for input/output tokens.
 
 
@@ -214,13 +214,15 @@ export default function StreamText() {
     The model will likely answer:
     "I don't know your name."
 
-    To provide memory, developers store chat history or user preferences in a database and send the relevant context along with each request. 
+    To provide memory, developers store chat history or user preferences in a database 
+    and send the relevant context along with each request. 
     This approach is called conversation memory or retrieval-augmented memory.
 
     ***
       useChat() stores conversation history only in the browser state while the page is open.
 
-      useChat() is for conversations with message history, whereas 
+      useChat() is for conversations with message history, whereas
+
       useCompletion() is for single text completions without chat history.
       
 */
@@ -249,7 +251,7 @@ export async function POST(req: Request) {
   }
 }
 
-/*  type of UIMessage;
+/*  internal structure of UIMessage coming from client;
 
     type UIMessage = {
       id: string;
@@ -261,6 +263,76 @@ export async function POST(req: Request) {
       type: text;
       text: string;
     };
+
+eg.
+    [
+        {
+          id: "1",
+          role: "user",
+          parts: [
+            {
+              type: "text",
+              text: "What is Next.js?"
+            }
+          ]
+        }
+    ]
+
+
+    ** streamText() expects.....
+
+    type ModelMessage = {
+      role: "system" | "user" | "assistant";
+      content: string;
+    };
+
+eg.
+    [
+      {
+        role: "user",
+        content: "What is Next.js?"
+      }
+    ]
+
+    ** convertToModelMessages() does essentially transforms:
+
+    {
+      id: "1",
+      role: "user",
+      parts: [
+        {
+          type: "text",
+          text: "What is Next.js?"
+        }
+      ]
+    }
+    
+    into 
+
+    {
+      role: "user",
+      content: "What is Next.js?"
+    }
+
+    the LLM doesn't care about id or UI-specific parts; 
+    it ultimately wants messages in a role and content format (or the provider's equivalent structured message schema).
+
+
+
+    Why not send UIMessage directly?
+    Because AI SDK supports many message parts:
+
+    parts: [
+      { type: "text", text: "Weather?" },
+      { type: "file", ... },
+      { type: "tool-call", ... },
+      { type: "tool-result", ... }
+    ]
+
+    The UI format is optimized for rendering and interaction.
+
+    The model format is optimized for LLM providers like OpenAI, Anthropic, and Google.
+
 
 */
 
@@ -278,6 +350,8 @@ export default function StreamText() {
       api: "/api/stream-text",
     }),
   });
+
+  console.log({messages});
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -329,11 +403,142 @@ export default function StreamText() {
   );
 }
 
+/* 
+    streamText() = AI runs on the server.
+
+    useChat() = UI consumes and displays the streamed result.
+
+
+*/
+
 // ----------------------------------------------------------------
 
+/*  Prompt Engineering...
+
+    Prompt Engineering is the process of designing and optimizing prompts 
+    to guide an LLM toward desired outputs.
+
+    Good Prompt Engineering...
+
+      1.  Ensure responses match your users needs and knowledge level.
+      2.  Create consistency, so simillar questions get simillar types of response.
+      3.  Encourage more conscise response that use fewer tokens. It reduces cost
+
+    Prompt Engineering Techniques:
+
+      1.  System Prompts:
+            Special instructions that shape how AI behaves throughout an entire conversation.     
+
+*/
+
+    const result = streamText({
+      // model: groq("llama-3.3-70b-versatile"),
+      model: google("gemini-2.5-flash-lite"),
+      messages: [
+        {
+          role: "system",
+          content: "You are helpful coding assistant. keep response in four sentences and focus on interview ready answers" 
+        },
+        ...modelMessages
+      ]
+
+    });
+
+    /* 
+        system prompt will be added to every single request 
+        which increase your token count which ultimetely leads to increase cost.
+    
+    */
+
+// -------------------------------------------------------------
+
+
+/*  Structured Data
 
 
 
+*/
+
+import { streamObject } from "ai";
+// import { groq } from "@ai-sdk/groq";
+import { google } from "@ai-sdk/google";
+
+import { z } from "zod";
+
+export const recipeSchema = z.object({
+  recipe: z.object({
+    name: z.string(),
+    ingredients: z.array(
+      z.object({
+        name: z.string(),
+        amount: z.string(),
+      }),
+    ),
+    steps: z.array(z.string()),
+  }),
+});
+
+export async function POST(req: Request) {
+  try {
+    const { dish } = await req.json();
+
+    const result = streamObject({
+      model: google("gemini-2.5-flash-lite"),
+    //   model: groq("llama-3.3-70b-versatile"),
+      schema: recipeSchema,
+      prompt: `generate recipe for ${dish}`,
+    });
+    return result?.toTextStreamResponse();
+  } catch (error) {
+    console.log(error)
+    return new Response("Failed to generate recipe", { status: 500 })
+  }
+}
+
+
+// ---------
+
+"use client";
+import { useState } from "react";
+import { experimental_useObject as useObject } from "@ai-sdk/react";
+import { recipeSchema } from "../api/structured-data/route";
+
+export default function StreamText() {
+  const [dish, setDish] = useState("");
+
+  const { submit, object, isLoading, error } = useObject({
+    api: "/api/structured-data",
+    schema: recipeSchema,
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!dish.trim()) return;
+    submit({ dish: dish });
+    setDish("");
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={dish}
+          onChange={(e) => setDish(e.target.value)}
+          placeholder="How can i help ?"
+          className="border"
+        />
+        <button disabled={isLoading}>Generate</button>
+      </form>
+    
+      <div>
+        {object?.recipe && (
+          
+        )}
+      </div>
+    </div>
+  );
+}
 
 
 
