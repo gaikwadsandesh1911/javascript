@@ -459,8 +459,8 @@ export default function StreamText() {
 
 */
 
-import { streamObject } from "ai";
-// import { groq } from "@ai-sdk/groq";
+
+import { streamText, Output } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { z } from "zod";
@@ -482,18 +482,20 @@ export async function POST(req: Request) {
   try {
     const { dish } = await req.json();
 
-    const result = streamObject({
+    const result = streamText({
       model: google("gemini-2.5-flash-lite"),
-    //   model: groq("llama-3.3-70b-versatile"),
-      schema: recipeSchema,
       prompt: `generate recipe for ${dish}`,
+      output: Output.object({
+        schema: recipeSchema
+      })
     });
-    return result?.toTextStreamResponse();
+      return result?.toTextStreamResponse();
   } catch (error) {
     console.log(error)
     return new Response("Failed to generate recipe", { status: 500 })
   }
 }
+
 
 
 // ---------
