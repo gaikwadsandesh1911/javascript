@@ -431,6 +431,17 @@ export default function StreamText() {
 
 */
 
+import { convertToModelMessages, streamText, UIMessage } from "ai";
+
+import { google } from "@ai-sdk/google";
+
+export async function POST(req: Request) {
+  try {
+
+    const { messages }: { messages: UIMessage[] } = await req.json();
+    
+    const modelMessages = await convertToModelMessages(messages);
+
     const result = streamText({
       // model: groq("llama-3.3-70b-versatile"),
       model: google("gemini-2.5-flash-lite"),
@@ -443,6 +454,14 @@ export default function StreamText() {
       ]
 
     });
+    // console.log("result", result);
+    return result?.toUIMessageStreamResponse();
+  } catch (error) {
+    console.log("error while generating text", error);
+    return Response.json({ error: "failed to generate text" }, { status: 500 });
+  }
+}
+
 
     /* 
         system prompt will be added to every single request 
@@ -453,10 +472,16 @@ export default function StreamText() {
 // -------------------------------------------------------------
 
 
-/*  Structured Data
+/*  Streaming Structured Data.
 
-
-
+    streaming structured data means returning AI-generated responses 
+    that follow a predefined schema while streaming partial results to the client. 
+    AI SDK v6 achieves this using streamText() with Output.object() or Output.array(), 
+    and the Route Handler returns the stream using toUIMessageStreamResponse() or toTextStreamResponse(). 
+    and consumed on the client using useObject(),
+    
+    This provides type safety, schema validation, and real-time UI updates.
+    
 */
 
 
@@ -496,6 +521,18 @@ export async function POST(req: Request) {
   }
 }
 
+/*  To generate:
+
+      object  =>    output: Output.object()
+
+      array   =>    output: Output.array()
+
+      enum    =>    output: Output.choice({
+                      options: [ 'a', 'b', 'c' ]
+                    })
+
+*/
+
 
 
 // ---------
@@ -527,8 +564,6 @@ export default function StreamText() {
           type="text"
           value={dish}
           onChange={(e) => setDish(e.target.value)}
-          placeholder="How can i help ?"
-          className="border"
         />
         <button disabled={isLoading}>Generate</button>
       </form>

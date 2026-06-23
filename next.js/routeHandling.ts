@@ -189,7 +189,7 @@ export async function GET(request: NextRequest) {
 /* Response Object
 
     The Response object represents the HTTP response sent back to the client.
-    route handle must return response to the clien.
+    route handle must return response to the client.
 
     NextResponse extends standard Response object and add next.js specific features.
 */
@@ -319,8 +319,6 @@ export default function Page() {
     npm run start
 */
 
-export const dynamic = "force-static";
-
 export async function GET() {
     return Response.json({
         time: new Date().toLocaleTimeString()
@@ -342,5 +340,65 @@ export async function GET(req: Request) {
   const search = new URL(req.url).searchParams;
 }
 
+
+
+// ------------------------------------
+
+/* middleware
+
+    In Next.js 16, middleware.ts has been renamed to proxy.ts.
+
+    proxy.ts is a special file in Next.js that runs before a request reaches your route handler or page. 
+    It is used to intercept, inspect, modify, redirect, or block incoming requests at the edge of your application.
+
+    Common Use Cases:
+
+      Authentication / Authorization
+      Redirect users
+      Rewrite URLs
+      Add or inspect headers
+      Rate limiting
+
+
+     
+
+*/
+
+// proxy.ts
+
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+export function proxy(request: NextRequest) {
+  const token = request.cookies.get("token");
+
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/dashboard/:path*"],
+};
+
+
+// if we request to /dashboard  if no token available
+// redirect to /login
+
+
+/* 
+      Browser Request
+            ↓
+      proxy.ts
+            ↓
+      Route Handler / Page / API
+            ↓
+      Response
+
+    Q: Does proxy.ts run for every route?
+    A: Only for routes matched by the matcher configuration.
+*/
 
 
