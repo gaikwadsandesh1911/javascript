@@ -37,57 +37,63 @@ import { redirect } from "next/navigation";
 import SubmitButton from "./SubmitButton";
 
 
-// db operation
-export async function createUserInDB(name: string, email: string) {
-  return prisma.user.create({
-    data: {
-      name,
-      email,
-    },
-  });
+// src/lib/db/products.ts
+import {prisma} from "@/lib/prisma"
+
+export async function addProduct(title: string, price: number, description?: string) {
+    return prisma.product.create({
+        data: {
+            title,
+            price,
+            description
+        }
+    })
+};
+
+// -----------------------------------------------
+
+  // app/actions/product.ts
+
+  // server actions
+import { addProduct } from "@/lib/db/product";
+
+import { redirect } from "next/navigation";
+
+export async function createProduct(formData: FormData) {
+  "use server";
+
+  const title = formData.get("title") as string;
+  const price = formData.get("price") as string;
+  const description = formData.get("description") as string;
+
+  await addProduct(title, parseInt(price), description);
+
+  redirect("/products");
+};
+
+// -----------------------------------------------
+
+  // page.tsx
+import { createProduct } from "@/actions/productActions"
+import SubmitButton from "../create-user/SubmitButton"
+
+function CreateProduct() {
+  return (
+    <form action={createProduct}>
+        <input type="text" name="title" placeholder="title"/>
+        <input type="number" name="price" placeholder="price" />
+        <textarea name="description" id="" placeholder="description"></textarea>
+        <SubmitButton/>
+    </form>
+  )
 }
 
-// -----------------------------------------------
-
-
-
-    // app/actions/user.ts
-
-    // server actions
-    const createUser = async (formData: FormData) => {
-        "use server";
-
-        const name = formData.get("name") as string;
-
-        const email = formData.get("email") as string;
-
-        const newUser = await createUserInDB(name, email);
-        
-        console.log("newUser", newUser);
-
-        redirect("/users");
-    };
-
-// -----------------------------------------------
-
-    // page.tsx
-    function CreateUser() {
-        return (
-            <div>
-            <form action={createUser} >
-                <input type="text"  name="name" placeholder="Enter your name"/>
-                <input type="email"  name="email" placeholder="enter email"/>
-                {/* client component */}
-                <SubmitButton />
-            </form>
-            </div>
-        );
-    }
+export default CreateProduct
 
 
 // ----------------------------------------------
 
-// SubmitButton.tsx
+// src/components/SubmitButton.tsx
 "use client";
 
 import { useFormStatus } from "react-dom";
@@ -130,45 +136,55 @@ const [state, formAction, isPending] = useActionState(action, initialState);
     isPending → true while the action is executing.
 */
 
+// src/lib/data/product.ts
+
+import {prisma} from "@/lib/prisma"
+
+export async function addProduct(title: string, price: number) {
+    return prisma.product.create({
+        data: {
+            title,
+            price,
+        }
+    })
+};
+
 // page.tsx
 
-"use client"
+"use client";
 
-import { createUser, FormState } from "@/actions/userActions";
+import { createProduct, FormState } from "@/actions/productActions";
 
 import { useActionState } from "react";
-
-// -------------------------------------------------
 
 const initialState: FormState = {
   errors: {}
 };
 
-function CreateUser() {
+function CreateProduct() {
 
-  const [state, formAction, isPending ] = useActionState(createUser, initialState);
+  const [state, formAction, isPending] = useActionState(createProduct, initialState);
 
   return (
-    <div>
-      <form action={formAction} >
-      
-        <div>
-          <input type="text" id="name" name="name" placeholder="Enter your name"/>
-        </div>
-        {state?.errors?.name && (<p>{state?.errors?.name}</p>)}
-
-        <div>
-          <input type="email" id="email" name="email" placeholder="enter email"/>
-        </div>
-        {state?.errors?.email && (<p>{state?.errors?.email}</p>)}
-
-        <button disabled={isPending} type="submit">Submit</button>
-      </form>
-    </div>
+    <form action={formAction}>
+      <div>
+        <input type="text" name="title" placeholder="title" className="border"/>
+      </div>
+      {state.errors.title && (
+        <p className="text-red-500">{state.errors.title}</p>
+      )}
+      <div>
+        <input type="number" name="price" placeholder="price" className="border"/>
+      </div>
+      {state.errors.price && (
+        <p className="text-red-500">{state.errors.price}</p>
+      )}
+      <button disabled={isPending} className="border">Submit</button>
+    </form>
   );
-};
+}
+export default CreateProduct;
 
-export default CreateUser;
 
 // ---------------------------------------------
 
@@ -176,53 +192,43 @@ export default CreateUser;
 
 "use server";
 
-import { prisma } from "@/lib/prisma";
+import { addProduct } from "@/lib/db/product";
 import { redirect } from "next/navigation";
 
-// DB operation
-export async function createUserInDB(name: string, email: string) {
-  return prisma.user.create({
-    data: {
-      name,
-      email,
-    },
-  });
-};
-
 export type Errors = {
-  name?: string,
-  email?: string
+  title?: string;
+  price?: string;
+  description?: string;
 };
 
 export type FormState = {
-  errors: Errors
+  errors: Errors;
 };
 
-// server action
-  export const createUser = async (prevState: FormState, formData: FormData) => {
-    
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
+export async function createProduct(prevState: FormState, formData: FormData) {
+  
+  const title = formData.get("title") as string;
+  const price = formData.get("price") as string;
 
-    const errors: Errors = {};
+  const errors: Errors = {};
 
-    if(!name) {
-      errors.name = "name is required";
-    };
+  if (!title) {
+    errors.title = "Title is required";
+  }
 
-    if(!email) {
-      errors.email = "email is required";
-    };
+  if (!price) {
+    errors.price = "Price is required";
+  }
 
-    if(Object.keys(errors).length > 0) {
-      return { errors}
-    };
+  if (Object.keys(errors).length > 0) {
+    return { errors };
+  }
 
-    const newUser = await createUserInDB(name, email);
-    console.log("newUser", newUser);
+  await addProduct(title, parseInt(price));
 
-    redirect("/all-users");
-  };
+  redirect("/products");
+}
+
 
 
 
