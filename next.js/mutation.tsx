@@ -13,7 +13,7 @@
 
         We use a Server Action as the action prop of a <form>.
 
-        They can be called in Server and Client component to handle
+        They can be called on Server and Client component to handle
         form submission and data mutations in Next.js application
         without creating api endpoint.
 
@@ -88,7 +88,6 @@ function CreateProduct() {
   )
 }
 
-export default CreateProduct
 
 
 // ----------------------------------------------
@@ -111,14 +110,14 @@ function SubmitButton() {
 
 /* useActionState()
 
-    useActionState is a React hook that manages the state returned by a form action ( typically a Server Action ). 
+    useActionState is a React hook that manages the state 
+    returned by a form action ( typically a Server Action ).
+
     It is particularly helpful for handling form validation and error messages.
 
     When used with useActionState, the Server Action receives two arguments:
 
-        async function action( prevState, formData) {
-            "use server";
-        }
+        async function action( prevState, formData) {}
 
     prevState → State from the previous submission.
 
@@ -134,6 +133,9 @@ const [state, formAction, isPending] = useActionState(action, initialState);
     formAction → Pass this to <form action={...}>.
 
     isPending → true while the action is executing.
+
+      - state and initialState are related
+      - fromAction and action are related
 */
 
 // src/lib/data/product.ts
@@ -228,6 +230,214 @@ export async function createProduct(prevState: FormState, formData: FormData) {
 
   redirect("/products");
 }
+
+// -------------------------------------------------
+
+// update and delete server action
+
+
+// db-ops
+
+  import { prisma } from "@/lib/prisma";
+
+  export async function getAllProducts() {
+    return prisma.product.findMany();
+  }
+
+  export async function addProduct(title: string, price: number) {
+    return prisma.product.create({
+      data: {
+        title,
+        price,
+      },
+    });
+  }
+
+  export async function getProduct(id: number) {
+    return prisma.product.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
+
+  export async function updateProduct(id: number, title: string, price: number) {
+    return prisma.product.update({
+      where: { id: id },
+      data: {
+        title,
+        price,
+      },
+    });
+  }
+
+  export async function deleteProduct(id: number) {
+    return prisma.product.delete({
+      where: {
+        id,
+      },
+    });
+  }
+
+
+//productActions.ts
+
+export async function editProduct(id: number, prevState: FormState, formData: FormData) {
+    
+  const title = formData.get("title") as string;
+  const price = formData.get("price") as string;
+
+  const errors: Errors = {};
+
+  if (!title) {
+    errors.title = "Title is required";
+  }
+
+  if (!price) {
+    errors.price = "Price is required";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { errors };
+  }
+
+  await updateProduct(id, title, parseInt(price));
+
+  redirect("/products");
+};
+
+
+export async function removeProduct(id: number) {
+    await deleteProduct(id);
+    revalidatePath("/products")
+}
+
+// ---------------------------------
+
+// app/products/page.tsx
+
+import { removeProduct } from "@/actions/productActions";
+import { getAllProducts } from "@/lib/db/product";
+import  Link  from 'next/link'
+
+export type Product = {
+  id: number,
+  title: string,
+  price: number,
+  description?: string | null;
+}
+
+async function Products() {
+
+  const products: Product[] = await getAllProducts();
+
+  return (
+    <div>
+      {
+        products?.map((product)=>(
+          <div key={product?.id} className="border p-2 my-2">
+            <Link href={`/products/${product?.id}`}>
+              {product?.title} - {product?.price}
+            </Link>
+            <form action={removeProduct.bind(null, product.id)}>
+              <button type="submit" className="border ml-2">Delete</button>
+            </form>
+          </div>
+        ))
+      }
+    </div>
+  )
+}
+
+// -----------------------------------------
+
+
+// app/products/[id]/Edit-Product-Form.tsx
+
+"use client";
+
+import { useActionState } from "react";
+
+import { editProduct, FormState } from "@/actions/productActions";
+import { Product } from "@/app/products/page";
+
+const initialState: FormState = {
+  errors: {},
+};
+
+function EditProductForm({ product }: { product: Product }) {
+    
+  const editProductWithId = editProduct.bind(null, product.id);
+
+  const [state, formAction, isPending] = useActionState(
+    editProductWithId,
+    initialState,
+  );
+
+  return (
+    <form action={formAction}>
+      <div>
+        <input
+          type="text"
+          name="title"
+          placeholder="title"
+          className="border"
+          defaultValue={product?.title}
+        />
+      </div>
+      {state.errors.title && (
+        <p className="text-red-500">{state.errors.title}</p>
+      )}
+      <div>
+        <input
+          type="number"
+          name="price"
+          placeholder="price"
+          className="border"
+          defaultValue={product.price}
+        />
+      </div>
+      {state.errors.price && (
+        <p className="text-red-500">{state.errors.price}</p>
+      )}
+      <button disabled={isPending} className="border">
+        Submit
+      </button>
+    </form>
+  );
+}
+export default EditProductForm;
+
+
+
+
+// app/products/[id]/page.tsx
+
+import { getProduct } from "@/lib/db/product";
+import EditProductForm from "./edit-product-form";
+import { notFound } from "next/navigation";
+
+async function EditProduct({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
+  const product = await getProduct(parseInt(id));
+//   console.log(product)
+
+if(!product){
+    notFound();
+}
+
+  return <EditProductForm product={product}/>;
+}
+
+
+// ------------------------------
+
+
+
+
+
+
 
 
 
