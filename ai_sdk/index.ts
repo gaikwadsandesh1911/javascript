@@ -1,82 +1,4 @@
-/*  AI SDK
 
-      AI SDK provides a standard way to integrate AI models into applications. 
-      Without an AI SDK, developers have to manually configure ai model provider-specific format code, handle API calls, streaming responses, and UI state management. 
-      AI SDK abstracts these complexities and gives a unified interface to work with different AI providers like 
-      OpenAI, Anthropic, or Google, making it easier to build chat, 
-      text generation, and AI-powered features.
-
-      npm i ai                    =>      provides the SDK( software development kit ) functionality,
-
-      npm i @ai-sdk/groq  or 
-      npm i @ai-sdk/openai        =>      connect to specific ai model
-      
-      npm i @ai-sdk/react         =>      React hooks and UI utilities
-    
-*/
-
-// ------------------------------------------------------
-
-/*  Different types of AI Models.
-
-      1.  Text generation models.
-            Generate text
-
-      2.  Embedding models.
-            Instead of generating text, they convert text into numbers
-            specifically vectors that captures meaning of text.
-
-      3.  Image / video / audio models.
-
-      4.  Multi-modal models
-            Can handle multiple types of input and output
-
-
-    Characteristics of model:
-
-      1.  context window
-            How much information model can process in single conversation.
-
-      2.  intelligence
-
-      3.  speed
-
-      4.  cost
-
-    
-    What are tokens?
-      Token is basic unit of text that model processes.
-
-      input token
-        what you send to model.
-
-      output token
-        what model generate in response.
-
-      Different models have different input/output token limit
-      also have different pricing for input/output tokens.
-
-
-*/
-
-// ------------------------------------------------------
-
-/*  What problem does @ai-sdk/react solve?
-
-      Without it, you'd need to manually: 
-
-      Store messages in state
-      Handle user input
-      Send requests to your API
-      Read streaming responses
-      Update the UI token by token
-
-      It provides React hooks like useCompletion(), useChat() and useObject() that manage messages state, input state, and streaming responses, etc.
-      making it easier to build AI-powered interfaces.  
-
-*/
-
-// ------------------------------------------------------
 
 /* generateText()
 
@@ -99,39 +21,32 @@ export async function POST(req: Request) {
       prompt: prompt,
     });
 
-    // console.log("result", result);
-
     return Response.json({ text: result?.text });
 
   } catch (error) {
-
-    console.log("error while generating text", error);
-
     return Response.json({ error: "failed to generate text" }, { status: 500 });
-
   }
 };
 
 /* 
-    We usually consume it using standard React state management with fetch, useState, or useActionState in Next.js.
-    
+    We usually consume it using standard React state management with fetch, useState, in Next.js.
     There is no dedicated hook on client side to consume response from generateText()
 
 */
 
-// --------------------------------------------
+// ------------------------------------------------------------------------------------
 
 /* streamText()
 
     streamText() is a server-side function from the AI SDK 
     that streams the model's response token by token instead of waiting for the entire response.
 
-    on client side we have useChat() and useCompletion() hook to consume response.
+    on client side we have different hook to consume response.
 */
 
 import { streamText } from "ai";
-// import { groq } from "@ai-sdk/groq";
 import {google} from "@ai-sdk/google"
+// import { groq } from "@ai-sdk/groq";
 
 export async function POST(req: Request) {
   try {
@@ -141,7 +56,7 @@ export async function POST(req: Request) {
       model: google("gemini-2.5-flash-lite"),
       prompt: prompt,
     });
-    // console.log("result", result);
+    // return result.toTextStreamResponse();
     return result?.toUIMessageStreamResponse();
   } catch (error) {
     console.log("error while generating text", error);
@@ -158,39 +73,87 @@ export async function POST(req: Request) {
     It converts the AI stream into a UI Message Stream Response, 
     which is a special HTTP streaming format understood by useChat() or useCompletion()
 
+| `toTextStreamResponse()`                          | `toUIMessageStreamResponse()`                                          |
+| ------------------------------------------------- | ---------------------------------------------------------------------- |
+| Streams **plain text**                            | Streams **structured UI messages**                                     |
+| Returns an HTTP `Response` containing text chunks | Returns an HTTP `Response` containing UI message events                |
+| Best for simple text generation                   | Best for chat applications                                             |
+| Client receives only generated text               | Client receives messages, tool calls, metadata, reasoning events, etc. |
+| Doesn't preserve chat message structure           | Preserves the conversation/message structure                           |
+
+
 */
-"use client";
+    "use client";
 
 import { useCompletion } from "@ai-sdk/react";
 
-export default function StreamText() {
-
-  const { isLoading, error, input, setInput, handleInputChange, handleSubmit, completion, stop } = useCompletion({
-    api: '/api/stream-text'
+export default function Page() {
+  const {
+    isLoading,
+    error,
+    input,
+    setInput,
+    handleInputChange,
+    handleSubmit,
+    completion,
+    stop,
+  } = useCompletion({
+    api: "/api/completion",
   });
 
   return (
     <div>
-
-      <form onSubmit={(e)=>{
-        e.preventDefault();
-        setInput("");
-        handleSubmit(e);
-      }}>
-        <input type="text" value={input} onChange={handleInputChange} placeholder="How can i help ?" className="border"/>
-        {isLoading ? (<button onClick={stop}>Stop</button>) : (<button disabled={isLoading}>Send</button>)}
+      <form
+        onSubmit={(e) => {
+          handleSubmit(e);
+          setInput("");
+        }}
+      >
+        <input
+          type="text"
+          value={input}
+          onChange={handleInputChange}
+          placeholder="How can I help?"
+        />
+        {isLoading ? (
+          <button type="button" onClick={stop}>
+            Stop
+          </button>
+        ) : (
+          <button type="submit">Send</button>
+        )}
       </form>
 
       <div>
-        {error && (<div>{error?.message}</div>)}
+        {error && <div>{error.message}</div>}
         {isLoading && !completion && <div>Thinking...</div>}
         {completion && <div>{completion}</div>}
       </div>
-
     </div>
   );
 }
 
+/*  under the hood handleSubmit(e) does
+
+    1. e.preventDefault()        // stops page from refreshing
+    2. reads current input value  // grabs whatever is in the input field
+    3. sends POST request         // to your api endpoint
+    4. starts streaming 
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const currentInput = input; // reads it synchronously
+
+    await fetch("/api/completion", {
+      method: "POST",
+      body: JSON.stringify({ prompt: currentInput }),
+      headers: { "Content-Type": "application/json" },
+    });
+    // then pipes the stream into completion state
+}
+
+*/
 
 /* 
     completion =>   is the generated text returned by the AI model.
@@ -222,8 +185,11 @@ export default function StreamText() {
       useChat() stores conversation history only in the browser state while the page is open.
 
       useChat() is for conversations with message history, whereas
-
       useCompletion() is for single text completions without chat history.
+
+      **
+      streamText runs on the server, useChat consumes it on the client. 
+      They're designed as a pair.
       
 */
 
@@ -296,6 +262,8 @@ eg.
 
     ** convertToModelMessages() does essentially transforms:
 
+    It converts:
+
     {
       id: "1",
       role: "user",
@@ -318,7 +286,6 @@ eg.
     it ultimately wants messages in a role and content format (or the provider's equivalent structured message schema).
 
 
-
     Why not send UIMessage directly?
     Because AI SDK supports many message parts:
 
@@ -335,40 +302,52 @@ eg.
 
 
 */
+     
 
 "use client";
-import { useState } from "react";
+
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import { useState } from "react";
 
-export default function StreamText() {
+export default function Page() {
 
-  const [input, setInput] = useState("");
-
-  const { messages, sendMessage, status, error } = useChat({
+  const [input, setInput] = useState('');
+ 
+  const {  messages, sendMessage, status, stop, error, regenerate} = useChat({
     transport: new DefaultChatTransport({
-      api: "/api/stream-text",
+      api: "/api/stream-text",    // our app api end point
     }),
   });
 
-  console.log({messages});
+  // console.log({messages});
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // status replaces isLoading
+  const isLoading = status === 'submitted' || status === 'streaming';
+
+
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!input.trim()) return;
-    sendMessage({ text: input });
-    setInput("");
+    sendMessage({ text: input }); // 
+    setInput('');
   };
+
 
   return (
     <div>
 
       <form onSubmit={handleSubmit}>
         <input type="text" value={input} onChange={(e) => setInput(e.target.value)} placeholder="How can i help ?" className="border"
+          disabled={status !== 'ready'}
         />
-        <button type="submit" disabled={status != 'ready'}>
-          {status === "streaming" ? "Streaming..." : "Send"}
-        </button>
+        {
+          isLoading ? (
+            <button type="submit" onClick={stop}>Stop</button>
+          ) : (
+            <button type="submit" disabled={!input.trim()}>Send</button>
+          )
+        }
       </form>
 
       <div>
@@ -390,24 +369,25 @@ export default function StreamText() {
       </div>
 
       {
-          (status === "submitted" || status === "streaming") && (
-            <p>Thinking...</p>
-          )
+          isLoading && <p className="text-gray-400 animate-pulse">Thinking…</p>
       }
 
       {
-        error && (<p>{error?.message}</p>)
+        error && (<div>
+          <span>something went wrong.</span>
+          <button onClick={()=>regenerate()}>Retry</button>
+        </div>)
       }
 
     </div>
   );
 }
 
+
 /* 
     streamText() = AI runs on the server.
 
     useChat() = UI consumes and displays the streamed result.
-
 
 */
 
@@ -538,11 +518,13 @@ export async function POST(req: Request) {
 // ---------
 
 "use client";
+
 import { useState } from "react";
 import { experimental_useObject as useObject } from "@ai-sdk/react";
 import { recipeSchema } from "../api/structured-data/route";
 
 export default function StreamText() {
+
   const [dish, setDish] = useState("");
 
   const { submit, object, isLoading, error } = useObject({
@@ -564,21 +546,74 @@ export default function StreamText() {
           type="text"
           value={dish}
           onChange={(e) => setDish(e.target.value)}
+          placeholder="enter name of recipe ?"
+          className="border"
         />
         <button disabled={isLoading}>Generate</button>
       </form>
-    
+    {
+        error && (<div>{error?.message}</div>)
+    }
+    {
+        isLoading && (<div>Thinking...</div>)
+    }
       <div>
         {object?.recipe && (
-          
+          <div className="border p-4">
+            <h2>{object.recipe.name}</h2>
+            {object?.recipe?.ingredients && (
+              <div>
+                <h4>Ingredients</h4>
+                <div>
+                  {object.recipe.ingredients.map((ingredient, i) => (
+                    <div key={i}>
+                      {ingredient?.name} - {ingredient?.amount}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {
+                object?.recipe?.steps && (
+                    <div className="border p-4">
+                        <p>Steps...</p>
+                        <ol>
+                            {
+                                object?.recipe.steps.map((step, i)=>(
+                                    <li key={i}>
+                                        <p>
+                                            <span>{i + 1}.</span>
+                                            <span>{step}</span>
+                                        </p>
+                                    </li>
+                                ))
+                            }
+                        </ol>
+                    </div>
+                    
+                )
+            }
+          </div>
         )}
       </div>
+
     </div>
   );
 }
 
 
+/* 
+    useObject does not keep conversation history. 
+    It's intentionally designed as a single-shot hook.
+
+    You'd use useChat with tool calling instead. 
+    The model streams text but also returns structured data via tools, 
+    and useChat maintains the full history.
+
+    Output API     →  single object out  →  useObject  →  ❌ no history
+    Tool calling   →  text + structured data  →  useChat  →  ✅ has history
 
 
+    return result.toDataStreamResponse(); 
 
-
+*/
