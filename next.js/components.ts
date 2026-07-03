@@ -2,62 +2,66 @@
 
     We have two types of compenents in Next.js
 
-        1.  React Server Component (RSC) ( every component by default ).
+      1.  React Server Component (RSC) ( every component by default ).
 
-        2.  Client Componet ( until we explicitly defined using "use client").
-
+      2.  Client Componet ( until we explicitly defined using "use client" ).
 
 */
 
+// -----------------------------------------------------
+
 /*  Client Component
 
-        - The Client Component  is pre-rendered on the server to generate the initial HTML.
-            
-            Then server sends ready-to-display HTML and regarding JS to browser
-               
-                what server sent :
-                    
-                    <button>count: 0</button>
+      - The Client Component  is pre-rendered on the server to generate the initial HTML.
+          
+          Then server sends ready-to-display HTML and regarding JS to browser
+              
+              what server sent :
+                  
+                  <button>count: 0</button>
 
-        - The browser receives it and displays the HTML immediately(but no interactive, button shows but no click ).
-        
-        - Then Js download and then React Hydrate it(interactivity) Happens.
+      - The browser receives it and displays the HTML immediately(but no interactive, button shows but no click nothing happens ).
+      
+      - Then Js download and then React Hydrate it(interactivity) Happens.
 
-        - Client component runs in browser after hydration.
-            - can fetch data via api or recieves as props
-            - can use hooks and event handlers
+      - Client component runs in browser after hydration.
+          - can fetch data via api or recieves as props
+          - can use hooks and event handlers
  */
+
+// -----------------------------------------------------
 
 /*  React Server Component (RSC)
 
-        - (RSC) represent a new architecture for building React applications.
+      - (RSC) represent a new architecture for building React applications.
 
-        -   They introduce a dual-component model consisting of :
+      -   They introduce a dual-component model consisting of :
 
-                Server Components.
-                Client Components.
+              Server Components.
+              Client Components.
 
-        - RSC runs on server
+      - RSC runs on server
 
-        - can fetch data, access databse, read file etc.
+      - can fetch data, access databse, read file etc.
 
-        - can not use browser-only features like hooks and event handlers.
+      - can not use browser-only features like hooks and event handlers.
 
-        - RSC's js not sent to browser.
+      - RSC's js not sent to browser.
 
-        - Browser only recieves rendered HTML of RSC and js for client component that are part of the page
+      - Browser only recieves rendered HTML, RSC payload of server component
+          and js for client component if server render client component as well.
 
 
-        - By separating server-side and client-side responsibilities, 
-            RSC helps reduce JavaScript bundle sent to the browser, 
-            improve performance, and create more efficient React applications.
-
+      - By separating server-side and client-side responsibilities, 
+          RSC helps reduce JavaScript bundle sent to the browser, 
+          improve performance, and create more efficient React applications.
   
 */
 
 // Dual component model.
 
-// Server Component
+// Server Component.
+
 export default async function Page() {
   const products = await getProducts();
 
@@ -70,115 +74,144 @@ export default async function Page() {
 
 "use client";
 export default function ProductList({ products }) {
-
+  const [filter, setFilter] = useState([]);
 }
 
 
 // -----------------------------------------------------
 
+/*  RSC rendering strategies :
 
-
-/* RSC Rendering Lifecycle
-
-There are three main participants in the React Server Component rendering process:
-
-1. Client (Browser)
-2. Next.js (Framework)
-3. React (Library)
-
-Request Flow:
-
-    Client → Next.js → React
-
-1. The browser sends a request for a route.
-   Next.js matches the requested URL using the App Router 
-   and initiates the rendering process.
-
-2. React renders all Server Components on the server and produces:
-   - An RSC Payload containing the component tree and rendered output.
-   - References and instructions for Client Components.
-
-3. Next.js uses the RSC Payload to generate the initial HTML response.
-   The HTML, RSC Payload, and Client Component instructions are then streamed to the browser.
-
-4. The browser displays the HTML immediately and 
-    later hydrates the Client Components, making the page fully interactive.
-
+      1.  Static
+      2.  Dynamic
+      3.  Streaming
+      4.  Partial Pre-rendering (PPR)
 
 */
 
 
-/*  RSC Update Sequence (Reconciliation)
-
-After the initial page load, updates follow a different flow than the first render.
-
-1. A user interaction occurs.
-   Examples:
-   - Navigation using <Link>
-   - Refreshing data
-   - Server Action execution
-
-2. The browser sends a request to Next.js.
-
-3. Next.js asks React to re-render only the affected Server Components.
-
-4. React generates a new RSC Payload containing the updated component tree.
-
-5. Next.js streams the updated RSC Payload back to the browser.
-
-6. React on the client compares (reconciles) the new RSC Payload with the current React tree.
-
-7. React identifies what has changed and updates only the affected parts of the DOM.
-
-8. Existing Client Component state is preserved whenever possible.
-   Unchanged components are not re-rendered or recreated.
-
-
-Initial Load:
-    Server Components → RSC Payload → HTML → Browser
-
-Subsequent Updates:
-    Server Components → New RSC Payload → React Reconciliation → DOM Updates
-
-    No full page reload occurs.
-    No complete HTML regeneration in the browser.
-    Only the changed Server Component output is sent and merged into the existing UI.
-
-*/
 
 // -----------------------------------------------------
 
-/*  RSC rendering strategies
 
-    1.  Static
-    2.  Dynamic
-    3.  Streaming
+/*  1. Static Rendering (SSG)
 
+   - HTML is generated at build time.
+    
+      1. npm run build 
+      2. npm start        // production server. 
 
-1. Static Rendering
-   - pages are Rendered at build time and stored on server as static pages.
-   - Served from cache for every request.
-
-2. Dynamic Rendering
-   - Rendered on each request.
-   - Generates fresh content in real time.
-   - Next.js auto switch to dynamic rendering for entire route
-     when detect "dynamic function" or features like
-        cookie(), headers(), connection(), draftMode(), searchParams prop, after()
-
-3. Streaming
-   - UI is rendered and sent in chunks.
-   - Content appears progressively as it becomes available.
+   - Best for content that changes infrequently.
+      
+      Examples:
+        Blog posts
+        Documentation
+        Marketing pages
 
 */
 
-// -------------------------------------------------------
+// app/about/page.tsx
+
+    export default function AboutPage() {
+      return(
+        <>
+          <h1>About page { new Date().toLocaleTimeString()}</h1>
+        </h1>
+      )
+    }
+
+
+  /* 
+      Every time we navigate to.   /about
+
+      we see the same content because the page is statically rendered.
+      
+      During the build (npm run build), Next.js pre-renders the page and generates:
+
+          - HTML for the initial page load.
+          - A React Server Component (RSC) payload
+
+        - inside
+
+                .next / server / app /  about
+
+          we have
+
+                about.html
+                about.rsc     
+
+  */
+
+
+// -----------------------------------------------------
+
+
+/*  2. Dynamic Rendering (SSR)
+
+      - HTML is generated on every request.
+
+    - Next.js auto switch to dynamic rendering for entire route
+        when detect "dynamic function" or features like
+
+          cookie(), 
+          headers(), 
+          connection(), 
+          draftMode(), 
+          after()
+          searchParams prop, 
+
+      Best for personalized or frequently changing content.
+          Dashboard
+          User profile
+
+*/
+
+
+// app/product/[id]/page.tsx.
+
+// /product/123
+
+export default async function ProductPage({params}: {params: Promise<{ id: string }>}) {
+  const { id } = await params;
+
+  const product = await getProduct(id);   // fetching from db.
+
+  return <h1>{product.name}</h1>;
+}
+
+/* 
+    Based on the route parameter, for each request renders fresh HTML and an RSC payload, 
+    and sends them to the client
+*/
+
+
+
+// eg.2   we have cookies() function.
+
+// app/dashboard/page.tsx
+
+import { cookies } from "next/headers";
+
+export default async function DashboardPage() {
+  const cookieStore = await cookies();
+  const theme = cookieStore.get("theme")?.value ?? "light";
+
+  return (
+    <>
+      <h1> Current theme: {theme} </h1>;
+      <h1> About page:  { new Date().toLocaleTimeString() } </h1>
+    </>
+  ) 
+};
+
+
+// -----------------------------------------------------
 
 
 /* generateStaticParams()
 
-    generateStaticParams() is a Next.js App Router function used to 
-    statically generate dynamic routes at build time.
+    generateStaticParams() is a function used with dynamic routes 
+    to tell Next.js which route parameters should be statically generated at build time.
 
     for dynamic routes like.....        app/products/[id]/page.tsx
 
@@ -186,54 +219,50 @@ Subsequent Updates:
     generateStaticParams() provides that list.
 */
 
+// app/products/[id]/page.tsx
+
 export async function generateStaticParams() {
-  const res = await fetch("https://api.example.com/products")
-  const products = await res.json();
+  return [
+    { id: "1" },
+    { id: "2" },
+    { id: "3" },
+  ];
+};
 
-  return products.map((product) => ({
-    id: product.id.toString(),
-  }));
-}
 
-
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ProductPage({params,}: {params: Promise<{ id: string }>}) {
   const { id } = await params;
-
   return <h1>Product {id}</h1>;
 }
 
 
-/* At build Time ( npm run build ).
+/* At build Time ( npm run build )
 
-        1. Next.js calls generateStaticParams().
-        2. The function returns a list of route parameters.
-        3. Next.js generates HTML and RSC Payloads for each of these route parameters.
-        4. The generated pages are stored as a part of server file system. and served statically.
+      1. Next.js calls generateStaticParams().
+      2. The function returns a list of route parameters.
+      3. Next.js generates HTML and RSC Payloads for each of these route parameters.
+      4. The generated pages are stored as a part of server file system. and served statically.
 
 
-        if generateStaticParams() returns
+      if generateStaticParams() returns
 
-        [
-            { id: "1" },
-            { id: "2" }
-        ]
+      [
+          { id: "1" },
+          { id: "2" }
+      ]
 
-        next will pre-render for
+      next will pre-render for
 
-        /products/1
-        /products/2
+      /products/1
+      /products/2
 */
 
-export const dynamicParams = true;
+export const dynamicParams = true;      // default
 
 /* dynamicParams
 
     dynamicParams controls what happens when a user requests a dynamic route parameter 
-    that was not returned by generateStaticParams().
+    that was not returned by generateStaticParams() function.
 
     export const dynamicParams = true;   // default
 
@@ -261,45 +290,63 @@ export const dynamicParams = true;
 // -----------------------------------------------------------
 
 
-/*  Streaming
+/* 3. Streaming
 
-        Streaming allows the server to send parts of a page to the browser as soon as they are ready, 
-        instead of waiting for the entire page to finish rendering.
-
-        This improves perceived performance by showing available content immediately 
-        while slower parts continue loading.
+        Streaming means the server doesn't wait for the entire page to finish rendering. 
+        Instead, it sends parts of the response to the browser as soon as they're ready..
 
         Streaming achive through Suspense boundery.
 
 */
 
-/* Partial Pre-rendering ( PPR )
-
-  static rendering + streaming.
-
-    Static Rendering ( only the static parts of a page are prerendered at build time ). 
-              +
-    Streaming ( Dynamic content generated at requst time with Suspense boundry ).
-
-*/
 
 export default function Page() {
   return (
     <>
-      <Header />  {/* Static */}
+      <Header />        // static rendering
 
-      <Suspense fallback={<Loading />}>
-        <Analytics />
+      <Suspense fallback={<Loading />}>     // streaming
+        <Products />   // dynamic rendering
       </Suspense>
     </>
   );
 }
 
 /* 
+    Suppose:
 
+      Header renders in 50 ms
+      Products fetches data and takes 2 seconds
+
+    Without streaming:
+
+      - Wait 2 seconds and then Send entire HTML
+
+
+    With streaming:
+
+      - 50 ms Send Header HTML
+
+      - 2 seconds later Stream Products HTML
 */
 
-// -----------------------------------------------------
+
+// --------------------------------------------------
+
+
+/* Partial Pre-rendering ( PPR )
+
+  PPR is a Next.js feature that combines:
+
+      Static rendering
+      Dynamic rendering
+      Streaming
+
+      - Static Rendering ( only the static parts of a page are pre-rendered at build time ). 
+             
+      - Streaming ( Dynamic content generated at request time with Suspense boundry ).
+
+*/
 
 
 
