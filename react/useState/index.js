@@ -32,8 +32,50 @@
 
 /*  Batching in React
 
-        Batching means React groups multiple state updates together 
-        and performs only one re-render of the component for better performance.
+         Batching means React groups multiple state updates together and 
+         performs only one render instead of rendering after every update.  
+
+         💁suppose we have function that updates count, name, age 
+          if react does not batch these update it would render three times.
+
+
+function handleClick() {
+  setCount(c => c + 1);
+  setName("John");
+  setAge(25);
+}
+
+          with batching react group them together, and there would be only one rendering.
+           which improves performence
+
+          
+          💁For a continuous event like mousemove, dozens of events can fire every second.
+
+function handleMouseMove() {
+  setX(x);
+  setY(y);
+}
+
+          Instead of rendering after every tiny mouse movement, 
+          React batches updates and can skip or delay some renders to keep the UI responsive.
+
+
+          ✌️Functional update 
+              whenever the new state depends on the previous state, such as:
+
+               * Incrementing/decrementing counters
+               * Toggling values repeatedly
+               * Adding/removing items from an array
+               * Updating objects based on their current values
+              
+               we must use functional update.
+
+               A functional update means passing a function to the setter function (setState or setCount) instead of a direct value. 
+               React provides the previous state to that function, 
+               making updates based on the current state safe, 
+               especially when multiple state updates are batched.
+
+
 
         const [count, setCount] = useState(0);
 
