@@ -1,21 +1,58 @@
-/* RSC ( React Server Component )
+/*  Components
 
-  React Server Components (RSC) represent a new architecture for building React applications.
+    We have two types of compenents in Next.js
 
-  They introduce a dual-component model consisting of :
+        1.  React Server Component (RSC) ( every component by default ).
 
-  1. Server Components.
-  2. Client Components.
-
-  Server Components run on the server and are optimized for data fetching, rendering, and accessing backend resources.
-
-  Client Components run in the browser and are responsible for interactivity, state management, event handling, and browser APIs.
-
-  By separating server-side and client-side responsibilities, 
-  RSC helps reduce JavaScript bundle sent to the browser, 
-  improve performance, and create more efficient React applications.
+        2.  Client Componet ( until we explicitly defined using "use client").
 
 
+*/
+
+/*  Client Component
+
+        - The Client Component  is pre-rendered on the server to generate the initial HTML.
+            
+            Then server sends ready-to-display HTML and regarding JS to browser
+               
+                what server sent :
+                    
+                    <button>count: 0</button>
+
+        - The browser receives it and displays the HTML immediately(but no interactive, button shows but no click ).
+        
+        - Then Js download and then React Hydrate it(interactivity) Happens.
+
+        - Client component runs in browser after hydration.
+            - can fetch data via api or recieves as props
+            - can use hooks and event handlers
+ */
+
+/*  React Server Component (RSC)
+
+        - (RSC) represent a new architecture for building React applications.
+
+        -   They introduce a dual-component model consisting of :
+
+                Server Components.
+                Client Components.
+
+        - RSC runs on server
+
+        - can fetch data, access databse, read file etc.
+
+        - can not use browser-only features like hooks and event handlers.
+
+        - RSC's js not sent to browser.
+
+        - Browser only recieves rendered HTML of RSC and js for client component that are part of the page
+
+
+        - By separating server-side and client-side responsibilities, 
+            RSC helps reduce JavaScript bundle sent to the browser, 
+            improve performance, and create more efficient React applications.
+
+  
 */
 
 // Dual component model.
@@ -24,32 +61,22 @@
 export default async function Page() {
   const products = await getProducts();
 
-  // return client component from server and send data as props
+    // return client component from server and send data as props
+    //   only js regarding client component is sent to browser
   return <ProductList products={products} />;
 }
 
 // Client Component
 
 "use client";
-
 export default function ProductList({ products }) {
-  const [filter, setFilter] = useState("");
+
 }
 
-// ----------------------------------------------
-
-
-/* Client Components Lifecycle in Next.js
-
-      - The Client Component is rendered on the server to generate the initial HTML.
-      - The browser receives and displays the HTML immediately.
-      - The Client Component's JavaScript is downloaded.
-      - React hydrates the component.
-      - Event handlers become active.
-
-*/
 
 // -----------------------------------------------------
+
+
 
 /* RSC Rendering Lifecycle
 
@@ -64,7 +91,8 @@ Request Flow:
     Client → Next.js → React
 
 1. The browser sends a request for a route.
-   Next.js matches the requested URL using the App Router and initiates the rendering process.
+   Next.js matches the requested URL using the App Router 
+   and initiates the rendering process.
 
 2. React renders all Server Components on the server and produces:
    - An RSC Payload containing the component tree and rendered output.
@@ -73,7 +101,8 @@ Request Flow:
 3. Next.js uses the RSC Payload to generate the initial HTML response.
    The HTML, RSC Payload, and Client Component instructions are then streamed to the browser.
 
-4. The browser displays the HTML immediately and later hydrates the Client Components, making the page fully interactive.
+4. The browser displays the HTML immediately and 
+    later hydrates the Client Components, making the page fully interactive.
 
 
 */
@@ -271,6 +300,8 @@ export default function Page() {
 */
 
 // -----------------------------------------------------
+
+
 
 
 
