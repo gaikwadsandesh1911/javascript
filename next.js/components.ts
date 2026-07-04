@@ -1,4 +1,4 @@
-/*  Components
+  /* Components
 
     We have two types of compenents in Next.js
 
@@ -6,7 +6,7 @@
 
       2.  Client Componet ( until we explicitly defined using "use client" ).
 
-*/
+ */
 
 // -----------------------------------------------------
 
@@ -46,10 +46,14 @@
 
       - can not use browser-only features like hooks and event handlers.
 
-      - RSC's js not sent to browser.
+      - In RSC  js not sent to browser. but rendered HTML + RSC payload is sent.
+        There is no hydration for Server component.
 
-      - Browser only recieves rendered HTML, RSC payload of server component
-          and js for client component if server render client component as well.
+        - RSC payload special data format (called the React Flight protocol) that tells the browser how to build the React component tree.
+          React uses RSC payload to reconstruct the component tree
+
+      - As we know RSC is dual component mode. client and server.
+          if server render client component as well then renderd HTML + js for client component is sent to browser.
 
 
       - By separating server-side and client-side responsibilities, 
@@ -211,7 +215,7 @@ export default async function DashboardPage() {
 /* generateStaticParams()
 
     generateStaticParams() is a function used with dynamic routes 
-    to tell Next.js which route parameters should be statically generated at build time.
+    to tell Next.js which route parameters should be statically generated at build time if we have dynamic route.
 
     for dynamic routes like.....        app/products/[id]/page.tsx
 
@@ -255,6 +259,8 @@ export default async function ProductPage({params,}: {params: Promise<{ id: stri
 
       /products/1
       /products/2
+
+      at build time.
 */
 
 export const dynamicParams = true;      // default

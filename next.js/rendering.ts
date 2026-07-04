@@ -1,10 +1,12 @@
 /* Rendering
 
-    Rendering is process of transforming component code you write,
-    into UI, that user see and interact with.
+    Rendering is the process of transforming React components (written in JSX) into something the browser can display.
+    Browser does not understand jsx by default, it need to be transformed before browser runs it.
 
     The tricky part of building performant application is figuring out when and where
     this transformation should happen.
+
+    In Next.js, rendering refers to where and when the HTML is generated.
 
 
     ➡ Different Rendering Strategies:
@@ -20,7 +22,7 @@
             <div id="root"></div>
             <script src="app.js"></script>
 
-        - Browser initially renders empty element.
+        - Browser initially renders empty root element.
 
         - Then browser download js bundle and
 
@@ -72,17 +74,16 @@
         - Once re-generation succeeds, user receives the updated HTML.
 */
 
+
 /* 
-    CSR     =>      Render in the browser.
 
-    SSR     =>      Render on server per request.
-    
-    SSG     =>      Render on server at build time.
-
-    ISR     =>      Render on Server at build time + background regeneration
-
-
-            Rendering = where and when HTML is generated.
+| Rendering Type                        | Who generates the HTML? | When?                                                                |
+| ------------------------------------- | ----------------------- | -------------------------------------------------------------------- |
+| Client-Side Rendering (CSR)           | Browser (client)        | After JavaScript loads                                               |
+| Server-Side Rendering (SSR)           | Server                  | On every request                                                     |
+| Static Site Generation (SSG)          | Server (at build time)  | During the build process                                             |
+| Incremental Static Regeneration (ISR) | Server                  | Initially at build time, then regenerated after deployment as needed |
+ 
 */
 
 // ------------------------------------------------------
@@ -108,61 +109,6 @@ This introduces : All-or-Nothing Waterfall problem.
    A slow component can delay the entire page because 
    SSR waits for all components to finish rendering before sending HTML.
 
-
-
-React 18 introduced Suspense, Streaming, and Selective Hydration.
-
-<Suspense fallback={<Spinner />}>
-  <SlowComponent />
-</Suspense>
-
-Benefits:
-
-- Ready content is streamed immediately.
-- Slow components load later.
-- Interactive parts can hydrate independently.
-- Users see and interact with content sooner.
-
 */
 
-// ------------------------------------------------------
-
-/*  Modern Next.js further improves SSR with:
-
-    - React Server Components (RSC)
-    - Caching
-    - Partial Rendering
-    - Streaming
-    - Suspense
-    - Revalidation
-
-*/
-
-// ----------------------------------------------------------
-
-
-/*  Modern Rule of Thumb
-
-    1.  Use React Server Components(RSC) when:
-
-            Fetching data
-            Reading from DB
-            Rendering UI
-
-
-    2.  Use Server Actions when:
-
-            Form submissions
-            Create/Update/Delete UI for your own next.js app 
-
-            <form action={createUser}>
-
-    3.  Use Route Handlers when:
-
-            Create API endpoints
-            Fetch data in client componet.
-            Mobile app access needs api, it cant use our server component
-            Webhooks
-            Third-party integrations
-
-*/   
+// React Server Component overcome all of this drawback.
