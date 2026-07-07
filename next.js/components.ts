@@ -14,7 +14,7 @@
 
       - The Client Component  is pre-rendered on the server to generate the initial HTML.
           
-          Then server sends ready-to-display HTML and regarding JS to browser
+          Then server sends ready-to-display HTML and regarding JS bundle to browser
               
               what server sent :
                   
@@ -22,7 +22,8 @@
 
       - The browser receives it and displays the HTML immediately(but no interactive, button shows but no click nothing happens ).
       
-      - Then Js download and then React Hydrate it(interactivity) Happens.
+      - Then Browser download Js and then React Hydrate it(interactivity).
+          now click on button works its logic
 
       - Client component runs in browser after hydration.
           - can fetch data via api or recieves as props
@@ -44,16 +45,16 @@
 
       - can fetch data, access databse, read file etc.
 
-      - can not use browser-only features like hooks and event handlers.
+      - but can not use browser-only features like hooks and event handlers.
 
       - In RSC  js not sent to browser. but rendered HTML + RSC payload is sent.
         There is no hydration for Server component.
 
-        - RSC payload special data format (called the React Flight protocol) that tells the browser how to build the React component tree.
+        - RSC payload is special data format (called the React Flight protocol) that tells the browser how to build the React component tree.
           React uses RSC payload to reconstruct the component tree
 
       - As we know RSC is dual component mode. client and server.
-          if server render client component as well then renderd HTML + js for client component is sent to browser.
+          if server render client component as well then renderd HTML & RSC payload of server component + js for client component is sent to browser.
 
 
       - By separating server-side and client-side responsibilities, 
@@ -170,11 +171,8 @@ export default function ProductList({ products }) {
 
 */
 
-
 // app/product/[id]/page.tsx.
-
 // /product/123
-
 export default async function ProductPage({params}: {params: Promise<{ id: string }>}) {
   const { id } = await params;
 

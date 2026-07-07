@@ -6,6 +6,7 @@
     The tricky part of building performant application is figuring out when and where
     this transformation should happen.
 
+    ***
     In Next.js, rendering refers to where and when the HTML is generated.
 
 
@@ -34,44 +35,34 @@
         - As user request, server fetches required data if any.
         
         - Then Server renders React component into HTML (jsx to html) and 
-            and send ready-to-display HTML  and regarding JS to the browser
+            and send ready-to-display HTML and regarding JS bundle to the browser
         
-        - Browser displays UI instantly. ( button will be visible, clicking it would do nothing ).
-
-        - Then browser download JS and React hydrate the html by attaching event handlers, 
-            so it becomes interactive.
-
-       
 
     3.SSG (Static Site Generation):
 
-        - with SSG pages are rendered into HTML during build time 
+        - pages are rendered into HTML during build time 
             not when user request it. 
 
         - Flow
 
             1. you command,  npm run build / next build
 
-            2. Next.js executes React Component and generate static HTML files and their associate assests.
+            2. Next.js executes React Component and generate static HTML files and RSC payload.
                 This files stored / deployed on server.
 
-            3. When user request the page server or CDN simply serves these pre-generated HTML
+            3. When user request the page server simply serves these pre-generated HTML + RSC payload
 
-            4. Browser display it immediately, download js, react hydrate the page
-        
-            
 
     4.ISR (Incremental Static Regeneration):
-
 
         - The pages are pre-rendered into HTML like SSG.
 
         - But those pages data become outdated.
 
-        - Next.js can re-generate the HTML in the background
+        - Next.js can re-generate the HTML + RSC payload in the background
             after specified interval, without re-building entire application.
 
-        - Once re-generation succeeds, user receives the updated HTML.
+        - Once re-generation succeeds, user receives the updated HTML + RSC Payload.
 */
 
 
@@ -110,5 +101,3 @@ This introduces : All-or-Nothing Waterfall problem.
    SSR waits for all components to finish rendering before sending HTML.
 
 */
-
-// React Server Component overcome all of this drawback.
