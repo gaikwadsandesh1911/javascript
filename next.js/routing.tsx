@@ -24,10 +24,6 @@
 
       /components
           can not become route. it has no page.tsx
-
-
-
-
 */
 
 // --------------------------------------
@@ -125,54 +121,95 @@ export default async function CategoryPage({ params }: Props) {
 
 // -----------------------------------------------
 
-/* Catch-all Route  and Optional Catch-all Route
+/* Catch-all Route and Optional Catch-all Route.
 
-  both are useful when number of dynamic url segment not known in advance. for eg. docs sites.
+    We use catch-all and optional catch-all routes when the number of dynamic URL segments is not fixed.
+    So, Instead of creating many nested folders, we create one route that handles multiple URL patterns.
 
+      - We use a catch-all route ([...slug]): 
+          - when there must be at least one segment after the route..
 
-  1.  Catch-all Route
+      - We use an optional catch-all route ([[...slug]]) : 
+          - when the same page should handle both the parent route. and any number of nested segments.
 
-        dynamic segment is wrapped with [...slug]
+    
 
-        app/docs/[...slug]/page.tsx
+    1.  Catch-all Route  ([...slug])
 
-        It captures one or more remaining segments as an array.
+      Folder Structure
 
-          with [...slug],  if zero segment means for /docs we have no page.tsx
-          will result in 404 Not Found which rendes not-found.tsx
-         
+        app/
+        └── docs/
+            └── [...slug]/
+                └── page.tsx
+
+      Here, /docs is parent route.
         
-        /docs/react
-        /docs/react/hooks
-        /docs/react/hooks/useEffect
+      Requests handled:
+
+        ✅ /docs/react
+        ✅ /docs/react/hooks
+        ✅ /docs/react/hooks/useState
+        ❌ /docs
 
 
-    2.  Optional Catch-all Route
+      Instead of creating:
 
-          dynamic segment is wrapped with [[...slug]]
+        docs/
+        ├── react/
+        │   ├── page.tsx
+        │   └── hooks/
+        │       └── page.tsx
 
-          app/docs/[[...slug]]/page.tsx
-
-          It Captures zero or more segments as an array.
-
-          with [[...slug]], if zero segment means for /docs we have no page.tsx
-          then last return ( default return ) is executed
-
-          with /docs  slug = undefined in Optional catch-all seg.
+        - one catch-all route can handle all of them.
+        - does not handle parent route...  /docs
+          will result in 404 Not Found which rendes not-found.tsx 
 
 
-*/
+        /docs               no match => error
+        /docs/react         ["react"]
+        /docs/react/hooks   ["react", "hooks"]
 
-import Link from "next/link";
+
+    2.  Optional Catch-all Route      ([[...slug]])
+
+        Folder:
+
+          app/
+          └── docs/
+              └── [[...slug]]/
+                  └── page.tsx
+
+        Requests handled:
+
+          ✅ /docs
+          ✅ /docs/react
+          ✅ /docs/react/hooks
+
+          - It handle parent route(/docs) as well.
+
+
+        /docs               undefined
+        /docs/react         ["react"]
+        /docs/react/hooks   ["react", "hooks"]
+
+
+*/ 
+
+//  app/docs/[[...slug]]/page.tsx
 
 type Props = {
   params: Promise<{
-    slug: string[];
+    slug?: string[];
   }>;
 };
+
 export default async function Features({ params }: Props) {
+  
   const { slug } = await params;
+
   //   console.log("slug", slug);
+
   if (slug?.length === 1) {
     return (
       <div>
@@ -184,6 +221,7 @@ export default async function Features({ params }: Props) {
       </div>
     );
   }
+
   if (slug?.length === 2) {
     return (
       <div>
@@ -204,17 +242,24 @@ export default async function Features({ params }: Props) {
 
 // one route handles everything.
 
-// --------------------------------------------
+/* Easy way to remember
+
+    - [...slug] = 1 or more segments required.
+
+    - [[...slug]] = 0 or more segments allowed.
+
+*/
+
+// -----------------------------------------------------------------------------------
+
 
 /*  params and searchParams
 
   params and searchParams 
   are two different ways of accessing URL data, in RSC.
 
-  params and searchParams are special props 
-  automatically injected by Next.js into React Server Components 
-  such as pages and layouts.
-
+  params and searchParams are special props automatically injected by Next.js  
+ 
   params contains values extracted from dynamic route segments 
   (e.g. /users/123 → { id: "123" }).
 
@@ -222,6 +267,7 @@ export default async function Features({ params }: Props) {
   (e.g. ?page=2 → { page: "2" }).
 
   these props are asynchronous and need to be awaited.
+
 */
 
 //    /products/001
@@ -263,7 +309,7 @@ async function Products({ searchParams }: SearchParamsProp) {
 
 // ----------------------------------------
 
-// can also be used both , in same page
+// can also be used both, in same page.
 
 //    app/products/[category]/page.tsx
 //    app/products/laptop?page=2&sort=price
