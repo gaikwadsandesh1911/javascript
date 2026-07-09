@@ -1,8 +1,11 @@
 /*  useRef
 
-    useRef is a React Hook that returns a mutable object with a [.current] property.
-    The value stored in .current persists across component re-renders, 
-    and updating it does not trigger a re-render.
+    useRef is a React Hook that returns a mutable object that has only one property.   [.current] property.
+    
+    useRef is primarily used to store mutable values that persist across renders 
+    and updating that value does not re-render component. 
+    
+    when component does not re-render. It does not update the UI.
 
     useRef() Commonly use for:
 
@@ -31,8 +34,7 @@ export default function App() {
   );
 }
 
-// The UI will not update because changing countRef.current does not re-render the component.
-// It only stores value, value get updated in console on click, but not update UI
+// useRef is primarily used to store mutable values that persist across renders without updating the UI.
 
 // ---------------- focus input element -------------------------------------
 

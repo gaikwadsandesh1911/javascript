@@ -18,24 +18,26 @@
 
 /*  💡 Single page application(SPA) and Multi page application(MPA)
 
-        In a SPA (Single Page Application), the browser loads one HTML page initially. 
-        After that, as the user interacts with the application, 
-        JavaScript dynamically updates the UI without reloading the entire page.
+        In a SPA (Single Page Application):
+                The browser loads single HTML page initially. 
+                After that, as the user interacts with the application, 
+                It uses JavaScript to dynamically updates the UI without reloading the entire page.
 
-        It Provide a faster and smoother user experience.
+                - It Provide a faster and smoother user experience.
         
-        In an MPA (Multi Page Application), every navigation sends a request to the server, 
-        and the server returns a new HTML page, causing a full page reload.
+        In an MPA (Multi Page Application):
+                Every navigation sends a request to the server, 
+                and the server returns a new HTML page, causing a full page reload.
 
         
 */
 
 
 
-/*  💡 Component      
+/*  💡 Components      
         
-            Component is basic building block of react application.
-            Because of component we can break entire react app into small re-usable pieces of UI
+            Components are basic building block of react application.
+            Because of component we can break entire react app into small re-usable pieces of UI.
 
         👉  In each component we manage its own state and logic.
 
@@ -61,14 +63,14 @@
         jsx stands for javascript xml.
 
         It is a syntax extension for JavaScript used in React.
+
         JSX allows us to write HTML-like code inside JavaScript files,
         
-
         It helps React create elements without manually using methods
         like createElement() and appendChild().
         so reading and writing component UI code becomes easier.
         
-        But JSX is not valid JavaScript. It must be transformed into regular JavaScript before the browser run it.
+        But Browser does not understand jsx by default. It must be transformed into regular JavaScript before the browser run it.
 
         This transformation is done by 
 
@@ -143,18 +145,18 @@
 
 /*  💡  State
 
-             state is any data like string, number, object, array etc, 
+             state is any data like string, number, object, array etc that changed over the time.
              that is belongs to component and managed inside component,
-             that data is changed over the time.
-
-             When state changes, React re-renders the component UI automatically.
-            
+             
+             When state changes, React re-renders the component UI automatically. 
 
 */
 
 /*  💡  Props (short for properties)
 
             Props are data passed from parent component to child component.
+            
+            Parent component pass it as an attribute and
             Child component recieves it as an object.
 
             props are read-only and can not modified in child component.
@@ -212,8 +214,29 @@
 */
 
 
-/*   💡  hooks
+/*   💡  Hooks
 
-        hooks are special functions in react that allow functional components to use 
-        state, lifecycle features, context, ref, side effect without using class component.
+        Hooks are special built-in functions in React
+        that let functional components use React features such as: 
+                state, lifecycle methods, context, refs, and other capabilities
+                without writing class components.
+
+        They were introduced in React 16.8.
+
+
+        Why were Hooks introduced?
+
+        Before Hooks:
+
+                - Functional components could only render UI.
+                - To use state or lifecycle methods, we had to create class components.
+                - Sharing stateful logic between components was difficult.
+
+        Hooks solve these problems by allowing functional components to:
+
+                - Manage state
+                - Perform side effects
+                - Access context
+                - Store mutable values
+                - Reuse stateful logic through custom hooks
 */

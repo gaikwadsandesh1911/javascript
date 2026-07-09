@@ -5,19 +5,20 @@
                 Component re-renders means React calls the component function again.
                 
                 During every render:
-                        Primitive values are re-evaluated
-                        Objects are re-created
-                        Arrays are re-created
-                        Functions are re-created
-                means new reference ( memory address ) is assigned to them.
+
+                        - primitive values are re-evaluated
+
+                        - objects / arrays / functions are re-created 
+                          means new reference ( memory address ) is assigned to them.
 
         There is no problem in that, React is built like that way.
-        React often uses reference comparison(shallow comparison )
-        to efficiently determine changes and update the UI.
+        Thats how react detect the change, and efficiently update the UI.
+        
 
-        But this re-creation become a problem?
+        It become a problems mainly in two situation?
 
-        1. when a component performs expensive calculations on every render..
+        1. Expensive calculations run on every render:
+
             which can decrease performance or freeze the UI.
                 
                 ✅ Solution: useMemo
@@ -25,11 +26,10 @@
                     Re-computes only when dependencies change
 
         2. When Functions is passed to child component,
-            and child component re-render un-neccesory  when parent component re-rendes.
+            and child component re-render un-neccesory on every render of parent component.
 
                 ✅ Solution: useCallback
-                    Returns the same function reference and
-                    Updates only when dependencies change
+                    memoize function itself and pass same function reference until dependency is changed
 
                 🔹 Important condition
                         useCallback is only effective when the child component 
@@ -39,9 +39,11 @@
                             React.memo → skips re-render of the child component if props are not changed.
 
 
-                useMemo()             memoize value
-                useCallback()         memoize function          
-                React.memo()          memoize component
+                - useMemo()             Memoizes the result (value) of a expensive computation.
+
+                - useCallback()         Memoizes a function so it isn't recreated on every render. 
+
+                - React.memo()          memoize component
 
         These hook are used to optimize performance of an application.
 
@@ -98,17 +100,32 @@ console.log(memoFun(40));
 
 /*  🔹 What is useMemo?
 
-        useMemo is a React Hook used to memoize(cache) return value of an expensive computation.
-        so it does not get re-calculated on every re-render,
-        It re-calculated only when one of its dependencies changes; 
-        otherwise, it returns the previously cached result. 
+        useMemo is a React Hook:
 
+          - which is used to memoize value return by expensive calculation.
+          
+          - useMemo takes a callback function and a dependency array. 
+            and returns memoizes value: the value returned by the callback function. 
+          
+            - React does not executes the callback until one of it's dependency is changed; 
+
+            - The callback passed to useMemo usually performs an expensive calculation.
+            
             ** it cache value of any type.. like array, object, number
 
             ** expensive calculation means 
                 cpu heavy task, 
                 filtering large list of products, may slow down UI.
 */
+
+      const Memoizedvalue = useMemo(callback, dependencies);
+
+      const memoizedValue = useMemo(() => {
+        // Perform calculation
+        return value;
+      }, [dependencies]);
+
+
 
 // -----  eg without useMemo  -------------------------------------------------
 
@@ -125,11 +142,18 @@ function Products() {
     { id: 4, name: "Smart Watch", price: 5000 },
   ];
 
+const getFilteredProducts = () => {
+
   console.log("Filtering + sorting...");
 
-  const filteredProducts = products
-    .filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
+  return products
+    .filter((item) =>
+      item.name.toLowerCase().includes(search.toLowerCase())
+    )
     .sort((a, b) => a.price - b.price);
+}
+
+  const filteredProducts = getFilteredProducts();
 
   return (
     <>
@@ -188,6 +212,10 @@ function Products() {
       .sort((a,b)=>a.price-b.price);
   }, [search]);
 
+  /* 
+      const filteredProducts = useMemo(()=> getFilteredProducts() ,[ search] )
+  */
+
   return (
     <>
       <input
@@ -218,7 +246,7 @@ function Products() {
 export default Products;
 
 /* 
-    here filtefilteredProducts executed only serch is changed,
+    here filteredProducts executed only serch is changed,
     not on click of button.
 */
 
@@ -230,10 +258,12 @@ export default Products;
 
 /* 🔹 What is useCallback?
 
-        useCallback is a React Hook used to memoize function references.
+        useCallback is a React Hook which is used to memoize function.
 
-        It returns the same function reference between renders
-        unless dependencies change.
+        It takes callback function and dependency array and   
+        returns the same function reference between renders, unless dependencies change.
+
+        *** It memoize callback function.
 
         for eg.1
         when we pass function to child componet we can prevent child component from un-necessory re-rendering
