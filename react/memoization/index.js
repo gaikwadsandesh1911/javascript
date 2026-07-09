@@ -1,8 +1,7 @@
 /* 
         What happens when a component re-renders ?
         
-                Component re-renders deu to change in state, prop, context value, parent component re-render, 
-                Component re-renders means React calls the component function again.
+                Component re-renders deu to change in state, prop, context value, parent component re-render.
                 
                 During every render:
 
@@ -45,13 +44,13 @@
 
                 - React.memo()          memoize component
 
-        These hook are used to optimize performance of an application.
+        These hooks are used to optimize performance of an application.
 
         
-        🔹 React.memo()
-        React.memo is a Higher-Order Component (HOC) 
-        that memoizes a component and prevents it from un-necessary-rendering 
-        if its props have not changed.
+      🔹 React.memo():
+          React.memo is a Higher-Order Component (HOC) 
+          that memoizes a component and prevents it from un-necessary-rendering 
+          if its props have not changed.
 
 */
 
@@ -104,7 +103,7 @@ console.log(memoFun(40));
 
           - which is used to memoize value return by expensive calculation.
           
-          - useMemo takes a callback function and a dependency array. 
+          - It takes a callback function and a dependency array. 
             and returns memoizes value: the value returned by the callback function. 
           
             - React does not executes the callback until one of it's dependency is changed; 
@@ -263,7 +262,7 @@ export default Products;
         It takes callback function and dependency array and   
         returns the same function reference between renders, unless dependencies change.
 
-        *** It memoize callback function.
+        *** It memoize callback function of useCallback() hook.
 
         for eg.1
         when we pass function to child componet we can prevent child component from un-necessory re-rendering
@@ -315,12 +314,7 @@ const Child = React.memo( ({ onClick }) => {
 
 export default Parent;
 
-/*  when we change text, component re-renders
-    so on every re-render handleClick function re-created
-    everytime new reference is passed to child component
-    React.memo() sees new reference of prop and it re-render un-necessory on change of text  
 
-*/
 
 // -----------------with useCallback ----------------------------------------------------------
 
@@ -369,19 +363,7 @@ const Child = React.memo(({ onClick }) => {
 
 export default Parent;
 
-/*  when we change text, component re-renders
-    useCallback executes again
-     
-    React returns the previously memoized
-    function reference because dependencies
-    did not change
 
-    so handleClick keeps same reference
-
-    React.memo() sees same reference of prop and it prevent re-renders of child component.
- 
-
-*/
 
 
 // -----------------------------------------------------------------------------
