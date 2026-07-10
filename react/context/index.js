@@ -28,13 +28,15 @@
 
     It's three steps to follow...
 
-    👉createContext() → Context acts as a shared data container.
+    👉createContext() → createContext is a React API used to create a Context object.
+                        Context acts as a shared data container.
 
-    👉Provider →  we wrap the required component tree inside the Context Provider 
+    👉Provider →  Provider is a component of a Context object that supplies a value to all descendant components.
+                  we wrap the required component tree inside the Context Provider 
                   and pass the data using the value attribute
 
     👉useContext() → useContext is a React Hook used to read data from a Context. 
-                      It allows components to access shared data without passing it through props at every level (prop drilling).
+                    It allows components to access shared data without passing it through props at every level (prop drilling).
 
 */
 
