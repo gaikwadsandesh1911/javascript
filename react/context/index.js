@@ -33,7 +33,8 @@
     👉Provider →  we wrap the required component tree inside the Context Provider 
                   and pass the data using the value attribute
 
-    👉useContext() → reads / consume data in child componet useContext() hook is used
+    👉useContext() → useContext is a React Hook used to read data from a Context. 
+                      It allows components to access shared data without passing it through props at every level (prop drilling).
 
 */
 
