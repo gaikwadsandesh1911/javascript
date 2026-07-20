@@ -22,8 +22,20 @@
     
     What is a Database?
 
-        A database is an organized collection of related data that is stored and managed electronically  
+        A database is an organized collection of related data that is stored and managed electronically. 
         so it can be easily accessed, updated, and retrieved.
+
+    
+    What is DBMS (Database Management System)?
+
+        A DBMS is software that allows users to create, store, manage, retrieve, and manipulate data in a database. 
+        It acts as an interface between the user/applications and the database.
+    
+
+    What is RDBMS (Relational Database Management System)?
+
+        An RDBMS is a type of DBMS that stores data in the form of tables consisting of rows and columns. 
+        It maintains relationships between tables using Primary Keys and Foreign Keys.
 
     
     What is PostgreSQL?
@@ -40,6 +52,18 @@
 
 */
 
+/*  DBMS vs RDBMS:
+
+        | DBMS                                        | RDBMS                                                     |
+        | ------------------------------------------- | --------------------------------------------------------- |
+        | Stores data in files or simple structures.  | Stores data in tables (rows and columns).                 |
+        | May not support relationships between data. | Supports relationships using Primary Key and Foreign Key. |
+        | Data redundancy is higher.                  | Data redundancy is minimized through normalization.       |
+        | Limited support for data integrity.         | Provides strong data integrity using constraints.         |
+        | Suitable for small applications.            | Suitable for large, enterprise-level applications.        |
+        | May not fully support SQL.                  | Uses SQL as the standard language.                        |
+
+ */
 
 
 /*  SQL operations are broadly classified into these categories:
@@ -57,7 +81,7 @@
 -- ----------------------------------------------------------------------------
 
 
-/*  Commonly Used Data Types in Real Projects:
+/*  Commonly Used Data Types in PostgreSQL:
 
         | Data Type              | Typical Use                       |
         | ---------------------- | --------------------------------- |
@@ -76,7 +100,14 @@
 
 -- --------------------------------------------------------------------------
 
+
 /*  Common Constraints in PostgreSQL: 
+
+    - Constraints are rules applied to a table's columns 
+      to ensure that only valid and accurate data is stored in the database.
+
+    - They help maintain data integrity by preventing invalid data from being inserted, updated, or deleted.
+
 
         | Constraint    | Purpose                                      |
         | ------------- | -------------------------------------------- |
@@ -88,6 +119,27 @@
         | `DEFAULT`     | Assigns a default value if none is provided  |
 
 */
+
+/*  Primary Key
+
+        A Primary Key is a column that uniquely identifies each row in a table. 
+        A primary key cannot contain NULL values, and each value must be unique.
+
+    Foreign Key
+
+        A Foreign Key is a column in one table that references the primary key of another table. 
+        It is used to establish relationships between tables.
+
+
+        | Primary Key               | Foreign Key                                        |
+        | ------------------------- | -------------------------------------------------- |
+        | Uniquely identifies a row | References a primary key in another table          |
+        | Must be unique            | Can have duplicate values                          |
+        | Cannot be `NULL`          | Can be `NULL` (unless constrained with `NOT NULL`) |
+        | One primary key per table | A table can have multiple foreign keys             |
+        | Ensures entity identity   | Establishes relationships between tables           |
+
+ */
 
 -- check
 CREATE TABLE employees (
@@ -123,139 +175,31 @@ CREATE TABLE employees (
 
 /*  operators
 
-| Category            | Operators                                   | 
-| ------------------- | ------------------------------------------- |
-| Arithmetic          | `+`, `-`, `*`, `/`, `%`, `^`                |                        
-| Comparison          | `=`, `!=`, `<>`, `>`, `<`, `>=`, `<=`       |                        
-| Logical             | `AND`, `OR`, `NOT`                          |                         
-| Pattern Matching    | `LIKE`, `ILIKE`, `NOT LIKE`                 |                       
-| Membership          | `IN`, `NOT IN`                              |            
-| Range               | `BETWEEN`, `NOT BETWEEN`                    |                         
-| NULL Check          | `IS NULL`, `IS NOT NULL`                    |                         
-| Subquery Comparison | `ANY`, `ALL`                                |                         
-| String              | `                                           |                        
-| Bitwise             | `&`, `                                      |
-| JSON                | `->`, `->>`, `#>`, `#>>`                    |                         
-| Array               | `@>`, `<@`, `&&`                            |
-| Set                 | `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT` |
-
-| ORDER BY            | 'ASC', 'DESC'                               |
-| LIMIT               |  Limit the number of rows returned.         |                                      |
-| OFFSET              |  Skip a specified number of rows            |
-| DISTINCT            |  Return unique values.                      |
-| GROUP BY            |  Group rows before applying aggregate functions.
-| HAVING              |  Filter grouped results.
-
- */
+        Operators are special symbols or keywords that perform operations on 
+        one or more values (operands) and return a result.
 
 
+        | Category            | Operators                                   | 
+        | ------------------- | ------------------------------------------- |
+        | Arithmetic          | `+`, `-`, `*`, `/`, `%`, `^`                |                        
+        | Comparison          | `=`, `!=`, `<>`, `>`, `<`, `>=`, `<=`       |                        
+        | Logical             | `AND`, `OR`, `NOT`                          |                         
+        | Pattern Matching    | `LIKE`, `ILIKE`, `NOT LIKE`                 |                       
+        | Membership          | `IN`, `NOT IN`                              |            
+        | Range               | `BETWEEN`, `NOT BETWEEN`                    |                         
+        | NULL Check          | `IS NULL`, `IS NOT NULL`                    |                         
+        | Subquery Comparison | `ANY`, `ALL`                                |                         
+        | String              | `                                           |                        
+        | Bitwise             | `&`, `                                      |
+        | JSON                | `->`, `->>`, `#>`, `#>>`                    |                         
+        | Array               | `@>`, `<@`, `&&`                            |
+        | Set                 | `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT` |
 
--- Logical =>  AND, OR,  NOT
-
---  AND:    Returns TRUE only if both conditions are true.
-SELECT *
-FROM employees
-WHERE department = 'IT'
-    AND salary > 50000;
--- Result: Returns employees who are in the IT department and have a salary greater than 60,000.
-
--- OR:      Returns TRUE if at least one condition is true.
-SELECT *
-FROM employees
-WHERE department = 'IT'
-   OR department = 'HR';
--- Result: Returns employees who belong to either the IT or HR department
-
--- NOT:     Reverses a boolean condition
-SELECT *
-FROM employees
-WHERE NOT department = 'IT';
--- Result: Returns employees who are not in the IT department.
-
--- combine
-SELECT *
-FROM employees
-WHERE (department = 'IT' OR department = 'HR')
-  AND salary > 60000;
-
-
--- -----------------------------------------------
-
-/*  Pattern Matching Operators:     used to search text
-
-        | Operator   | Description                    |
-        | ---------- | ------------------------------ |
-        | `LIKE`     | Case-sensitive pattern match   |
-        | `ILIKE`    | Case-insensitive pattern match |
-        | `NOT LIKE` | Opposite of `LIKE`             |
+        | ORDER BY            | 'ASC', 'DESC'                               |
+        | LIMIT               |  Limit the number of rows returned.         |                                      |
+        | OFFSET              |  Skip a specified number of rows            |
+        | DISTINCT            |  Return unique values.                      |
+        | GROUP BY            |  Group rows before applying aggregate functions.
+        | HAVING              |  Filter grouped results.
 
  */
-
-SELECT *
-FROM employees
-WHERE name LIKE 'A%';
-
--- -----------------------------------------------------------------
-
-
-/* membership operators:    to check value exist or  not in list
-
-        | Operator | Description                                                |
-        | -------- | ---------------------------------------------------------- |
-        | `IN`     | Checks if a value exists in a list or subquery             |
-        | `NOT IN` | Checks if a value does **not** exist in a list or subquery |
-
- */
-
-
--- IN      returns TRUE if the value matches any value in the list.
-SELECT *
-FROM employees
-WHERE department IN ('IT', 'HR');
-
--- this is equivalent to
-
-SELECT *
-FROM employees
-WHERE department = 'IT'
-   OR department = 'HR';
-
-
--- NOT IN    returns TRUE if the value is not present in the list.
-SELECT *
-FROM employees
-WHERE department NOT IN ('IT', 'HR');
-
-
--- -------------------------------------------------------------
-
-/* Range operators
-
-        | Operator      | Description                                                                    |
-        | ------------- | ------------------------------------------------------------------------------ |
-        | `BETWEEN`     | Checks if a value falls within a specified range (inclusive of both endpoints) |
-        | `NOT BETWEEN` | Checks if a value falls outside a specified range                              |
-
- */
-
--- BETWEEN
-SELECT *
-FROM employees
-WHERE salary BETWEEN 30000 AND 60000;
-
---  this is equivalent to
-
-WHERE age >= 18 AND age <= 30;
-
-
--- NOT BETWEEN   ( Values outside the range )
-SELECT *
-FROM employees
-WHERE age NOT BETWEEN 18 AND 30;
-
---  this is equivalent to
-
-WHERE age < 18 OR age > 30;
-
--- ----------------------------------------------------
-

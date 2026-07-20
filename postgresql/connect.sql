@@ -1,20 +1,33 @@
+-- SQL Shell (psql)
+
 -- verify connection
 postgres=# select version();
 
 -- list available databases
-postgres=# \l
+\l
 
 -- create database
-postgres=# create database myDatabase;
+create database myDatabase;
 
 -- connect to database
-postgres=# \c mydatabase;
+\c mydatabase;
 
 -- you see connected database
 mydatabase=#
 
--- delete database, you can't not delete database you connected, connect with other database first.
+-- show currently connected database
+SELECT current_database();
+
+-- delete database. You can't delete database you are connected to, connect with other database first.
 postgres=# drop database mydatabase;
 
 -- clear screen
-postgres=# \! cls
+\! cls
+
+
+-- show available table inside database
+\dt
+-- if no table availble you will see ... "Did not find any relations."
+
+-- drop table
+drop table tableName;
