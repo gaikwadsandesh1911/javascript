@@ -14,6 +14,15 @@
     Traditionally, SELECT belongs to DQL (Data Query Language) because it only retrieves data and does not modify it
 
  */
+
+        -- create table (DDL)
+        CREATE TABLE users (
+           id SERIAL PRIMARY KEY,
+           name TEXT NOT NULL,
+           email TEXT UNIQUE
+        );
+
+
         -- insert
         INSERT INTO users (name, email)
         VALUES ('Sandesh', 'sandesh@gmail.com');

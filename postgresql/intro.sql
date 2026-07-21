@@ -86,7 +86,7 @@
         | Data Type              | Typical Use                       |
         | ---------------------- | --------------------------------- |
         | `SERIAL` / `BIGSERIAL` | Primary keys                      |
-        | `INT`                  | Age, quantity, counts             |
+        | `INT`  / 'BIGINT'      | Age, quantity, counts             |
         | `VARCHAR(n)`           | Names, email addresses            |
         | `TEXT`                 | Long descriptions or comments     |
         | `BOOLEAN`              | Active/inactive flags             |
@@ -121,12 +121,11 @@
 */
 
 /*  Primary Key
-
-        A Primary Key is a column that uniquely identifies each row in a table. 
+        A Primary Key is a column (or combination of columns) that uniquely identifies each row in a table. 
         A primary key cannot contain NULL values, and each value must be unique.
 
+    
     Foreign Key
-
         A Foreign Key is a column in one table that references the primary key of another table. 
         It is used to establish relationships between tables.
 
@@ -139,6 +138,24 @@
         | One primary key per table | A table can have multiple foreign keys             |
         | Ensures entity identity   | Establishes relationships between tables           |
 
+ 
+    Composite Primary key
+        - When primary key is made up of more than one column is called composite primary key.
+        - This is commonly used in Bridge tables ( Junction Table or Join Table ) for many-to-many relationships.
+
+        eg.
+            PRIMARY KEY(student_id,course_id)
+
+
+    Index
+        An index is a database object that improves the speed of data retrieval operations 
+        by allowing PostgreSQL to locate rows efficiently 
+        without scanning the entire table.
+
+            - When you create a primary key:
+              PostgreSQL automatically creates a unique B-tree index on the that column.
+
+            
  */
 
 -- check
@@ -203,3 +220,15 @@ CREATE TABLE employees (
         | HAVING              |  Filter grouped results.
 
  */
+
+
+ /* Normalization?
+
+        Normalization is the process of organizing data into multiple related tables 
+        to reduce redundancy( duplicate data ) and improve data consistency.
+
+    Denormalization?
+
+        Denormalization is the process of intentionally adding redundant data or combining tables 
+        to improve read performance by reducing joins.
+*/
