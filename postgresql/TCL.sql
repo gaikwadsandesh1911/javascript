@@ -126,9 +126,11 @@ COMMIT;
 
             - Atomicity: 
                         Atomicity ensures that all operations within a transaction are treated as a single unit.
+                        All or Nothing. Either all operation succeed or fail.
 
             - Consistency: 
                         Consistency ensures that database always remains correct and valid
+                        before and after transaction.
             
             - Isolation:   
                         Isolation ensures that multiple transactions executing at the same time 
