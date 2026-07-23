@@ -10,7 +10,7 @@ use dbName
 /* 
     use   
         command only switches the current database context. 
-        The database is actually created only after you insert the first document or otherwise store data in it. 
+        The database is actually created only after you insert the first document or store data in it. 
         
         That's why an empty database won't appear in show dbs.
 */

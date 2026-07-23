@@ -35,8 +35,22 @@ db.employees.insertMany([
 /* 
     find() 
 
-        retrieves all documents that match a specified query filter. 
-        If no filter is provided, it returns all documents in the collection.
+        find() method returns cursor that points to matching document, 
+        not actual document directly.
+        
+            - It provide access to query result and
+            - allow documents to be retrieved efficiently in batches
+                instead of loading all result into memory at once. 
+        
+
+        Cursor: A cursor is an object return by find() method. 
+                that allows you to iterate over the query results 
+                without loading all documents into memory at once.
+
+                - in native mongo driver cursor is converted into array.
+
+                - with mongoose find() returns an array directly.
+
 
     findOne()
 
@@ -45,7 +59,7 @@ db.employees.insertMany([
 
 */
 db.collection.find()
-db.collection.find({})   // {} means match all documents.
+db.collection.find({})
 
 
 // -------------------------------
@@ -67,6 +81,7 @@ db.employees.find({
 })
 
 // -------------------------------
+
 
 /* 
     Projection
