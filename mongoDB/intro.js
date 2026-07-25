@@ -115,3 +115,15 @@
         where data is distributed across multiple servers called shards.
 
 */
+
+/*  BSON Data Types
+
+        String
+        Number
+        Boolean
+        Array
+        Object
+        Date
+        ObjectId
+        Null
+*/
