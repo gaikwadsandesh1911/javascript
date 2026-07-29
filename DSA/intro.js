@@ -13,7 +13,6 @@
                 No better idea comes first
 
                 Don’t stop here — always ask:
-
                 “Can I reduce repeated work?”
 
             💡 Example:
@@ -97,7 +96,7 @@
             Tree traversal
 
 
-    🧠we have other techniques as well, will explore later
+    🧠we have other techniques as well, will explore later....
                 
 
 */
@@ -166,48 +165,38 @@
     
 
 
-    🧠Time-complexity
+        | Complexity | Name         | Example                     |
+        | ---------- | ------------ | --------------------------- |
+        | O(1)       | Constant     | Access array element        |
+        | O(log n)   | Logarithmic  | Binary Search               |
+        | O(n)       | Linear       | Linear Search               |
+        | O(n log n) | Linearithmic | Merge Sort, Heap Sort       |
+        | O(n²)      | Quadratic    | Bubble Sort                 |
+        | O(n³)      | Cubic        | Triple nested loops         |
+        | O(2ⁿ)      | Exponential  | Recursive Fibonacci (naive) |
+        | O(n!)      | Factorial    | Generating all permutations |
 
-        👉Linear Time  - O(n)     -   single loop
+        
+        Best to Worst Time Complexity
 
-            for (let i = 0; i < n; i++) {
-                console.log(arr[i]);
-            }
-
-
-        👉Quadratic Time - O(n²)   -    Nested loop
-
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < n; j++) {
-                    console.log(i, j);
-                }
-            }
-
-        👉Constant Time — O(1)     
-
-                execution time not depends on input size
-
-
-            arr[0]  // access first element
-
-            ✔ Always fast
-            ✔ Best possible case
-
-
-        👉Logarithmic Time — O(log n)
-
-                Input size reduces in each step (divide & conquer)
-
-                Binary Search
-                ✔ Very efficient for large data
-
-        👉Linearithmic Time — O(n log n)
-
-                Combination of linear + logarithmic
-
-                Merge Sort
-                Quick Sort (average case)
-
+        Best
+        │
+        ├── O(1)
+        │
+        ├── O(log n)
+        │
+        ├── O(n)
+        │
+        ├── O(n log n)
+        │
+        ├── O(n²)
+        │
+        ├── O(n³)
+        │
+        ├── O(2ⁿ)
+        │
+        └── O(n!)
+        Worst
 
     
     🧠space-complexity
