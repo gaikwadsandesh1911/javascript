@@ -4,7 +4,7 @@
 
 /* 
     1.  Assume first element is largest.
-    2.  Traverse the array.
+    2.  Traverse the array from second index.
     3.  If current element is greater than largest, update largest.
     4.  Return largest.
 
@@ -33,7 +33,7 @@ console.log("Larget element: ", largest([4, 7, 2, 9, 5]));
 
 /* 
     1.  Assume the first element is both the largest and smallest.
-    2.  Traverse the array from the second element.
+    2.  Traverse the array from the second index.
     3.  For each element:
             - If it is greater than the current largest, update the largest.
             - If it is smaller than the current smallest, update the smallest.
@@ -77,7 +77,7 @@ console.log("Larget element: ", largest([4, 7, 2, 9, 5]));
 /* 
     1.  Assume the first element is the largest.
     2.  Assume there is no second largest yet.
-    3.  Traverse the array from the second element.
+    3.  Traverse the array from the second index.
     4.  If the current element is greater than the largest:
             - Move largest to secondLargest.
             - Update current element as largest.
@@ -85,7 +85,7 @@ console.log("Larget element: ", largest([4, 7, 2, 9, 5]));
     5.  Otherwise, if the current element is:
 
             - smaller than largest, and
-            - greater than secondLargest (or secondLargest doesn't exist),
+            - greater than secondLargest (or secondLargest doesn't exist yet),
 
             then update secondLargest.
 
@@ -130,14 +130,14 @@ console.log("Larget element: ", largest([4, 7, 2, 9, 5]));
 /* 
     1.  Traverse from second element.
     2.  Compare current with previous.
-    3.  If current is smaller than previous, return false.
+    3.  If current element is smaller than previous, return false.
     4.  Otherwise continue.
     5.  at outside loop Return true.
  */
 
     function isSorted(arr) {
         
-        for(let i=1; i< arr.length; i++){
+        for(let i = 1; i < arr.length; i++){
             if(arr[i] < arr[i - 1]){
                 return false;
             }
