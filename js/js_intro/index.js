@@ -11,10 +11,9 @@
     Today, server side version of js known as Node.js is available to create:
         real-time application, streaming applications and video games.
 
+    ** A script is a JS program that may be added to the HTML of any web page
+
 */
-
-// A script is a JS program that may be added to the HTML of any web page.
-
 
 // ---------------------------------------------------------------------------------------------------------
 
@@ -64,7 +63,4 @@
 
         
 */ 
-
-// ---------------------------------------------------------------------------------------------------------
-
 
