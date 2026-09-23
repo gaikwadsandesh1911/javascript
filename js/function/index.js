@@ -35,8 +35,6 @@
       // it in variabale at the time calling.
 
 
-
- 
       👉2. Function Expression
               A function stored inside a variable is called a function expression.
 
@@ -139,7 +137,7 @@
 
 /* 👉 pure function
 
-        🔹does not modify global variable
+        🔹does not modify global variable.
         🔹does not change input
         🔹does not make api call, console.log()
         🔹and if same input provided, same output produces
