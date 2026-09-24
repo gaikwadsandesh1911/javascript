@@ -1,7 +1,7 @@
 /* Class
 
     a class is blueprint(template) for creating an object.
-    It defines properties(data) and methods(functions) that every object will have created from that class.
+    It defines properties(data) and methods(functions) that every object will have, created from that class.
 
     If we have to create multiple objects with simillar properties and methods class is used.
     so we do not have repeated code.
@@ -65,7 +65,8 @@ User.isValidEmail('sandesh@gmail.com')
 /* private property, Getter and Setter
 
     private property: 
-        can not be accessed outside of the class. can be accessed within that class only.
+        can not be accessed outside of the class. 
+        can be accessed within that class only.
 
 
     Getter:  
