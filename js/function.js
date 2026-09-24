@@ -170,3 +170,33 @@ function multiplyBy(factor) {
     }
     
 // -------------------------------------------------------------
+
+/* Constructor function
+
+    constructor function are used to create object in js.
+
+    if we have to create multiple objects having simillar properties and methods
+    constructor functions are used.
+
+        ** name of function should start with capital letter ( Pascal ).
+        ** we use classes instead of constructor function.
+
+*/
+
+function Person(name, age, gender) {
+    this.name = name;
+    this.age = age;
+    this.gender = gender
+};
+
+// add method to constructor function
+Person.prototype.getName = function() {
+    return ` ${this.name}`
+}
+
+let person1 = new Person("sandesh", 20, 'male');
+console.log(person1.getName())  // call method.
+
+let person2 = new Person("subodh", 18, 'male');
+
+// ----------------------------------------------------------
