@@ -108,8 +108,8 @@ console.log(Object.values(user))    // [ 'sandesh', 'sandesh.gaikwad1911@gmail.c
 
 // to check if property exists on object
 
-Object.hasOwn(user, 'email')    // true
+Object.hasOwn(user, 'email')    // true.
 
-console.log('email' in user)    // true
+console.log('email' in user)    // true.
 
 // ----------------------------------------------
