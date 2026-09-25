@@ -70,11 +70,16 @@ console.log(z); // ✅
 
 /* Destructuring
 
-    destructuring allow us to extract:
-    elements from an arrays or properties from an objects
-    and assign them to variables.
+    destructuring means :
+        - extracting elements of an arrays and assign them to variable or
+        - extracting properties of an objects.
+    
 
 */
+
+const numbers = [10, 20, 30];
+const [first, second, third] = numbers;
+
 
 const user = {
     name: "Sandesh",
@@ -82,9 +87,6 @@ const user = {
 };
 let { name, age } = user;
 
-
-const numbers = [10, 20, 30];
-const [first, second, third] = numbers;
 
 // -----------------------------------------------------------
 

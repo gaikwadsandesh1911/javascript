@@ -1,13 +1,16 @@
 /* Map
 
-    Map is built-in data structure in js used to store key:value pair.
+    A Map is a data structure that stores data in the form of key-value pairs.
+    where each key is unique and used to access corrosponding value.
 
-    like object map also store key: value pair but map has advantages.
+    JS provides built-in Map Object to implement it.
 
-    Keys can be any data type
-    Maintains insertion order
-    Has convenient methods like set(), get(), has(), delete()
-    Has a built-in size property
+    Object also store key: value pair but Map has advantages over object.
+
+    - Keys can be any data type
+    - Maintains insertion order
+    - Has convenient methods like set(), get(), has(), delete()
+    - Has a built-in size property
 
 */
 

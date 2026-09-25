@@ -1,8 +1,10 @@
 
 /* array
 
-    array is ordered collection of simillar type data elements.
-    But in js we can store values of different as well.
+    array is collection of simillar type data elements.
+    That store elements in continous memory location.
+
+    But in js we can store values of different types as well.
 
 */
 

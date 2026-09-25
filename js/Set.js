@@ -2,7 +2,7 @@
 
     a Set is data structure. which store unique elements only.
 
-    js provides built-in Set object to implement it.
+    JS provides built-in Set object to implement it.
     
     available methods on Set object:
 
