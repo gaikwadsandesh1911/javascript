@@ -1,7 +1,9 @@
-/* Error Object
+/* Error 
 
-    Error Object represent an error that occurs while program is running.
-    It contain information about what went wrong.
+    When something went wrong in programming error occurs.
+    
+    In js, we have built-in Error object which
+    contain information about what went wrong.
 
     The main properties of error objects are
         - name      type/name of the error

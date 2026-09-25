@@ -1,46 +1,43 @@
 /* what is function.
 
-    function is re-usable block of code.
+    function is re-usable block of code that is 
+    designed to perform perticular task.
 
     function accepts parameters and return result.
+
     when we call function we send the arguments.
 
 */
 
-
 // Different ways to create functions.
-
 
 // 1. function declarations.
 
-    function greet() {
-        console.log('hello')
-    }
-
+function greet() {
+  console.log("hello");
+}
 
 // 2. Function Expression:  when we assign a function to variable is called a function expression.
 
-        // 2.1  anonymous function expression:  Function has no name (anonymous)
+// 2.1  anonymous function expression:  Function has no name (anonymous)
 
-                const greet1 = function () {
-                  console.log("hello")
-                };
+const greet1 = function () {
+  console.log("hello");
+};
 
-        // 2.2  named function expression:  When function has name as well (rarelyy used)
+// 2.2  named function expression:  When function has name as well (rarelyy used)
 
-                const greet2 = function greet () {
-                  console.log("hello")
-                };
+const greet2 = function greet() {
+  console.log("hello");
+};
 
 // 3. Arrow function:  It's shorter way of writing functions using the => (arrow) operator where we ommit function keyword.
 
-    const greet3 = () => {
-        console.log('hello')   
-    };
-
+const greet3 = () => {
+  console.log("hello");
+};
 
 // --------------------------------------------------------
-
 
 /* What is immediately invoked function
 
@@ -51,12 +48,11 @@
     and then invoke immediately with another set of paranthesis.
 */
 
-    (function () {
-        console.log("Runs immediately");
-    })();
+(function () {
+  console.log("Runs immediately");
+})();
 
 // -----------------------------------------------------------
-
 
 /* Higher order function
 
@@ -72,47 +68,25 @@
 // 1. Takes another function as an argument.
 
 function higherOrder(fn) {
-    fn();
+  fn();
 }
-higherOrder(function() { console.log("hello")});
-
+higherOrder(function () {
+  console.log("hello");
+});
 
 // 2. return function
 
 function multiplyBy(factor) {
-    return function (number) {
-        return number * factor;
-    };
+  return function (number) {
+    return number * factor;
+  };
 }
 
-    const double = multiplyBy(2);
-    const result = double(5);
-    console.log(result);
+const double = multiplyBy(2);
+const result = double(5);
+console.log(result);
 
 // ---------------------------------------------------
-
-/* Callback function
-
-    Function that is used as an argument to another function is called callback function.
-
-*/
-
-    function greet4(name, callback) {
-        console.log("Hello " + name);
-        callback();
-    }
-
-    function sayHi() {
-        console.log("Hi...!");
-    }
-
-    greet4("Sandesh", sayHi);    // sayHi is callback funtion
-
-    // sayHi is a callback function
-
-    // greet3 is higher-order function
-
-// --------------------------------------------------------
 
 /* Function as a first-class citizen in js.
 
@@ -137,38 +111,35 @@ function multiplyBy(factor) {
 
 */
 
-    function add(a, b) {
-        return a + b;
-    }
-    add(2, 3); // 5
-    add(2, 3); // always 5
+function add(a, b) {
+  return a + b;
+}
+add(2, 3); // 5
+add(2, 3); // always 5
 
+// Impure function because modifies external variable.
+let total = 0;
 
-    // Impure function because modifies external variable.
-    let total = 0;
+function addToTotal(num) {
+  total += num; // ❌ modifies external variable
+}
 
-    function addToTotal(num) {
-        total += num;  // ❌ modifies external variable
-    }
+// impure function because different output everytime.
+function randomNum() {
+  return Math.random(); // ❌ different output every time
+}
 
+// impure function, mutate original array
+function addItem(arr, item) {
+  arr.push(item); // ❌ mutates original array
+  return arr;
+}
 
-    // impure function because different output everytime.
-    function randomNum() {
-        return Math.random(); // ❌ different output every time
-    }
+// pure function, original data safe.
+function addItem(arr, item) {
+  return [...arr, item]; // ✅ new array, original data is safe.
+}
 
-
-    // impure function, mutate original array
-    function addItem(arr, item) {
-        arr.push(item); // ❌ mutates original array
-        return arr;
-    }
-
-    // pure function, original data safe.
-    function addItem(arr, item) {
-        return [...arr, item]; // ✅ new array, original data is safe.
-    }
-    
 // -------------------------------------------------------------
 
 /* Constructor function
@@ -184,19 +155,56 @@ function multiplyBy(factor) {
 */
 
 function Person(name, age, gender) {
-    this.name = name;
-    this.age = age;
-    this.gender = gender
-};
-
-// add method to constructor function
-Person.prototype.getName = function() {
-    return ` ${this.name}`
+  this.name = name;
+  this.age = age;
+  this.gender = gender;
 }
 
-let person1 = new Person("sandesh", 20, 'male');
-console.log(person1.getName())  // call method.
+// add method to constructor function
+Person.prototype.getName = function () {
+  return ` ${this.name}`;
+};
 
-let person2 = new Person("subodh", 18, 'male');
+let person1 = new Person("sandesh", 20, "male");
+console.log(person1.getName()); // call method.
+
+let person2 = new Person("subodh", 18, "male");
 
 // ----------------------------------------------------------
+
+/* Callback function
+
+    A callback is a function passed as an argument to another function,
+    so that it can be executed later, commonly after an asynchronous operation completes.
+
+*/
+
+function getData(callback) {
+  setTimeout(() => {
+    console.log("Data received");
+    callback();
+  }, 2000);
+}
+
+getData(() => {
+    console.log("Process the data")
+})
+
+/* 
+    op: 
+        after 2 sec
+
+        Data received.
+        Process the data.
+
+
+    Callbacks are especially useful when we don't want to know
+    when async operation is finished.
+
+    so, we dont want to process the data before it arrives.
+
+    so when async operation finished call this function.
+
+*/
+
+// --------------------------------------------------------
