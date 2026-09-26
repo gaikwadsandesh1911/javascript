@@ -16,9 +16,10 @@
     Minimal means Express gives you only the basic building blocks (routing + middleware + req, res handling) 
 
     Flexible means it doesn't force you to follow fixed or strict architecture.
-    We can structure your project in any ways
+    We can structure our project in any ways
         - MVC (Model-View-Controller)
         - Microservice
+        - etc..
 */
 
 // ----------------------------------------------------------
@@ -45,7 +46,7 @@
 
 // ---------------------------------------------------
 
-/* how we create express or node app
+/* how we create express or node app.
 
     create folder and open in commandLine terminal.
     give command   npm init --y     which create package.json file.
@@ -72,4 +73,25 @@ It is useful for quickly testing and experimenting with JavaScript or Node.js fe
 // ----------------------------------------------------
 
 
+/* process
+
+    process is global object provided by Node.js
+    that represent currently running node.js process.
+
+    exprss does not create process object. Node.js create
+    when we run
+        - node server.js. 
+
+    we use it:
+
+        - for accessing environment variables
+            - process.env.PORT
+
+        - listen for os signals
+            - SIGTERM, SIGINT
+
+        - handle process level errors.
+            - uncaughtException, unhandledRejection
+
+*/
 
