@@ -58,20 +58,6 @@
 
 // ----------------------------------------------------
 
-/* what is REPL in node.js
-
-REPL stands for Read-Eval-Print-Loop.
-
-It is an interactive command-line environment provided by Node.js 
-where we can execute JavaScript code one statement at a time and 
-immediately see the result.
-
-It is useful for quickly testing and experimenting with JavaScript or Node.js features.
-
-*/
-
-// ----------------------------------------------------
-
 
 /* process
 

@@ -1,95 +1,3 @@
-/* 🔹 Cluster
-
-        The cluster module allows Node.js to create multiple worker processes
-        to utilize multi-core CPUs.
-
-    🔹 Why Cluster is Needed?
-
-        👉 suppose we installed our node server on system.
-            system cpu has multiple core.  
-
-        👉 By default:
-
-            Node.js is single-threaded
-            Uses only one CPU core ❌
-
-            we are waisting our resources by not utilizing it.
-
-        👉 Solution:
-
-            Use cluster to run multiple instances of your app
-
-        🔥 How Cluster Works
-
-            👉 One Master Process + Multiple Worker Processes.
-
-                Master → manages workers
-
-                Workers → handle requests
-
-            👉 All workers share the same port
-
-
-        🔹 Load Balancing
-
-            👉 Node.js cluster does:
-
-                Round-robin (default in most OS)
-
-            👉 So:
-
-                Request 1 → Worker 1
-
-                Request 2 → Worker 2
-
-
-        🔹 Key Benefits
-
-            ✅ Uses all CPU cores
-            ✅ Improves performance
-            ✅ Handles more concurrent users
-            ✅ Better scalability
-
-        🔹 Important Points (🔥 Interview)
-            1. Workers are separate processes
-                has its Own memory
-                has its Own event loop
-
-        🔹 Real-World Use
-
-            👉 Used in:
-
-            High-traffic APIs
-            Production servers
-            Microservices
-
-        🔹 Cluster vs PM2 (🔥 Common Question)
-
-            👉 Cluster
-
-                Built-in Node module
-                Manual setup
-
-            👉 PM2
-
-                Process manager
-                Handles clustering automatically
-
-
-        🔹 What is PM2
-
-            PM2 is a process manager for Node.js applications used to 
-            run, monitor, and manage apps in production.
-
-
-        🔹“In production, we rarely use raw cluster module directly — 
-        we use PM2 because it simplifies process management and adds reliability.”
-
-        ❌ No, you do NOT write PM2 code inside your Express app
-        👉 It runs outside your app and manages it from the command line.
-
-*/
-
 
 /* 🔹 1. Worker Threads
 
@@ -214,4 +122,112 @@
 
 */
 
+// ----------------------------------------------------------
 
+/* EventEmitter.
+
+    Node.js built-in 'events' module proviedes EventEmitter class,
+    which allow objects to emit events and 
+    ohter parts of application listen for those events.
+
+    It is important pattern used in Node.js for evernt-driven programming.
+*/
+
+import EventEmitter  from 'events'
+
+const emitter = new EventEmitter();
+
+const handleLogin = (user) => {
+    console.log(user);
+};
+
+// listen for event
+emitter.on("login", handleLogin);
+
+// trigger an event
+emitter.emit('login', { name: 'sandesh', role: 'admin'});
+
+// 
+emitter.off()   
+
+/* 
+    on()    -   listen an event.
+    emit()  -   triger an event.
+    once()  -   listen only once.
+    off()   -   remove listner.
+
+*/
+
+// --------------------------------------------------------
+
+/* Cluster.
+
+    cluster is built-in node.js module, 
+    which allow us to create multiple Node.js process called workers, 
+    
+    Each worker has its own runtime.
+
+    Since Node.js is single-threade, means only one core is used.
+    
+    clustering help us utilize multiple CPU cores.
+    so, we can handle more requests concurrently.
+
+
+
+                Operating System
+                       │
+              Primary Node Process
+                       │
+             ┌─────────┼─────────┐
+             ↓         ↓         ↓
+          Worker 1  Worker 2  Worker 3
+             │         │         │
+          Runtime   Runtime   Runtime
+            |          |         |
+          CORE 1    CORE 2    CORE 3       
+
+*/
+
+const cluster = require("cluster");
+const http = require("http");
+const os = require("os");
+
+const numCPUs = os.cpus().length;
+
+if (cluster.isPrimary) {
+  console.log(`Primary process: ${process.pid}`);
+
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+} else {
+  const server = http.createServer((req, res) => {
+    res.end(`Handled by worker ${process.pid}`);
+  });
+
+  server.listen(3000);
+
+  console.log(`Worker started: ${process.pid}`);
+}
+
+/*  fork()
+
+    cluster.fork() create new worker process from primary process.
+
+*/
+
+/* PM2
+
+    PM2 is a process manager for Node.js applications. 
+    It can run and manage multiple instances of a Node.js application, 
+    restart applications if they crash, 
+    provide monitoring, manage logs, and support zero-downtime reloads.
+
+    we generally don't need to manually write that cluster-management code.
+
+    pm2 start app.js -i max.
+
+    -i max tells PM2 to create instances based on the available CPU cores.
+*/
+
+// ---------------------------------------------------
