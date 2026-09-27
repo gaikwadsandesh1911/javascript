@@ -263,3 +263,22 @@ process.on("SIGINT", gracefulShutdown);
 */
 
 // ------------------------------------------------------------
+
+/* req and res object useful methods.
+
+    req.params
+    req.query
+    req.body
+    req.headers
+    req.cookies
+
+    res.status()
+    res.json()
+    res.send()      // send string, html, buffer
+    res.cookie()
+    res.redirect()
+    res.sendFile()
+
+*/
+
+// ------------------------------------------------------------

@@ -1,12 +1,8 @@
 /* env variables.
+    env variable contain configuration values that application can read while it is running.
 
-    env variables provided to application by its os.
-    they contain configuration values that application can read while it is running.
-
-    in node we access through:
-        dotenv library and process.env.Name-of-variable
-        and store in .env file.
-
+    in node we store it in .env file and access through:
+        dotenv library and process object 
 
 */
 
@@ -94,8 +90,8 @@ import cookieParser from 'cookie-parser'
 app.use(cookieParser())
 
 res.cookie("token", "abc123", {
-    httpOnly: true,
-    secure: true,
+    httpOnly: true,     // Cookie NOT accessible via JS (secure)
+    secure: true,       // Cookie sent only over HTTPS
     sameSite: "strict"
 });
 
@@ -109,3 +105,120 @@ app.get("/profile", (req, res) => {
 });
 
 // -------------------------------------------------------------
+
+/* How do you write custom middleware for authentication and authorization?
+
+    Authentication means verifieing who the user is using login or register info.
+    
+    Authorization checks whether that authenticated user has permission to access a particular resource.”
+
+    In express app we use JWT(json web token) for authentication and authorization.
+    jwt generate token using sign() method based on info we provide, usually after login or register. 
+    and that token we send back to client using cookies().
+
+    Now, client sends the token with subsequent request.
+
+    now we create authentication middleware that extract token and validate using verify() method.
+    now we decode that infomation and find user using db query.
+    and attach the user on req object.
+
+    Now, controller check the permision on req object first 
+    and then perfom further task.
+*/
+
+import jwt from "jsonwebtoken";
+
+app.post("/login", async (req, res) => {
+
+  const { email, password } = req.body;
+
+  // Find user and verify password
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+
+  // Password verification would normally use bcrypt
+  const isValid = await bcrypt.compare(password, user.password);
+
+  if (!isValid) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+
+  const token = jwt.sign(
+    {
+      userId: user._id,
+      role: user.role
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h"
+    }
+  );
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 60 * 60 * 1000
+  });
+
+  res.json({
+    message: "Login successful"
+  });
+});
+
+
+const authMiddleware = async(req, res, next) => {
+
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json({
+            message: "Authentication required"
+        });
+    }
+
+    try {
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Get current user from database.
+        const user =  await User.findById(decoded.userId);
+
+        if (!user) {
+            return res.status(401).json({
+                message: "User not found"
+            });
+        }
+
+        // Attach current user to request
+        req.user = user;
+
+        next();
+    } catch (error) {
+        return res.status(401).json({
+            message: "Invalid or expired token"
+        });
+    }
+};
+
+
+app.delete("/users/:id", authMiddleware, async (req, res) => {
+
+  if (req.user.role !== "admin") {
+    return res.status(403).json({
+      message: "Access denied"
+    });
+  }
+
+    //   --------
+
+  // Delete user
+  res.json({
+    message: "User deleted successfully"
+  });
+});
+
+// --------------------------------------------------------
