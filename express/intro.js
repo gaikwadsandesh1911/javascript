@@ -13,13 +13,13 @@
 
 /* minimal and flexible
 
-    Minimal means Express gives you only the basic building blocks (routing + middleware + req, res handling) 
+    Minimal means Express gives you only the basic building blocks (routing + middleware + req, res handling).
 
     Flexible means it doesn't force you to follow fixed or strict architecture.
-    We can structure our project in any ways
+    We can structure our project in any ways.
         - MVC (Model-View-Controller)
         - Microservice
-        - etc..
+        - etc.
 */
 
 // ----------------------------------------------------------

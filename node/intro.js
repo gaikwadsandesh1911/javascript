@@ -1,11 +1,11 @@
-/*  what is node.js
+/*  What is node.js
 
-        Node.js is js runtime built on google chrome's v8 engine,
-        which allow us to run js on server side.
+    Node.js is javascript's runtime built on google chrome's v8 engine,
+    which allow us to run js on server side.
 
 */
 
-/*  runtime
+/*  Runtime
 
     runtime is system or environment which provides all necessory component
     to run and execute code.
@@ -117,3 +117,4 @@ console.log("End");
 
 // ------------------------------------------------------------------------
   
+

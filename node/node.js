@@ -10,7 +10,7 @@
         
             but cannot directly handle HTTP responses. 
             The result is sent back to the main thread, 
-            which then sends the response to the client.”
+            which then sends the rsponse to the client.”
 
                 ** chatgpt for program...
 
@@ -231,3 +231,99 @@ if (cluster.isPrimary) {
 */
 
 // ---------------------------------------------------
+
+/* worker thread.
+
+    To perform cpu heavy tasks like:
+        - Large calculations
+        - Image processing
+        - video/audio processing
+
+    worker thread is created.
+
+    worker thread runs inside same Node.js process, but it has its own v8 instance and event loop.
+    so main event loop doesn't get blocked.
+
+    communication between main thread and worker thread is happen using message passing.
+    and shared memory can also be used when required.
+
+*/
+
+// worker.js
+import { parentPort } from "worker_threads";
+
+let sum = 0;
+
+for (let i = 0; i < 1e9; i++) {
+    sum += i;
+}
+
+parentPort.postMessage(sum);    //send message to main thread.
+
+
+
+// main.js
+import { Worker }  from "worker_threads";
+
+console.log("Main thread started");
+
+const worker = new Worker("./worker.js");  // create worker thread
+
+
+// main thread recieves the message.
+worker.on("message", (result) => {
+    console.log("Result from worker:", result);
+});
+
+worker.on("error", (error) => {
+    console.error("Worker error:", error);
+});
+
+worker.on("exit", (code) => {
+    console.log("Worker exited with code:", code);
+});
+
+console.log("Main thread continues...");
+
+
+/*  Worker creates the worker, parentPort allows communication from the worker, 
+    
+    worker.on("message") receives the result, and 
+    Worker Threads are mainly used to prevent CPU-intensive JavaScript from blocking the event loop.
+
+*/
+
+// ---------------------------------------------------
+
+//  file hanldling in node.js
+
+    import { readFile, appendFile, writeFile, unlink } from 'fs/promises';
+
+    const data = await readFile("data.txt", 'utf-8');
+
+    // write data to file
+    await writeFile("data.txt", "Hello Node.js");
+
+    // append content to file
+    await appendFile("data.txt", "\n new content")
+
+    // delete
+    await unlink('data.txt')
+
+    // search for other operations.
+
+
+    /*  File data is stored as bytes.
+        Those bytes represent text, images, videos etc.
+    
+        utf-8 tells Node.js to decode the bytes as UTF-8 text and 
+        return a JavaScript string.
+
+        but every file is not text file, some file are image file or pdf file.
+        those file handled as binary data, rather than decoded directly as UTF-8
+    */
+
+// ----------------------------------------------------
+
+
+
