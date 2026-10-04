@@ -5,12 +5,14 @@
 
 */
 
+
 /*  Runtime
 
     runtime is system or environment which provides all necessory component
     to run and execute code.
 
 */
+
 
 /* Node.js arch.
 
@@ -35,8 +37,8 @@
 
             Thread pool:
                 collectioin of threads. where async operation are happens
-                and their callback wait for their execution on one
-                of the four phases of event loop.
+                and their callback wait for their execution on
+                one of the four phases of event loop.
 
                 by defualt we have 4 threads in thread pool
 

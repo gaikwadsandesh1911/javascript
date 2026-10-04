@@ -1,4 +1,4 @@
-/* 🧠   How Browser Paints Everything...
+/* How Browser Paints Everything...
 
     🔹When you open a website, Browser follows pipeline...
 
@@ -25,7 +25,7 @@
 
 // --------------------------------------------------------------
 
-/* 🧠 What Happens When You Open a React App First Time?
+/* What Happens When You Open a React App First Time?
 
         1. browser receive, index.html file,
            This file contains empty div and reference of javascript file
@@ -95,6 +95,72 @@
         
         🎯  This is called:
                 👉 CSR (Client Side Rendering)
+
+*/
+
+// ------------------------------------------------------
+
+/* 🌐 How the Web Works
+
+        🔹 1. You Enter a URL
+
+            👉 Browser breaks url into:
+
+                1. Protocol → HTTPS
+
+                2. Domain → google.com
+
+        Request is not sent directly to our node or java server.
+        Browser has to resolve domain name to ip address first
+
+        it send request to dns [ domain name server. ]
+        it is like phone book of an internet 
+        which stores ip address of domain names.
+
+        so dns matches the domain to correspondin ip address.
+        hence, dns is resolved
+        
+    
+        🔹 . TCP Connection (Handshake)
+
+                Once DNS is resolve a TCP/IP socket connection is made
+                between browser and server.
+
+            👉 Browser connects to server using TCP
+
+                3-way handshake:
+                    SYN
+                    SYN-ACK
+                    ACK
+
+            ✅TCP/IP Connection established. and 
+            It kept alive entire time for send the req and recive the res
+
+        
+            ✅TCP/IP  => transmission control protocol / internet protocol  
+            Together they are communication protocol they define how data transfer across the web.
+        
+                    These are internet fundamental.
+
+            
+        🔹 4. HTTPS
+
+                now finally https req is sent.
+
+
+        🔹 5. Server Handles Request
+                👉 Server (could be Node.js, Java, etc.):
+                    
+                    Receives request
+                    Processes logic
+                    Talks to database if needed
+                    Prepares response
+
+        🔹 6. HTTP Response 
+
+                is sent back to browser
+
+        🔹 7. Browser Rendering
 
 */
 

@@ -1,132 +1,7 @@
 
-/* 🔹 1. Worker Threads
-
-        👉 developer create worker thread by programming,
-            to perform CPU-intensive tasks like image processing, Large computing.
-
-        👉Worker Thread → runs inside same process (shared memory)
-
-            each worker thread have their own v8 instance, execution context and event loop
-        
-            but cannot directly handle HTTP responses. 
-            The result is sent back to the main thread, 
-            which then sends the rsponse to the client.”
-
-                ** chatgpt for program...
-
-    
-    🔹 we have four thread in thread pool
-
-            👉they do not have their own v8 instance, execution context and event loop
-*/
-
-
-/* 🔹Stream
-
-        👉A stream is a way to handle data piece by piece (in chunks) 
-        instead of loading the entire data into system memory
-
-        👉 Without streams ❌
-
-            File is fully loaded → high memory usage
-
-        👉 With streams ✅
-
-            Data processed in chunks → efficient & fast
-
-        🔥 Real-Life Example
-
-            ❌ Download full movie → then watch
-            ✅ Stream movie → watch while downloading
-
-        
-        🔹 Key Benefits
-
-            ✅ Memory efficient
-            ✅ Faster processing
-            ✅ Handles large files
-            ✅ Works well with real-time data
-
-        🔹 chatgpt streams used on files.
-
-        🔹 req and res are streams:
-                req → Readable stream
-                res → Writable stream
-
-
-        🔹Backpressure => see details
-*/
-
-
-/* 🌐 How the Web Works
-
-        🔹 1. You Enter a URL
-
-            👉 Browser breaks url into:
-
-                1. Protocol → HTTPS
-
-                2. Domain → google.com
-
-        Request is not sent directly to our node or java server.
-        Browser has to resolve domain name to ip address first
-
-        it send request to dns [ domain name server. ]
-        it is like phone book of an internet 
-        which stores ip address of domain names.
-
-        so dns matches the domain to correspondin ip address.
-        hence, dns is resolved
-        
-    
-        🔹 . TCP Connection (Handshake)
-
-                Once DNS is resolve a TCP/IP socket connection is made
-                between browser and server.
-
-            👉 Browser connects to server using TCP
-
-                3-way handshake:
-                    SYN
-                    SYN-ACK
-                    ACK
-
-            ✅TCP/IP Connection established. and 
-            It kept alive entire time for send the req and recive the res
-
-        
-            ✅TCP/IP  => transmission control protocol / internet protocol  
-            Together they are communication protocol they define how data transfer across the web.
-        
-                    These are internet fundamental.
-
-            
-        🔹 4. HTTPS
-
-                now finally https req is sent.
-
-
-        🔹 5. Server Handles Request
-                👉 Server (could be Node.js, Java, etc.):
-                    
-                    Receives request
-                    Processes logic
-                    Talks to database if needed
-                    Prepares response
-
-        🔹 6. HTTP Response 
-
-                is sent back to browser
-
-        🔹 7. Browser Rendering
-
-*/
-
-// ----------------------------------------------------------
-
 /* EventEmitter.
 
-    Node.js built-in 'events' module proviedes EventEmitter class,
+    Node.js built-in 'events' module provides EventEmitter class,
     which allow objects to emit events and 
     ohter parts of application listen for those events.
 
@@ -163,13 +38,18 @@ emitter.off()
 /* Cluster.
 
     cluster is built-in node.js module, 
-    which allow us to create multiple Node.js process called workers, 
+    which allow us to create multiple Node.js processes called workers,
+    and those workers can handle incoming HTTP requests concurrently. 
     
+    multiple workers can listen on same server port.
+    
+    cluster is mainly used to scale a Node.js server across multiple CPU cores.
+
     Each worker has its own runtime.
 
-    Since Node.js is single-threade, means only one core is used.
+    Since Node.js is single-threade, means only one cpu core is used.
     
-    clustering help us utilize multiple CPU cores.
+    clustering help us utilize CPU's multiple cores.
     so, we can handle more requests concurrently.
 
 
@@ -188,9 +68,9 @@ emitter.off()
 
 */
 
-const cluster = require("cluster");
-const http = require("http");
-const os = require("os");
+import cluster from 'cluster';
+import http from 'http';
+import os from 'os'
 
 const numCPUs = os.cpus().length;
 
@@ -232,6 +112,104 @@ if (cluster.isPrimary) {
 
 // ---------------------------------------------------
 
+/* child_process
+
+    child_process module is used to create and manage separate processes
+    for running..
+        - external commands
+        - scripts or
+        - independant task
+
+ ** it is not designed to handle incoming http requests like cluster module.
+
+    for eg. if node.js api recieve request to generate pdf.
+    we  could start separate process to run pdf-generation script.
+*/
+
+import { spawn } from "child_process";
+
+app.get("/generate-pdf", (req, res) => {
+  const process = spawn("node", ["generatePdf.js"]);
+
+  process.on("close", (code) => {
+    if (code === 0) {
+      res.send("PDF generated");
+    } else {
+      res.status(500).send("Failed");
+    }
+  });
+});
+
+/*  in Node.js we can create child process using methods like
+    fork() and spawn()
+
+    fork()  =>   - create child process to run another .js file
+                 - with fork() parent process and child process can communicate with IPC(inter-process-comnumnication) channel.
+                   which is built-in channel called... process.send()
+    
+    spawn() =>   - create child process to run non-Node.js program such as python
+                 - or even another node.js program as well.
+
+
+                    With spawn(), we normally communicate with the child process through its standard streams—
+                    stdin, stdout, and stderr. 
+                    
+                    Unlike fork(), spawn() does not automatically create a Node.js IPC channel.
+
+*/
+
+// parent.js 
+const { spawn } = require("child_process");
+
+const child = spawn("node", ["child.js"]);
+
+// Send data to child
+child.stdin.write("Hello child");
+
+// Receive data from child
+child.stdout.on("data", (data) => {
+  console.log("Child says:", data.toString());
+});
+
+// Receive errors
+child.stderr.on("data", (data) => {
+  console.error(data.toString());
+});
+
+
+// child.js
+process.stdin.on("data", (data) => {
+  console.log("Received:", data.toString());
+});
+
+// *****************************************
+
+// parent.js
+const { fork } = require("child_process");
+
+const child = fork("child.js");
+
+// Parent → Child
+child.send("Hello from parent");
+
+// parent recieve sent from child using process.send()
+child.on("message", (message) => {
+  console.log("Child says:", message);
+});
+
+// child.js
+
+// Child → Parent
+process.send("Hello from child");
+
+
+// child recieves send from parent's child.send()
+process.on("message", (message) => {
+  console.log("Parent says:", message);
+});
+
+// ---------------------------------------------------
+
 /* worker thread.
 
     To perform cpu heavy tasks like:
@@ -261,7 +239,6 @@ for (let i = 0; i < 1e9; i++) {
 parentPort.postMessage(sum);    //send message to main thread.
 
 
-
 // main.js
 import { Worker }  from "worker_threads";
 
@@ -286,14 +263,28 @@ worker.on("exit", (code) => {
 console.log("Main thread continues...");
 
 
-/*  Worker creates the worker, parentPort allows communication from the worker, 
+/*  Worker class creates the worker, 
+    parentPort allows communication from the worker, 
     
     worker.on("message") receives the result, and 
+
     Worker Threads are mainly used to prevent CPU-intensive JavaScript from blocking the event loop.
 
 */
 
 // ---------------------------------------------------
+
+
+/*  Worker Threads  →   multiple threads → CPU-intensive work
+
+    Child Process   →   separate process → run another command/program
+
+    Cluster         →   multiple processes → scale Node.js server
+*/
+
+
+// ---------------------------------------------------
+
 
 //  file hanldling in node.js
 
@@ -324,6 +315,8 @@ console.log("Main thread continues...");
     */
 
 // ----------------------------------------------------
+
+
 
 
 
