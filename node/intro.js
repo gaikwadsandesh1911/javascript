@@ -9,7 +9,7 @@
 /*  Runtime
 
     runtime is system or environment which provides all necessory component
-    to run and execute code.
+    to run and execute js code.
 
 */
 
@@ -19,11 +19,13 @@
     There are three main componets of Node.js runtime:
 
         1.  JS Engine
+
         2.  Node.js core modules
                 - http module
                 - file system module
                 - os module
                 - etc
+                
         3. LIBUV
                 - event loop,
                 - thread pool

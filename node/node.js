@@ -1,3 +1,76 @@
+/*  How we create server in node.js.
+
+    we can create basic HTTP server using built-in http core module.
+    
+    http.createServer() method is used to create server.
+    which accepts callback with req, res object.
+
+    res.writeHead() is used to set the HTTP response status code and 
+    response headers before sending the response body.
+
+    we handle request and send response using res.end() method.
+
+    server.listen() method start server on specified port.
+
+*/
+
+import http from 'http';
+
+const server = http.createServer((req, res) => {
+
+    res.writeHead(200, {
+        "Content-Type": "application/json", //  type of response
+        "cache-control": "no-cache",        //  caching instruction
+        "set-cookie": "token=abc123"        //  browser store the cookie
+    });
+
+    res.end(JSON.stringify({
+        message: "Hello from Node.js"
+    }));
+
+});
+
+server.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
+
+
+/*  When the server sends response headers, 
+    the client (usually the browser) receives them before the response body and 
+    uses them to understand how to handle the response.
+*/
+
+// ---------------------------------------------------------
+
+/*  crypto
+
+    The crypto module is a built-in Node.js module that provides cryptographic functionality.
+
+    Used for things like hashing, encryption and decryption,
+    generate secure random values, create digital signature.
+
+    1. Hashing   
+    
+        Hashing is the process of converting data into a fixed-length string called a hash using a hashing algorithm. 
+        It is a one-way process, so we cannot normally get the original data back from the hash.
+
+        commonly used for data integrity and password storage. 
+
+    2. Encryption / Decryption   
+    
+        converts readable data into encrypted data.
+        which later decrypted ( convert into original ) using appropriate key.
+        It's two way process.
+
+*/
+
+import crypto from 'crypto';
+
+const randomBytes = crypto.randomBytes(16).toString('hex');
+
+
+// ---------------------------------------------------------
+
 
 /* EventEmitter.
 
@@ -5,7 +78,7 @@
     which allow objects to emit events and 
     ohter parts of application listen for those events.
 
-    It is important pattern used in Node.js for evernt-driven programming.
+    It is important pattern used in Node.js for event-driven programming.
 */
 
 import EventEmitter  from 'events'
@@ -120,7 +193,7 @@ if (cluster.isPrimary) {
         - scripts or
         - independant task
 
- ** it is not designed to handle incoming http requests like cluster module.
+ ** It is not designed to handle incoming http requests like cluster module.
 
     for eg. if node.js api recieve request to generate pdf.
     we  could start separate process to run pdf-generation script.
@@ -129,6 +202,7 @@ if (cluster.isPrimary) {
 import { spawn } from "child_process";
 
 app.get("/generate-pdf", (req, res) => {
+
   const process = spawn("node", ["generatePdf.js"]);
 
   process.on("close", (code) => {
@@ -317,6 +391,103 @@ console.log("Main thread continues...");
 // ----------------------------------------------------
 
 
+/* Stream module.
 
+   Stream module in Node.js is used to process data piece by piece 
+   instead of loading the entire data into memory at once.
+
+   Streams are commonly used for large files, video streaming, file uploads/downloads, and HTTP data processing.
+
+   Node.js has four types of stream:
+
+    1. Readable Stream      -   used to read data.
+
+    2. Writable Stream      -   used to write data.
+    
+    3. Duplex Stream        -   can read and write data as well. eg. TCP socket
+
+    4. Transform Streamm    -   can read data, transform it and produce new data as well.
+
+
+    important concept:
+
+        pipe():     connect Readable Stream to Writable Stream
+
+    
+
+   Readable stream, common events are:
+
+    1.  data    →   when a chunk of data is available.
+
+    2.  end     →   when all data has been read.
+
+    3.  error   →   when an error occurs.
+
+    4.  close   →   when the stream is closed.
+
+
+    Stream vs Normal file....
+
+    The normal file is loaded into memory before processing.
+
+    Stream entire file is not loaded into memory once. it is loaded in chunk
+    and processed then next chunk comes and processed.
+
+        ** The chunks pass through memory. The previous chunk doesn't need to remain in RAM while the next chunk is being processed.
+
+*/
+
+// readble stream
+import fs  from "fs";
+
+const stream = fs.createReadStream("large-video.mp4");
+
+// readble strema event 'data'
+stream.on("data", (chunk) => {
+    console.log(chunk);
+});
+
+// writable stream
+const stream = fs.createWriteStream("output.txt");
+stream.write("Hello");
+stream.write(" World");
+stream.end();
+
+// connect readble and writable stream
+const readStream = fs.createReadStream("input.txt");
+const writeStream = fs.createWriteStream("output.txt");
+
+readStream.pipe(writeStream);
+
+// --------------------------------------------------------
+
+/* Buffer
+
+    A Buffer is a temporary memory used to store binary data.
+
+    data comes from outside applicaton like
+        - files, images, videos, stream etc.
+    often recieved as raw bytes. Node.js uses Buffer to handle those bytes.
+
+*/
+
+const buffer = Buffer.from("hello")
+console.log(buffer)  // <Buffer 48 65 6c 6c 6f>
+console.log(buffer.toString());  // convert back to string.
+
+
+const stream = fs.createReadStream("video.mp4");
+
+stream.on("data", (chunk) => {
+    console.log(chunk);     // chunk is generally Buffer.
+});
+
+/* 
+    - for text file, we can convert it into string.
+
+    - For a video/image, you normally keep it as Buffer/binary data rather than converting it to a string 
+*/
+
+// --------------------------------------------------------
 
 
