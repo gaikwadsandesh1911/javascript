@@ -76,7 +76,7 @@ const randomBytes = crypto.randomBytes(16).toString('hex');
 
     Node.js built-in 'events' module provides EventEmitter class,
     which allow objects to emit events and 
-    ohter parts of application listen for those events.
+    other parts of application listen for those events.
 
     It is important pattern used in Node.js for event-driven programming.
 */
@@ -111,10 +111,10 @@ emitter.off()
 /* Cluster.
 
     cluster is built-in node.js module, 
-    which allow us to create multiple Node.js processes called workers,
-    and those workers can handle incoming HTTP requests concurrently. 
-    
-    multiple workers can listen on same server port.
+    which allow us to create multiple Node.js processes called workers.
+
+    These multiple workers can listen on same server port,
+    and can handle incoming HTTP requests concurrently. 
     
     cluster is mainly used to scale a Node.js server across multiple CPU cores.
 

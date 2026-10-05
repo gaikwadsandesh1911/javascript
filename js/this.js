@@ -1,0 +1,6 @@
+/* this keyword
+
+    this keyword belongs to object.. that is executing or calling 
+    current function.
+
+*/
