@@ -25,8 +25,8 @@
 | Expression Operators                                                | Accumulator Operators                                                              |
 | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | Work on **one document at a time**                                  | Work on **multiple documents**                                                     |
-| Examples: `$multiply`, `$add`, `$concat`, `$cond`, `$year`          | Examples: `$sum`, `$avg`, `$min`, `$max`, `$push`, `$addToSet`                     |
 | Used in `$project`, `$addFields`, `$match` (with `$expr`), `$group` | Primarily used in `$group` (and also `$bucket`, `$bucketAuto`, `$setWindowFields`) |
+| Examples: `$multiply`, `$add`, `$concat`, `$cond`, `$year`          | Examples: `$sum`, `$avg`, `$min`, `$max`, `$push`, `$addToSet`                     |
 
 
 */

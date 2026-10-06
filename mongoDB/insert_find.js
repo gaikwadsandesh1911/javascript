@@ -47,9 +47,9 @@ db.employees.insertMany([
                 that allows you to iterate over the query results 
                 without loading all documents into memory at once.
 
-                - in native mongo driver cursor is converted into array.
+            - in native mongo driver cursor is converted into array.
 
-                - with mongoose find() returns an array directly.
+            - with mongoose find() returns an array directly.
 
 
     findOne()
@@ -58,6 +58,7 @@ db.employees.insertMany([
         If no document matches, it returns null.
 
 */
+
 db.collection.find()
 db.collection.find({})
 
@@ -81,7 +82,6 @@ db.employees.find({
 })
 
 // -------------------------------
-
 
 /* 
     Projection

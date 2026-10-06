@@ -1,11 +1,10 @@
 /* MongoDB?
 
         MongoDB is a NoSQL, document-oriented database 
-        that stores data in BSON documents instead of row and column. 
+        that stores data in flexible, JSON like format called BSON. 
         
-        It provides a flexible schema, high performance, and horizontal scalability, 
-        making it suitable for handling large volumes of structured, semi-structured, and unstructured data.
-
+        Instead of storing data in tables like relational databases.
+        MongoDB stores data in collections.
 
     NoSQL?
 
@@ -26,16 +25,18 @@
         
 
     Database
+
         A database is a container that holds one or more collections.
 
     
     Collection
-        a collection is a group of related documents, 
-        similar to a table in SQL.
-            - Users
-            - Products
+
+        a collection is a group of related documents inside MongoDB database, 
+        it's similar to a table in SQL.
+    
     
     Document
+
         a single record stored as a BSON object containing key-value pairs,
         similar to row in SQL.
 
@@ -45,6 +46,7 @@
         }
 
     Field
+    
         A field is a key-value pair inside a document.
         similar to column in SQL.
 
@@ -66,7 +68,7 @@
         schema defines the structure of the data, including fields, data types, and constraints.
 
         MongoDB is schema-flexible. 
-        Documents within the same collection can have different fields and structures. 
+        Documents within the same collection can have different fields or structures. 
         
         
 
@@ -91,9 +93,11 @@
     Advantages of MongoDB?
 
         - Flexible schema
-        - Easy to store nested data
+        - JSON like documents - easy to work with js application.
+        - Embedded documents  - allow related data to be stored in
         - Fast reads and writes
         - Horizontal scaling using sharding
+        - Powerful querying
 
 
     Limitations of MongoDB

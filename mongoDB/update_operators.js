@@ -52,12 +52,12 @@
 */
 
     db.employees.updateOne(
-            { name: "Sandesh" },
-            {
-                $set: {
-                    salary: 90000
-                }
+        { name: "Sandesh" },
+        {
+            $set: {
+                salary: 90000
             }
+        }
     )
 
     // if city not already presents it creates it.
