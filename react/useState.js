@@ -1,128 +1,87 @@
-/* ✅Controlled and Uncontrolled component.
-
-        Controlled component
-            value of form elements are handled by react. using useState().
-
-        Un-Controlled component
-            value of form elements are handled by DOM itself 
-            and those values are accessed by using useRef().
-
-            
-        checkbox and radio buttons
-            ✅checked attribute is required to make them controlled by react.    
-
-*/
-// controlled component
-import { useState } from "react";
-
-function Form() {
-  const [name, setName] = useState("");
-
-  return (
-    <input
-      value={name}
-      onChange={(e) => setName(e.target.value)}
-    />
-  );
-}
-
-// uncontrolled component
-import { useRef } from "react";
-
-function Form() {
-  const inputRef = useRef();
-
-  function handleSubmit() {
-    console.log(inputRef.current.value);
-  }
-
-  return (
-    <>
-      <input ref={inputRef} />
-
-      <button onClick={handleSubmit}>
-        Submit
-      </button>
-    </>
-  );
-}
-
-// -----------------------------------------------------------------
-
 
 /*  useState:
 
         useState is a React Hook used to manage state in functional components.
 
         - It takes an initial state value and
-        - returns an array containing the current state and a setter function to update the state.
 
-        when we update the state:
-            - react compare previous state with new state
-                - for primitive (number, string, boolean, undefined, etc.), It compares by values. 
-                - for non-primitive (objects, arrays, and functions), It compares by references( memory address ).
- 
-            - if React detect the change, It re-render component with new state.
+        - returns an array containing:
+            - the current state and 
+            - a setter function to update the state.
+
+*/
+
+    const [ state, setterFn] = useState(intialStateValue);
+
+    // updating primitive value
+    const [count, setCount] = useState(0);
+    setCount((prevCount) => prevCount + 1);
 
 
-    ***
+
+    // how we update object
+    const [user, setUser] = useState({
+        name: 'sandesh',
+        address: {
+            city: 'mumbai',
+            state: 'mh'
+        }
+    })
+
+    setUser((prev) => ({
+        ...prev,                // create shallow copy
+        name: "sandesh gaikwad",    // changing new object
+        address: {
+            ...prev.address,
+            city: "pune"
+        }
+    }));
+
+
+    // how we update arrays
+    const [user, setUser] = useState({
+        name: 'sandesh',
+        projects: [
+            { id: 1, name: "portal"}
+            { id: 2, name: "chat app"}
+        ]
+        skills: ["js", "React"]
+    })
+
+    setUser((prev) => ({
+        ...prev,
+        projects: prev.projects.map((p) =>
+            p.id === 1 ? { ...p, name: "Job Portal" } : p
+        ),
+        skills: [...prev.skills, "Node"]
+    }));
+
+
+/*  when we update the state:
+
+        - react compare previous state with new state
+            - for primitive (number, string, boolean, undefined, etc.), It compares by values. 
+            - for non-primitive (objects, arrays, and functions), It compares by references( memory address ).
+
+        - if React detect the change, It re-render component with new state.
+        - if doesn't detect change, component does not re-render with updated state.
+
+    
         Because In js :
             - Primitive data types are immutable and compared by value.
             - Non-Primitive data types are mutable and compared by their reference.
                 If same reference react do not detect the change, and component do not re-render.
             
 
-    ***
+        when updating an object or array in React, 
+        we commonly create a new copy first and then make the required change.
+    
+
         React state is considered as immutable, 
             - and we must not update the state direclty.
             - we must use setter function to update the state.
+
 */
-
-        const [ state, setterFn] = useState(intialStateValue);
-
-        // eg 1.  updating primitive value
-        const [count, setCount] = useState(0);
-
-        setCount((prevCount) => prevCount + 1);
-
-
-
-        // eg 2.    how we update object
-        const [user, setUser] = useState({
-            name: 'sandesh',
-            address: {
-                city: 'mumbai',
-                state: 'mh'
-            }
-        })
-
-        setUser((prev) => ({
-            ...prev,
-            name: "sandesh gaikwad",
-            address: {
-                ...prev.address,
-                city: "pune"
-            }
-        }));
-
-
-        // eg 3.    how we update arrays
-        const [user, setUser] = useState({
-            name: 'sandesh',
-            projects: [
-                { id: 1, name: "portal"}
-                { id: 2, name: "chat app"}
-            ]
-            skills: ["js", "React"]
-        })
-
-        setUser((prev) => ({
-            ...prev,
-            projects: prev.projects.map((p) =>
-                p.id === 1 ? { ...p, name: "Job Portal" } : p
-            ),
-            skills: [...prev.skills, "Node"]
-        }));
 
 
 // -----------------------------------------------------------------

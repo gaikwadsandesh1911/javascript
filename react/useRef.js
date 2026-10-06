@@ -1,20 +1,21 @@
 /*  useRef
 
-    useRef is a React Hook that returns a mutable object that has only one property.   [.current] property.
     
-    useRef is primarily used to store mutable values that persist across renders 
-    and updating that value does not re-render component. 
+    - useRef is used to store mutable values that persist across renders 
+      and updating that value does not re-render component. 
+      Since component is not get re-rendered, It does not update the UI.
+
+    - useRef is a React Hook that returns a mutable object that has only one property.   
+      [.current] property.
     
-    when component does not re-render. It does not update the UI.
+    - useRef() Commonly use for:
 
-    useRef() Commonly use for:
-
-    Access and manipulate DOM elements directly
-    Focus input fields
-    Track scroll position
-    Store mutable values without re-rendering
-    Store timer/interval IDs
-    Store previous values
+      - Access and manipulate DOM elements directly.
+      - Focus input fields.
+      - Track scroll position.
+      - Store mutable values without re-rendering.
+      - Store timer/interval IDs.
+      - Store previous values.
 */
 
 /*  
@@ -33,8 +34,7 @@ export default function App() {
     </div>
   );
 }
-
-// useRef is primarily used to store mutable values that persist across renders without updating the UI.
+// not update UI
 
 // ---------------- focus input element -------------------------------------
 
@@ -54,7 +54,7 @@ function App() {
   );
 }
 
-// eg 2. when component mount input focuesed
+// eg 2. when component mount input focused
 
 function App() {
   const inputRef = useRef(null);
