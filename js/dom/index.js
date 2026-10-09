@@ -1,4 +1,4 @@
-/* 🔹   BOM (Browser Object Model ) : 
+/* BOM (Browser Object Model ) : 
             is a set of objects provided by the browser that allows JavaScript 
             to interact with the browser window.
 
@@ -17,11 +17,11 @@
     └── timers (setTimeout, setInterval).
 
 
-    ⚡window
+    window
 
         Is global object. Everything comes under window object.
         
-        👉 Even var variables / functions declaration, become properties of window object.
+        variables declare with var keyword / functions declaration, become properties of window object.
             
             var name = 'sandesh' 
             
@@ -30,12 +30,12 @@
             window.name   ...  window.hello()
 
         
-        👉 Common Window Methods
+        Common Window Methods
 
-                    🔔 Alert, Prompt, Confirm
+         - Alert, Prompt, Confirm
 
         
-        💡 Simple Analogy
+        Simple Analogy
             BOM = Outside the page (browser controls)
             DOM = Inside the page (HTML elements)
 
@@ -47,13 +47,13 @@
 
 // ---------------------------------------------------------------------------------------------
 
-/*  1. 🔹  What is DOM? (Document Object Model)
+/*  1. What is DOM? (Document Object Model)
 
-                When a browser loads a webpage, 
-                it converts the HTML into a tree-like structure called the DOM.
+            When a browser loads a webpage, 
+            it converts the HTML into a tree-like structure called the DOM.
 
-                👉 Each HTML element becomes a node (object)
-                👉 JavaScript can read, modify, add, or delete these nodes.
+                - where Each HTML element becomes a node (object)
+                - JavaScript can read, modify, add, or delete these nodes.
                 
 
                 <!DOCTYPE html>
@@ -64,7 +64,8 @@
                         </body>
                     </html>
 
-                👉DOM Tree Representation
+            
+            DOM Tree Representation
 
                 Document
                     └── html
@@ -76,59 +77,55 @@
 
 // ---------------------------------------------------------------------------------------------
 
-/*  2. 🔹  What is a Node?
+/*  2. Node?
 
-                A node is any object in the DOM tree.
+            A node is any object in the DOM tree.
 
-                👉 Types of nodes:
+            Types of nodes:
+                - Document Node -  Represents the whole HTML document
+                - element node  -  Represent any html element. element means open tag content close tag.
+                - text node    -   text inside tag
+                - comment node -   comments we write also one of node.
 
-                    ✅Document Node - 👉 Represents the whole HTML document
-                    ✅<div> → element node
-                    ✅Text inside element → text node
-                    ✅Comment → comment node  [  document.createComment("write your comment")  ]
-
-                        So basically: DOM = collection of nodes
      */
 
 // ---------------------------------------------------------------------------------------------
 
-/*  3. 🔹  Selecting Elements
+/*  3. Selecting Elements
 
-        👉on document object we have different methods to find elements.
+        on document object we have different methods to find elements.
 
             
             1. document.getElementById('idName')
             
             2. document.getElementsByClassName("className");
                     
-                    👉 Returns HTMLCollection (array-like) but not real array
-                        can access elements items[0].style.color = "red";
+                    Returns HTMLCollection (array-like) but not real array
+                    can access elements items[0].style.color = "red";
 
 
             3. document.getElementsByTagName("div");
+                    - it Selects all <div> elements
 
-                    👉 Selects all <div> elements
-
+            
+            4. document.querySelector(".item");  (Most Used) ( css based selector )
+                    - Returns first matching element.  // A
+            
             <div class='item'>A</div>
             <div class='item'>B</div>
 
             
-            4. document.querySelector(".item");  (Most Used) ( css based selector )
+            5. const items =  document.querySelectorAll(".item");
 
-                    👉Returns first matching element.  // A
-
-    
-            
-            5.   const items =  document.querySelectorAll(".item");
-
-                ✅ Returns NodeList     // A B
-                ✅ Can use forEach
+                - Returns NodeList     // A B
+                - Can use forEach to iterate over.
 
                 items.forEach(item => {
                     item.style.color = "blue";
                 });
 
-            🔹 HTMLCollection vs NodeList (Interview 🔥)
+            
+             HTMLCollection vs NodeList (Interview )
 
             | Feature         | HTMLCollection      | NodeList         |
             | --------------- | ------------------- | ---------------- |
@@ -140,10 +137,10 @@
 
 // ---------------------------------------------------------------------------------------------
 
-/*  4. 🔹  Traversing element
-                👉1. Child Traversal ( target child from parent. ) 👉( most used )
-                👉2. Parent traversal (target parent from child.)
-                👉3  Sibling Traversal (target previous and next child from childItself. )
+/*  4. Traversing html element
+         1. Child Traversal ( target child from parent. ) ( most used )
+         2. Parent traversal (target parent from child.)
+         3  Sibling Traversal (target previous and next child from childItself. )
 
                 
                 <div class="parent">
