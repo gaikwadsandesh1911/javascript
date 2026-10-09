@@ -52,7 +52,7 @@
                 When a browser loads a webpage, 
                 it converts the HTML into a tree-like structure called the DOM.
 
-                👉 Each HTML element becomes a node (object)  = html element =  <p> content </p> .  open tag - content - close tag
+                👉 Each HTML element becomes a node (object)
                 👉 JavaScript can read, modify, add, or delete these nodes.
                 
 
