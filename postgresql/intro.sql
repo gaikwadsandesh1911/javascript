@@ -1,9 +1,9 @@
 /* 
     What is Data?
 
-        Data is a collection of raw facts or values that by themselves may not have much meaning.
-        It can be numbers, text, dates, images etc.
-        It's raw fact and meaningless so you can not make decison out of it.
+        Data is a collection of raw facts or values, by themselves it may not have much meaning.
+        so we can not make decision out of it.
+        Data can be numbers, text, dates, images etc.
 
         eg.
             Sandesh
@@ -12,8 +12,8 @@
 
     What is Information?
 
-        Information is processed, organized, or interpreted data that provides meaning.
-        Since, the data has context and meaning so, it can be used for decision-making.
+        Information is processed, organized, or interpreted data which provides meaning to it.
+        so, it can be used for decision-making.
 
         eg.
             name: sandesh
@@ -23,12 +23,12 @@
     What is a Database?
 
         A database is an organized collection of related data that is stored and managed electronically. 
-        so it can be easily accessed, updated, and retrieved.
+        so it can be easily accessed.
 
     
     What is DBMS (Database Management System)?
 
-        A DBMS is software that allows users to create, store, manage, retrieve, and manipulate data in a database. 
+        A DBMS is software that allows users to create, store, and manipulate data in a database. 
         It acts as an interface between the user/applications and the database.
     
 
@@ -40,15 +40,13 @@
     
     What is PostgreSQL?
 
-        PostgreSQL is an open-source relational database management system (RDBMS). 
-        It stores data in tables and uses SQL(Structured Query Language) for querying.
+        PostgreSQL is an relational database management system (RDBMS). 
+        It stores data in the form of tables and uses SQL(Structured Query Language) for querying.
 
 
     SQL (Structured Query Language):
 
-        sql is standard language used to interact with relational databases. 
-        It lets you create databases & tables And 
-        store, retrieve, update, and delete data.
+        sql is standard language used to interact with relational databases.
 
 */
 
@@ -70,7 +68,7 @@
 
         | Category                               | Purpose                               | Commands                                   |
         | -------------------------------------- | ------------------------------------- | ------------------------------------------ |
-        | DDL (Data Definition Language)         | Defines or changes database structure | `CREATE`, `ALTER`, `DROP`, `TRUNCATE`      |
+        | DDL (Data Definition Language)         | Create or changes database structure  | `CREATE`, `ALTER`, `DROP`, `TRUNCATE`      |
         | DML (Data Manipulation Language)       | Manipulates the data stored in tables | `INSERT`, `UPDATE`, `DELETE`               |
         | DQL (Data Query Language)              | Retrieves data                        | `SELECT`                                   |
         | DCL (Data Control Language)            | Controls permissions                  | `GRANT`, `REVOKE`                          |
