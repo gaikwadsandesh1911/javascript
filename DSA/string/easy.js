@@ -77,7 +77,7 @@ isAnagram();
 // type 2
 function isAnagramString() {
   let str1 = "silent";
-  let str2 = "listen";
+  let str2 = "listee";
 
   if (str1.length != str2.length) {
     console.log("not a anagram");
