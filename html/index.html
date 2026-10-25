@@ -39,15 +39,15 @@ element:
 
 <!-- 
 
-<!DOCTYPE html>     tells browser that document uses html5 standard.
+<!DOCTYPE html>     tells browser that document uses html 5 standard.
 
 <html>              it's root element of html document.
 
-<head>              contains info related to page such as title, metadata, css links etc.
+<head>              contains information related to page such as title, metadata, css links etc.
 
 <title>             define title of webpage, displayed in browser tab, useful for search engine.
 
-<body>              contains actual content displayed on web page.
+<body>              contains html elements that displays actual content on web pages.
 
 -->
 
@@ -71,16 +71,17 @@ element:
 <!--
 
 void elements:
-    Void elements don’t have closing tags because they cannot contain child content.
-    <img>, <br>, <hr>, <input>, <meta>, <link>
+    some elements like <img>, <br>, <hr>, <input>, <meta>, <link>
+    don’t have content and closing tag those elements called void elements.
+    
 -->
 
 
 <!-- 
 
 semantic elements:
-    semantic element cleary describe meaning of the content.
-    eg. <header>, <nav>, <main>, <section>, <article>, <aside>, and <footer>.
+    semantic element like <header>, <nav>, <main>, <section>, <article>, <aside>, and <footer>
+    cleary describe meaning of the content.
 
 -->
 
@@ -90,6 +91,7 @@ html attribute
     attribute provides additional information about html elements,
 
     <img src="img_girl.jpg">
+    
     <a href="https://www.w3schools.com">Visit W3Schools</a>
 
     src, href are the attribute.
@@ -98,10 +100,12 @@ html attribute
 
 <!-- 
 
-Headings:
+Headings: <h1> to <h6>
     to define title or subtitle of the webpages, heading tags are used.
     we have a range of <h1> to <h6> tags.
     <h1> defines the most important heading. <h6> defines the least important heading.
+
+<p>:    to define paragraph <p> tag is used.
 
 <hr>:   adds horizontal line on webpage.
 
@@ -171,9 +175,9 @@ HTML Lists
     to display related items in the list format HTML list is used.
     we have:
 
-        1. unorderd list <ul> - items will be marked with bullets by default.
+        1. unorderd list <ul> - items will be displayed with bullets by default.
         
-        2. ordered list  <ol> - items will be marked with numbers by default.
+        2. ordered list  <ol> - items will be displayed with numbers by default.
         
         3. Description List <dl> - is list of terms.
             <dt> defines terms, <dd> describe each term
@@ -187,9 +191,82 @@ HTML Lists
 
 <!-- 
 
+HTML Table:
+    to arrange data into rows and column is used.
+    we have:
 
+    <table> tag to make table
+    <tr>    that is table row
+    <th>    that is table head
+    <td>    that is table data.
+
+    <th colspan="2">    to make cell span over multiple column, colspan attribute is used.
+     
+    <th colspan="2">    to make cell span over multiple rows, rowspan attribute is used.
 
 -->
+
+
+<!--
+
+<iframe>
+    To embed other document or display other webpage within current webpage iframe is used.
+
+<iframe src="url" title="description" name="iframe_a" 
+        style="border:none;" height="200" width="200">
+</iframe>
+
+<p>
+    <a href="https://www.w3schools.com" target="iframe_a"> W3Schools.com </a>
+</p>
+
+
+*** The target attribute of the link must refer to the name attribute of the iframe:
+
+-->
+
+
+<!-- 
+
+HTML Entities:
+    To displayed reserverd character like <, > entity name or number can be used.
+        
+        < is &lt;
+        > is &gt;
+
+Symbol Entities:
+    symbol and letters that are not available on keyboard can also be
+    added to html using entities.
+
+Emojis:
+    emojis looks like images but they are not,
+    They are characters from UTF-8 ( Unicode ) character set.
+    can be added with html entities
+
+-->
+
+<!-- 
+
+HTML Form:
+    to collect user input, which is most often sent to server for processing 
+    form is used.
+
+    form attributes:
+        action="/"  - action to be performed when form submited.
+        method="get"
+        autocomplete="off"
+        novalidate
+
+    form elements:
+        <input>         can be displayed in several ways depending on type attribute.
+        <label>         defines label, useful for screen readers.
+        <select>        defines a drop-down list.
+        <textarea>      multi-line input field.
+        <button>        defines clickable button.
+
+-->
+
+
 
 
 
