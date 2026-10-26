@@ -128,6 +128,18 @@ function Profile() {
   return <h1>Profile Page</h1>;
 }
 
+/*
+
+<Navigate to="/login" replace />
+
+navigate("/login", { replace: true });
+
+ means don't add a new history entry; replace the current one instead.
+ so the replaced entry is not available through the Back button.
+
+*/
+
+
 /* useParams()
 
    useParams is a hook used to access dynamic parameters from the current URL.
@@ -271,7 +283,31 @@ function ProtectedRoute() {
 </Route>
 
 
+/* lazy loading
+
+  Lazy loading is a technique in which a component or resource is loaded only when it is needed, 
+  rather than loading everything upfront. 
+
+   In React, we commonly use React.lazy() and Suspense to load components dynamically and 
+   reduce the initial JavaScript bundle size
+
+*/
+
+import { lazy, Suspense } from "react";
+
+const Dashboard = lazy(() => import("./Dashboard"));
+
+function App() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <Dashboard />
+    </Suspense>
+  );
+}
+
+export default App;
+
 /*
-
-
+   Suspense is a React component that displays fallback content while its child is waiting for a supported resource to load, 
+   such as a component imported using React.lazy().
 */
