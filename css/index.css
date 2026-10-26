@@ -1,0 +1,119 @@
+
+/*  css
+        css stands for cascading style sheet.
+        which is used to create layout of webpage and design html elements.
+
+*/
+
+/*  css selectors
+
+    -   1.  simple selector ( selct element based on element name itself, id attribute , class attribute)
+                eg. p, #idName, .className
+
+    -   2.  combinator selector ( select based on specific relationship between them )
+                a. Descendant combinator(space)
+                b. Child combinator(>)  .. direct child only.
+                c. Next sibling combinator(+)
+                d. Subsequent-sibling combinator(~)
+    -   3. Pseudo-class selector ( select element based on certain state )
+                eg. :hover, :focus, :active, :link, :visited, :first-child, :last-child, nth-child(n)
+    
+    -   4. Pseudo-element selector ( select and style perticular part of an element )
+                eg. P::first-letter, p::first-line, input::placeholder, ::marker (to style list items markers), ::selection ( when you select with mouse. )
+
+    -   5. attribute selector ( select element based on its attribute or attribute value)
+                eb. [class="top"]
+*/
+
+/* css box model
+
+    box model consist of:
+        actual content, 
+        space around that content that is padding,
+        line attach to padding that is border,
+        space outside border that is margin
+
+*/
+
+
+/*  css background
+
+    to add background effect for elements css background properties are used.
+
+*/
+
+
+/* css position
+
+    position property control placement of element within webpage.
+
+    - static        default. according to normal document flow. not affected by top, left, right, bottom  property
+    - relative      relative to normal document flow. affected by top, right, bottom, left
+    - fixed         relative to viewport
+    - absolute      relative  to nearest positioned ancestor, mostly used with relative
+    - sticky        element toggle between relative and fixed, depending on scroll   
+
+*/
+
+
+/*  css transition
+
+    css transition allow us to change property value smoothly
+    over given duration.
+
+    transition is triggered with pseudo-classes( :hover, :focus, :active )
+
+*/
+
+
+/*  css transform
+
+    css transform allow us to rotate, scale, transalte (move), skew elements.
+
+*/
+
+
+/*  css animation
+
+    animation lets an element gradually change from one style to another.
+    we decide animation rule with @keyframes animation_name
+
+    @keyframes myAnimation {
+    
+    }
+
+    div {
+        animation-name: myAnimation
+    }
+*/
+
+
+
+/* css flexbox
+
+    flexbox is layout model for arranging items ( horizontally or vertically ) within container
+    in flexible and responsive way
+
+*/
+
+
+/*  css grid
+
+    grid is two dimensional layout model with rows and columns
+
+*/
+
+
+/*  css unit
+
+    - absolute unit:    px, cm
+    - relative unit:    rem, em, %, vw, vh
+
+*/
+
+
+/*  css media queries
+
+    - @media rule is used to make web pages resoponsive relative to device size.
+
+*/
