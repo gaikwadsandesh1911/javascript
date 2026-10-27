@@ -1,14 +1,11 @@
 
 /* Next.js
 
-    Next.js is a React framework that provides production-ready features 
+    Next.js is a React framework used to build full stack web applications.
+    It provides production-ready features 
     such as: 
-        routing, 
-        server-side rendering, 
-        static site generation, 
-        API handling, and 
-        performance optimization 
-    allowing developers to build scalable full-stack web applications efficiently.
+        routing, different rendering strategies, server side functionality, caching
+        and optimization features on top of react.
 */
 
 // ---------------------------------------------------------
