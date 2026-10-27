@@ -1,10 +1,11 @@
 /*  Routing (App router)
 
-      Next.js uses file-based routing,
-      where folders  inside the app directory automatically become routes.
+      App Router is next.js routing system, based in app directory.
+      It uses file-based routing, where folders  inside the app directory automatically become routes.
       
       file name inside folder must be page.tsx or page.jsx
 
+      it also uses other files such as layout.tsx, loading.tsx, error.tsx to define pages and UI behaviour.
 
       app/
       ├─ page.tsx
@@ -47,7 +48,7 @@
 /* Dynamic route 
 
         created using [] square bracket folder. 
-        It captures one URL segment =>  
+        It allow url segment to represent variable value. 
         
         app/products/[id]/page.tsx
 
@@ -127,10 +128,10 @@ export default async function CategoryPage({ params }: Props) {
     So, Instead of creating many nested folders, we create one route that handles multiple URL patterns.
 
       - We use a catch-all route ([...slug]): 
-          - when there must be at least one segment after the route..
+          - it must matches at least one path segment or more path segment.
 
       - We use an optional catch-all route ([[...slug]]) : 
-          - when the same page should handle both the parent route. and any number of nested segments.
+          - also matches route without any additional path segment and any number of nested segments.
 
     
 
