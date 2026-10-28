@@ -128,10 +128,10 @@ export default async function CategoryPage({ params }: Props) {
     So, Instead of creating many nested folders, we create one route that handles multiple URL patterns.
 
       - We use a catch-all route [...slug] 
-          - it must matches at least one path segment after route folder.
+          - it must matches at least one or more path segment after route folder.
 
       - We use an optional catch-all route [[...slug]]
-          - it matches route without any additional path segment after route folder.
+          - it matches zero or more path segment after route folder.
 
     
 
