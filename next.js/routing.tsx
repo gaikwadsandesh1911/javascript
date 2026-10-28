@@ -423,13 +423,13 @@ async function ProductDetailsPage({ params }: Prop) {
 
 /*  layout.tsx
 
-    layout.tsx is a special file used to create a shared UI 
-    that persists across multiple pages in a route segment.
+    layout.tsx is a special file used to define a shared UI that is common across multiple pages.
+    
+    it preserve state and remain mounted during navigation between routes that share the layout.
 
     It wraps pages using the children prop and is commonly used for navbars, sidebars, footers, and providers. 
-    Layouts persist across client-side navigation, 
-    so they are not remounted when moving between pages within the same segment, 
-    which improves performance and preserves state.
+     
+    we have one root layout in app/layout.tsx that must define <html> and <body>
 
 app/
 ├── layout.tsx
@@ -439,6 +439,29 @@ app/
     └── settings/page.tsx
 
 */
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "My Website",
+  description: "My Next.js application",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body>
+        <nav>Navbar</nav>
+        {children}
+        <footer>Footer</footer>
+      </body>
+    </html>
+  );
+}
 
 // -------------------------------------------------
 
