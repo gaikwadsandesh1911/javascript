@@ -1,8 +1,8 @@
 /*  Routing (App router)
 
       App Router is next.js routing system, based in app directory.
-      It uses file-based routing, where folders  inside the app directory automatically become routes.
-      
+      It uses file-based routing, where folders  inside the app directory automatically become routes,
+      but
       file name inside folder must be page.tsx or page.jsx
 
       it also uses other files such as layout.tsx, loading.tsx, error.tsx to define pages and UI behaviour.
@@ -127,11 +127,11 @@ export default async function CategoryPage({ params }: Props) {
     We use catch-all and optional catch-all routes when the number of dynamic URL segments is not fixed.
     So, Instead of creating many nested folders, we create one route that handles multiple URL patterns.
 
-      - We use a catch-all route ([...slug]): 
-          - it must matches at least one path segment or more path segment.
+      - We use a catch-all route [...slug] 
+          - it must matches at least one path segment after route folder.
 
-      - We use an optional catch-all route ([[...slug]]) : 
-          - also matches route without any additional path segment and any number of nested segments.
+      - We use an optional catch-all route [[...slug]]
+          - it matches route without any additional path segment after route folder.
 
     
 
@@ -457,7 +457,7 @@ export default function DashboardLayout({
 
 /*  layout.tsx vs template.tsx
 
-      layout.tsx	                        template.tsx
+   layout.tsx	                        template.tsx
 
 Persists across navigation	      Re-mounts on every navigation
 
