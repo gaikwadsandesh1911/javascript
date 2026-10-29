@@ -948,4 +948,42 @@ export default function DashboardLayout({
 
 /* Intercepting Routes
 
+    Intercepting Routes allow you to display a route inside the current page layout 
+    without navigating to its full-page view. 
+
+   They are commonly used with Parallel Routes to implement modals, 
+   such as photo previews, product details, or login dialogs. 
+
+   When the user navigates through the application, the content can appear in a modal, 
+   while direct navigation or refreshing the URL displays the full page.”
+
+  Next.js uses special folder names to determine which route to intercept.
+
+    (.) Intercept a route at the same level
+    (..) Intercept a route one level above
+    (..)(..) Intercept a route two levels above
+    (...) Intercept a route from the root app directory
+
+
+app/
+├── layout.tsx
+├── photos/
+│   ├── page.tsx
+│   ├── [id]/
+│   │   └── page.tsx
+│   └── @modal/
+│       ├── default.tsx
+│       └── (.)[id]/
+│           └── page.tsx
+
+
+The @modal folder is a Parallel Route slot, while (.)[id] is an Intercepting Route.
+
+File                             Purpose
+
+photos/page.tsx                  Displays the photo gallery
+photos/[id]/page.tsx             Displays a photo as a full page
+photos/@modal/default.tsx        Provides a fallback when the modal slot has no matching content
+photos/@modal/(.)[id]/page.tsx   Intercepts the photo route and displays it in a modal
+
 */
