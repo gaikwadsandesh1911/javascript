@@ -892,6 +892,9 @@ const pathName = usePathname(); // detect url
   we can render multiple independent UI sections simultaneously inside the same layout. 
   Each section is called a slot.
 
+  this is useful in scenario where different section of the page load at varryin speed and 
+  encounter unique errors.
+
   app/
   dashboard/
     layout.tsx
