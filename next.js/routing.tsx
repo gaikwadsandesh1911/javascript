@@ -818,6 +818,9 @@ export default function GlobalError({
 
   folders prefixed with an underscore (_) are treated as private folders 
   and are ignored by the routing system.
+  
+  We use private folders to organize components, helper functions, utilities, and other files 
+  that should not define routes.
 
 app/
 ├── page.tsx
