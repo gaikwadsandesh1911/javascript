@@ -540,31 +540,65 @@ export default function Template({ children }: { children: React.ReactNode }) {
 /* loading.tsx
         
   loading.tsx is used to show instant loading UI while Server Component fetch data.
+  This is part of React Suspense and Next.js streaming.
+  Next.js automatically wraps the route segment in a React Suspense boundary, with loading.tsx file.
+  So we don't need to manually create a Suspense boundary( <Suspense fallback={}></Suspense>) for route loading states.
 
   loading.tsx will not run for client component.(we define loading state in client component using useState())
 
 app/
-├── products/
+├── dashboard/
 │   ├── loading.tsx
 │   ├── page.tsx
 |
 
-here, loading.tsx only affects its product route segment and its childrens.
+we can create loading.tsx for each route.
 
-How it works internally.
-
-Next.js automatically wraps the route segment in a React Suspense boundary.
-
-So we don't need to manually create a Suspense boundary( <Suspense fallback={}></Suspense>) 
-for route loading states.
 
 */
+// loading.tsx
+export default function Loading() {
+  return <p>Loading dashboard...</p>;
+}
+
+// page.tsx
+export default async function DashboardPage() {
+  const response = await fetch(
+    "https://jsonplaceholder.typicode.com/posts"
+  );
+
+  const posts = await response.json();
+
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <p>Total posts: {posts.length}</p>
+    </div>
+  );
+}
+
+
+// manual suspense boundry
+import { Suspense } from "react";
+import ProductList from "./ProductList";
+
+export default function Page() {
+  return (
+    <div>
+      <h1>Products</h1>
+
+      <Suspense fallback={<p>Loading products...</p>}>
+        <ProductList />
+      </Suspense>
+    </div>
+  );
+}
 
 // ---------------------------------------------------
 
 /*  not-found.tsx and notFound().
 
-    not-found.tsx is a special file used to render a custom 404 page.
+    not-found.tsx is a special file in App Router used to display a custom 404 page.
     
     not-found.tsx is used in two situations:
 
@@ -593,21 +627,14 @@ for route loading states.
 
 */
 
-// scenario 1:  RSC
-
-//  src/lib/users.ts
-import { prisma } from "@/lib/prisma";
-
-export async function getUser(id: number) {
-  try {
-    return await prisma.user.findUnique({
-      where: { id },
-    });
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to fetch user");
-    // if throws error, Next.js automatically render error.tsx file.
-  }
+// app/not-found.tsx
+export default function NotFound() {
+  return (
+    <div>
+      <h1>404 - Page Not Found</h1>
+      <p>The page you are looking for does not exist.</p>
+    </div>
+  );
 }
 
 // app/user/[id]/page.tsx
@@ -662,6 +689,8 @@ export default async function Page({ params }: Prop) {
       *** In Next.js App Router, 
       errors bubble up to the nearest error.tsx in the route hierarchy,
 
+      Error in app/user/page.tsx.   will handled by user/error.tsx
+
       Error in app/user/[id]/page.tsx → handled by app/user/error.tsx.
 
       Error in app/user/layout.tsx → not handled by app/user/error.tsx; it bubbles to app/error.tsx.
@@ -690,8 +719,31 @@ export default async function Page({ params }: Prop) {
 
 */
 
-// user/error.tsx
+// runtime error example
+export default async function ProductsPage() {
+  const response = await fetch(
+    "https://api.example.com/products"
+  );
 
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+    // error.tsx will run
+  }
+
+  const products = await response.json();
+
+  return (
+    <div>
+      <h1>Products</h1>
+
+      {products.map((product: { id: number; name: string }) => (
+        <p key={product.id}>{product.name}</p>
+      ))}
+    </div>
+  );
+}
+
+// user/error.tsx
 ("use client");
 
 import { useEffect } from "react";
