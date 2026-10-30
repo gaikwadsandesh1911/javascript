@@ -67,4 +67,68 @@ export default async function Page() {
 */
 
 
+/* "use cache" directive in Next.js. 16?
 
+   "use cache" marks a page, component, or function as cacheable when Cache Components are enabled
+
+*/
+
+// next.config.ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  cacheComponents: true,
+};
+
+export default nextConfig;
+
+
+// app/lib/products.ts
+import { cacheLife } from "next/cache";
+
+export async function getProducts() {
+  "use cache";
+
+  cacheLife("hours");
+
+  const response = await fetch(
+    "https://api.example.com/products"
+  );
+
+  return response.json();
+}
+
+
+
+/* cacheLife() and cacheTag()?
+
+cacheLife() controls how long cached content remains fresh and when it becomes stale.
+
+cacheTag() associates cached content with a tag so it can be invalidated later.
+
+
+*/
+
+import { cacheLife, cacheTag } from "next/cache";
+
+export async function getProducts() {
+  "use cache";
+
+  cacheLife("hours");
+  cacheTag("products");
+
+  return await db.query.products.findMany();
+}
+
+
+/* revalidatePath() and revalidateTag()
+
+revalidatePath() invalidates cached content associated with a particular route path.
+
+revalidateTag() invalidates tagged cached data for revalidation.
+
+
+updateTag() immediately expires tagged cache entries. so a subsequent read can obtain fresh data. It is intended for Server Actions, especially when a user expects their changes to appear immediately after saving.
+
+
+*/
