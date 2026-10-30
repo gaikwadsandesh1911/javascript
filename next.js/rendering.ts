@@ -6,42 +6,37 @@
     The tricky part of building performant application is figuring out when and where
     this transformation should happen.
 
-    ***
+    
     In Next.js, rendering refers to where and when the HTML is generated.
 
 
     ➡ Different Rendering Strategies:
-
+    
 
     1.CSR (Client side Rendering):
 
-        Typical React application is an example of CSR:
+        CSR means rendering or updating UI in the browser using JavaScript. 
+        React state, event handlers, and client-side data fetching are common examples.
+
+        CSR is useful for interactive dashboards and components that depend on browser APIs. 
         
-        - As user request, server sends minimal HTML mostly empty root element and 
-          js reference:
-            
-            <div id="root"></div>
-            <script src="app.js"></script>
-
-        - Browser initially renders empty root element.
-
-        - Then browser download js bundle and
-
-        - Then react Render UI into root element.
+        However, relying entirely on client-side fetching can delay the appearance of meaningful content.
     
 
     2.SSR (Server Side Rendering):
 
-        - As user request, server fetches required data if any.
+        SSR means generating HTML on the server in response to a request. 
         
-        - Then Server renders React component into HTML (jsx to html) and 
-            and send ready-to-display HTML and regarding JS bundle to the browser
-        
+        It is useful when the page needs fresh, request-specific data.
 
+    
     3.SSG (Static Site Generation):
 
-        - pages are rendered into HTML during build time 
-            not when user request it. 
+        SSG means generating a page during the build time. 
+        
+        The resulting page can be served efficiently without rebuilding its HTML for every request.
+
+        It is useful for documentation, blogs, and pages with mostly stable content.
 
         - Flow
 
@@ -55,27 +50,13 @@
 
     4.ISR (Incremental Static Regeneration):
 
-        - The pages are pre-rendered into HTML like SSG.
+        - statically generated pages data become outdated.
 
-        - But those pages data become outdated.
+        - ISR allow statically generated content to be re-freshed after initial build,
+          either after configured time or throudh on-demand re-validation.
 
-        - Next.js can re-generate the HTML + RSC payload in the background
-            after specified interval, without re-building entire application.
-
-        - Once re-generation succeeds, user receives the updated HTML + RSC Payload.
 */
 
-
-/* 
-
-| Rendering Type                        | Who generates the HTML? | When?                                                                |
-| ------------------------------------- | ----------------------- | -------------------------------------------------------------------- |
-| Client-Side Rendering (CSR)           | Browser (client)        | After JavaScript loads                                               |
-| Server-Side Rendering (SSR)           | Server                  | On every request                                                     |
-| Static Site Generation (SSG)          | Server (at build time)  | During the build process                                             |
-| Incremental Static Regeneration (ISR) | Server                  | Initially at build time, then regenerated after deployment as needed |
- 
-*/
 
 // ------------------------------------------------------
 
@@ -91,7 +72,8 @@ SSR (Server-Side Rendering) generates HTML on the server and sent to browser.
 
 2. Hydration Waits for JavaScript.
 
-   The browser can display HTML immediately, but the page is not interactive until:
+    for client component html is pre-rendered on server
+    The browser can display HTML immediately, but the page is not interactive until:
    - JavaScript is downloaded and executed.
    - Hydration completes
 
@@ -99,5 +81,8 @@ This introduces : All-or-Nothing Waterfall problem.
 
    A slow component can delay the entire page because 
    SSR waits for all components to finish rendering before sending HTML.
+
+
+To overcome all this we have React Server Component (RSC) in next.js
 
 */
