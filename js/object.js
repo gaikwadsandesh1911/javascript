@@ -113,3 +113,21 @@ Object.hasOwn(user, 'email')    // true.
 console.log('email' in user)    // true.
 
 // ----------------------------------------------
+
+/*  optional chaining.( ?. )
+
+    optional chaining allow us to access object's property or call method safely without getting error
+    if value before ?. is null or undefined.
+
+*/
+
+let user = {
+    name: "Sandesh",
+    address: {
+        city: "Ambarnath"
+    }
+};
+
+console.log(user?.address?.city);  // "Ambarnath"
+console.log(user.contact.phone)     // error.
+console.log(user?.contact?.phone); // undefined

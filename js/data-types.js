@@ -203,3 +203,40 @@ console.log(obj2);  // { name: "sandesh gaikwad"}
 */
 
 // ----------------------------------------------------------------
+
+/* ternary operator( ? :)
+
+    its shorter way to write if .. else
+
+*/
+let age = 18;
+
+let result = age >=18 ? "Adult" : "Minor"
+
+
+// ----------------------------------------------------------------
+
+
+/* nullish coalescing operator(??)
+
+    provides a default value when the left side is null or undefined.
+*/
+
+let name = null
+
+let fname = name ?? "Guest"     // Guest
+
+
+/*  ?? vs ||
+
+    ?? checks left side only null or undefined.
+
+    || checks weather left side has falsy value.
+
+*/
+
+let price = 0;
+
+console.log(price ?? 100); // 0     // provide default value for null or undefind.
+
+console.log(price || 100); // 100   // provides default value for any falsy value.

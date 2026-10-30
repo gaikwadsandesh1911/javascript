@@ -200,9 +200,9 @@
                     </div>
 
                 
-                🔹const menu = document.querySelector('.menu'); 🔹
+                🔹const menu = document.querySelector('.menu'); 
 
-                🔹const demo = document.querySelector('.demo'); 🔹
+                🔹const demo = document.querySelector('.demo'); 
 
 // *********************************************************************************************************************
 
