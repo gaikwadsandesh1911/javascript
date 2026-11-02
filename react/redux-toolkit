@@ -1,6 +1,7 @@
 /* Redux
 
        - Redux is a client-side state management library used in react to manage and centralize application state.
+
        - It allows different components to access and update shared state without prop drilling.
 
 
@@ -10,7 +11,6 @@
        It simplifies Redux development by reducing boilerplate code and 
        providing utilities such as configureStore, createSlice, and createAsyncThunk
 
-  
 
 */
 
@@ -68,20 +68,24 @@ ReactDOM.createRoot(
     slice manages its own part of application state.
 
     slice contains 
-      - name of the slice
-      - initial state
+      - name property. which identify slice. and generate action type names automatically.
+      - initial state. mostly object
       - reducer functions.
 */
+
 
 /* Reducer 
 
      - A reducer is a function that determines how the state should change based on the dispatched action. 
+
      - It receives the current state & action and returns the updated state.
+
+
 
    Action
 
        An action is a plain JavaScript object that describes what happened in the application. 
-       It contains type and payload(data) property.
+       It contains type and payload property.
 
 */
 
@@ -92,6 +96,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const counterSlice = createSlice({
 
   name: "counter",
+
+// generate action type names automatically like. counter/increment, counter/decrement. remember format sliceName/reducerName.
 
   initialState: {
     count: 0
@@ -115,6 +121,7 @@ const counterSlice = createSlice({
       state.count += action.payload;
     }
   }
+
 });
 
 export const { increment, decrement, reset, incrementByAmount } = counterSlice.actions;
@@ -158,3 +165,45 @@ function App() {
 }
 
 export default App;
+
+
+/* useSelector()
+
+useSelector() is a React Redux hook used to access data from the Redux store.
+
+
+useDispatch()
+
+useDispatch() is a React Redux hook which returns dispatch function. We use it to dispatch actions
+
+*/
+
+//__________________________
+
+// manual dispatch
+
+dispatch({
+  type: "counter/increment",
+  payload: 5
+});
+
+// type: "counter/increment" identifies which reducer to execute.
+
+
+const counterSlice = createSlice({
+  name: "counter",
+
+  initialState: {
+    count: 0
+  },
+
+  reducers: {
+    increment: (state, action) => {
+      state.count = state.count + action.payload;
+    },
+
+    decrement: (state, action) => {
+      state.count = state.count - action.payload;
+    }
+  }
+});
