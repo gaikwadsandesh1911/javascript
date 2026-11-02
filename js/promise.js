@@ -31,6 +31,43 @@
 
 */
 
+/* every async operation does not return promise. like setTimeout() does not return promise.
+
+We convert callback-based asynchronous operations into Promises because Promises provide a standardized way to handle asynchronous results. 
+
+They make code cleaner through async/await, simplify error handling, support chaining, and allow us to coordinate multiple asynchronous operations using methods like Promise.all() and Promise.race()."
+
+*/
+
+setTimeout(() => {
+    console.log("Hello");
+}, 2000);
+
+// here it does not return Promise. it schedule callback which is executed after specified time.
+
+// we can convert it into Promised based using Promise constructor
+
+function delay(ms) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Timer completed");
+        }, ms);
+    });
+}
+
+// now can use async await
+
+async function main() {
+    console.log("Start");
+
+    const result = await delay(2000);
+
+    console.log(result);
+    console.log("End");
+}
+
+main();
+
 // -------------------------------------------------------
 
 /* async - await
@@ -42,7 +79,7 @@
         is used to wait for a Promise to settle.
 
         await does not block entire javascript program.
-        It pauses execution of that perticular async function till promise settle.
+        It pauses next line execution of that perticular async function till promise settle.
 */
 
 // ------------------------------------------------------
