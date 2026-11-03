@@ -75,9 +75,9 @@ ReactDOM.createRoot(
 */
 
 
-/* Reducer 
+/* Reducers 
 
-     - A reducer is a function that determines how the state should change based on the dispatched action. 
+     - A reducers area function that determines how the state should change based on the dispatched action. 
 
      - It receives the current state & action and returns the updated state.
 
@@ -168,12 +168,9 @@ function App() {
 export default App;
 
 
-/* useSelector()
+/* useSelector(), useDispatch()
 
 useSelector() is a React Redux hook used to access data from the Redux store.
-
-
-useDispatch()
 
 useDispatch() is a React Redux hook which returns dispatch function. We use it to dispatch actions
 
