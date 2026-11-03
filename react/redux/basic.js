@@ -127,7 +127,18 @@ const counterSlice = createSlice({
 
 export const { increment, decrement, reset, incrementByAmount } = counterSlice.actions;
 
-export default counterSlice.reducer;
+export default counterSlice.reducer;  // register in store
+
+/* counterSlice.actions contains automatically generated action creators for every reducer we define.
+  
+increment(5);  it automatically generates
+
+{
+  type: "counter/increment",
+  payload: 5
+}
+
+*/
 
 
 // app.jsx
