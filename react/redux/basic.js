@@ -14,7 +14,7 @@
 
 */
 
-npm install @reduxjs/toolkit react-redux
+// npm install @reduxjs/toolkit react-redux
 
 
 /*  configureStore()
@@ -42,6 +42,7 @@ export const store = configureStore({
 
      Then makes store available to all components tree, using Provider component from react-redux
 
+     wrap App component inside Provider component.
 */
 
 // main.jsx 
