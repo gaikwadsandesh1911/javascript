@@ -3,10 +3,6 @@
     function is re-usable block of code that is 
     designed to perform perticular task.
 
-    function accepts parameters and return result.
-
-    when we call function we send the arguments.
-
 */
 
 // Different ways to create functions.
@@ -90,11 +86,11 @@ console.log(result);
 
 /* Function as a first-class citizen in js.
 
-    function in javascript:
-    
-        can be used as an argument of another function, 
-        can be returned by another function, and 
-        can be used as a property of an object.
+    function is treated like any ither variable in javascript:
+
+      - can assign function to variable
+      - can pass as an argument to other function
+      - can also return function from other function
 
     that's why it is called first-class citizen.
 
