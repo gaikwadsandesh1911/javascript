@@ -1,7 +1,7 @@
 /* Redux Thunk
 
-    Redux Thunk is middleware that allows us to dispatch functions instead of only plain action objects.
-    It is used to handle asynchronous logic, such as API requests.
+    Redux Thunk is middleware function that sits between dispatching an action and the reducer processing that action.
+    normally used to make API requests.
 
     Normally, a Redux action is a plain object.
     But sometimes we need to perform an API request before updating the state.
@@ -38,6 +38,13 @@ export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
     return await response.json();
   }
 );
+
+/*
+    createAsyncThunk takes two parameter
+    
+    - action type: a string that identify the action
+    - payload creator callback function: async fn that make api call and return result.
+*/
 
 
 const userSlice = createSlice({
@@ -79,6 +86,18 @@ export default userSlice.reducer;
 */
 
 
+// store.js
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "./userSlice";
+
+export const store = configureStore({
+  reducer: {
+    users: userReducer
+  }
+});
+
+
+
 // use in component
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -109,3 +128,125 @@ function Users() {
 }
 
 export default Users;
+
+
+// –-------------------------------------------------------
+
+/* createSelector()
+    
+    createSelector is used to create memoized selectors in Redux. 
+    It remembers the previous result and recalculates the result only when its input values change. 
+    This helps avoid unnecessary calculations and improves performance.
+
+*/
+
+// without createSelector
+
+import { createSlice } from "@reduxjs/toolkit";
+
+const usersSlice = createSlice({
+    name: "users",
+
+    initialState: {
+        users: [
+            { id: 1, name: "Sandesh", active: true },
+            { id: 2, name: "Rahul", active: false },
+            { id: 3, name: "Amit", active: true }
+        ]
+    },
+
+    reducers: {
+        addUser: (state, action) => {
+            state.users.push(action.payload);
+        }
+    }
+});
+
+export default usersSlice.reducer;
+
+
+// store.js
+import { configureStore } from "@reduxjs/toolkit";
+import usersReducer from "./usersSlice";
+
+export const store = configureStore({
+    reducer: {
+        users: usersReducer
+    }
+});
+
+
+// react component
+import { useSelector } from "react-redux";
+
+function Users() {
+
+    const activeUsers = useSelector((state) =>
+        state.users.users.filter(user => user.active)
+    );
+
+    return (
+        <div>
+            {activeUsers.map(user => (
+                <p key={user.id}>{user.name}</p>
+            ))}
+        </div>
+    );
+}
+
+export default Users;
+
+/* 
+   Every time the component renders, the filter() operation executes and creates a new array, even if the users haven't changed.
+   This can cause unnecessary re-renders.
+*/
+
+
+//------------------------------------------- 
+
+// with createSelector
+
+// selector.js
+import { createSelector } from "@reduxjs/toolkit";
+
+// Input selector 
+const selectUsers = (state) => state.users.users;
+
+// Memoized selector
+export const selectActiveUsers = createSelector([selectUsers], (users) => {
+        console.log("Filtering users");
+
+        return users.filter(user => user.active);
+    }
+);
+
+/* createSelector()
+    - input selector: extracts users from store
+    - () callback: It receives the output of the input selector and performs the calculation. 
+
+*/
+
+
+
+// use in react component
+import { useSelector } from "react-redux";
+import { selectActiveUsers } from "./selectors";
+
+function Users() {
+
+    const activeUsers = useSelector(selectActiveUsers);
+
+    return (
+        <div>
+            {activeUsers.map(user => (
+                <p key={user.id}>{user.name}</p>
+            ))}
+        </div>
+    );
+}
+
+export default Users;
+
+
+// search for real production eg.
+
