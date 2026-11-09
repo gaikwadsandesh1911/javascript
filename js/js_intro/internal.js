@@ -11,7 +11,7 @@
                 But modern js, use mixed of both called [ 'just-in-time' ] compilation.
 
     🎯Compilation process( compiler is used )
-            Entire source code get converted into machine code once and stored on separated file.
+            Entire source code get converted into another form and stored on separated file.
             And then this file get executed any time.
 
                 in java
