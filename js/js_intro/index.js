@@ -1,17 +1,16 @@
 /* javascript introduction.
 
     JS is one of the most widely used web development languages.
-    created by Brenden Eich in 1995.
 
-    It was created with the intension of being used in browser.
-    But now can be run on the server and 
-    on almost any device that has the JavaScript Engine installed.
+    It was created with the intension of to be used in browser, and make Web pages interactive.
 
-    A language that was originally designed to build dynamic web pages.
-    Today, server side version of js known as Node.js is available to create:
-        real-time application, streaming applications and video games.
+later on server side version of js introduced 
+with node.js environment
+  
+its synchronous, single threaded, dynamically  typed, object oriented programming language.
 
-    ** A script is a JS program that may be added to the HTML of any web page
+    
+** A script is a JS program that may be added to the HTML of any web page
 
 */
 
