@@ -30,11 +30,22 @@ var a = 10
 
 /* TDZ ( temporal dead zone )
 
-    js execution context has two phase:
+   TDZ happens with let and compnst keyword
+   It is the period between entering a block scope and initializing value to let or const variable. 
+   Accessing the variable during this period throws a ReferenceError. 
+
+   It exists because let and const are hoisted but are not initialized with undefined like var."
+
+    js execution context where js code getsexecuted has two phases:
         1. memory creation
         2. initializing value
 
-        in memory creation phase. variable declare with var keyword initialize value to: undefined by js engine.
+        variable declare with var keyword initialize undefined value in memory creation phase.
+        and replace actual value in initialize phase
+
+        let and const variables not assigned any value in memory creation phase.
+        they assigned value in initialize phase.
+        
 
 */
 
