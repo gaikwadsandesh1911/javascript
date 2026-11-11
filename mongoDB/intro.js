@@ -39,7 +39,8 @@
     
     Document
 
-        a single record , similar to row in SQL but capable of holding nested data as well.
+        its a individual record inside collection, 
+        similar to row in SQL but capable of holding nested data as well.
 
         {
             "name": "Sandesh",
@@ -48,7 +49,7 @@
 
     Field
     
-        A field is a key-value pair inside a document.
+        It's a key-value pair inside a document.
         similar to column in SQL.
 
         name : "Sandesh"
@@ -110,10 +111,13 @@
 
 /* _id
 
-   every document has unique _id field. 
+   every mongodb document has unique _id field, which act as primary identifier.
    mongodb automatically generate an ObjectId regarding _id field, when we do not provide it. 
     
-   an ObjectId is 12 byte identifier, commonly used to identify document.
+   ObjectId
+
+   It's BSON data types commonly used with _id field.
+   It's 12 byte value contain information such as Timestamp, random value and counter.
 
 */
 
