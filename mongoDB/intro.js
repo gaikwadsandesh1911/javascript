@@ -1,26 +1,29 @@
 /* MongoDB?
 
-        MongoDB is a NoSQL, document-oriented database
-        instead of traditional rows and columns it stores data in JSON like format called BSON. 
+        MongoDB is a NoSQL, document-oriented database that stores data in flexible JSON like format called BSON document. 
         
-        it supports flexible schema, indexing, aggregation, replication and horizontal scaling.
+        Unlike relational databases, which store data in tables and rows, 
+        MongoDB stores data in collections and documents.
 
    
     NoSQL?
        
-       NoSQL means non-relational database designed to store and manage data in document format.
-       such as key-value pairs instead of traditional rows and columns.
+       It refers to databases that don't rely on relational table-based model.
+       common type of no-sql databases are:
+          1. mongodb which is document based
+          2. redis which is key:value pair 
 
     
 
     BSON?
+       
+       BSON stands for Binary JSON. It is the binary-encoded format MongoDB uses to store documents.
+       
+       JSON supports basic data types like strings, numbers, booleans, arrays and objects.
 
-        BSON (Binary JSON) is MongoDB's binary-encoded format for storing documents. 
+       BSON additionally supports types such as: 
+       ObjectId, Date, Binary data, Decimal128
         
-        It extends JSON by supporting additional data types such as 
-        ObjectId, Date, Binary, Decimal128, and more. 
-        
-        BSON is optimized for efficient storage and faster data traversal.
         
 
     Database
