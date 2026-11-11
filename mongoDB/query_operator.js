@@ -1,8 +1,6 @@
 /* Query Operators
 
-    "Query operators in MongoDB are special operators (prefixed with $) 
-        used to specify conditions and filter/search documents during query operations 
-        such as find(), findOne(), update(), and delete(). 
+    Query operators help us retrieve documents based on conditions.
     
     They allow you to perform comparisons, logical operations, array matching, pattern matching, and other advanced queries."
 
@@ -96,10 +94,9 @@ db.employees.insertMany([
 ]);
 
 
-/* Comparison Operators:
-        compare the value of a field with a specified value 
-        and return documents that satisfy the comparison condition.
-*/
+// Comparison Operators:
+     
+
 
 // $eq 
 db.employees.find({
@@ -134,8 +131,7 @@ db.employees.find({
 // ---------------------------------------------
 
 /* Logical Operators:
-        combine one or more query conditions and 
-        return documents based on logical operations such as AND, OR, NOT, and NOR
+        logical operators combine multiple conditions
 */
 
 // syntax
