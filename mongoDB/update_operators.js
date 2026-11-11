@@ -1,11 +1,9 @@
 /* Update operators
 
-    Update operators in MongoDB are special operators (prefixed with $) 
-    used to modify specific fields of existing documents 
+    Update operators are used to modify specified field of document 
     without replacing the entire document. 
-        
-    They are used with update methods such as 
-    updateOne(), updateMany() etc.
+
+    They are used with updateOne(), updateMany() methods
 
 
     ├── updateOne()
@@ -34,7 +32,7 @@
 */
     // syntax
     db.collection.updateOne(
-        filter,
+        query filter,
         {
             updateOperator: {
                 field: value
@@ -107,9 +105,9 @@
 
     // ------------------------------------------------------
 
-    // $min updates a field only if the specified value is smaller than the current value.
+    // $min updates a field if new value is smaller than existing
 
-    // $max updates a field only if the specified value is greater than the current value.
+    // $max updates a field if the new value is greater than existing
 
     db.employees.updateOne(
         { name: "Sandesh" },
@@ -119,11 +117,33 @@
             }
         }
     )
-    // If current value (salary) is greater than 70000 then only works
 
     
     // ------------------------------------------------------
 
+    // rename used to rename field 
+    db.collection.updateMany(
+      {},
+      {
+        $rename: {
+         "oldFieldName": "newFieldName"
+        }
+      }
+    )
+
+   //-----------------------------------------------
+
+    // mul
+    db.products.updateOne(
+      { name: "Laptop" },
+      {
+        $mul: {
+         price: 2
+        }
+      }
+    )
+
+    //------------------------------------------------------
 
     // update multiple fields
     db.employees.updateOne(
@@ -157,14 +177,25 @@
             name: "Bob",
             subjects: ["Chemistry"],
             marks: [75]
-        }
+        },
+        {
+
+            name: "Sandesh",
+            skills: ["JavaScript", "React", "Node.js"],
+            marks: [70, 80, 90]
+        },
+
+        {
+            name: "Rahul",
+            skills: ["Java", "Python"],
+            marks: [60, 75]
     ]);
 
 
     // -------------------------------------------------
 
 
-    // $push - Add an element
+    // $push - Add an element to existing array field
     db.students.updateOne(
         { name: "Alice" },
         {
@@ -173,12 +204,35 @@
             }
         }
     );
+    
+    
+    // $each  add multiple elements to array fields
+ db.students.updateOne(
+  { name: "Sandesh" },
+  {
+    $push: {
+      skills: {
+        $each: ["Express", "Next.js"]
+      }
+    }
+  }
+)
 
-// -----------------------------------------------
+  // -----------------------------------------------
 
     // $addToSet - Add only if not present, so no duplicate is added.
 
+db.students.updateOne(
+  { name: "Sandesh" },
+  {
+    $addToSet: {
+      skills: "React"
+    }
+  }
+)
+
     // $addToSet with $each - To add multiple unique values:
+
     db.students.updateOne(
         { name: "Alice" },
         {
@@ -210,7 +264,7 @@
         { name: "Charlie" },
         {
             $pop: {
-            subjects: 1
+             subjects: 1
             }
         }
     );
@@ -218,3 +272,13 @@
     // -1    last element
 
     // -----------------------------------------------
+
+/*
+    updateOne() modifies only the specified fields when using update operators.
+    replaceOne() replaces the entire document except its _id.
+
+*/
+db.employees.replaceOne(
+  { name: "Sandesh" },
+  { name: "Sandesh", age: 26 }
+);
