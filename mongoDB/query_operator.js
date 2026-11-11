@@ -94,11 +94,12 @@ db.employees.insertMany([
 ]);
 
 
-// Comparison Operators:
-     
+/* Comparison Operators:
+     compare field value with specified value.
+     used inside find to filter documents.
+*/
 
-
-// $eq 
+// $eq   matches value equal to specified value 
 db.employees.find({
     department: {
         $eq: "Engineering"
@@ -127,6 +128,8 @@ db.employees.find({
         $lte: 30
     }
 })
+// returns age between 25 and 30
+
 
 // ---------------------------------------------
 
@@ -143,7 +146,7 @@ db.collection.find({
 })
 
 
-// $and     =>      returns documents only if all specified conditions are true.
+// $and     =>      all coditions must be true
 db.employees.find({
     $and: [
         { department: "Engineering" },
@@ -158,6 +161,22 @@ db.employees.find({
             $gt: 80000
         }
     }
+})
+
+// $or     at least one condition must be true
+db.employees.find({
+  $or: [
+    { department: "IT" },
+    { salary: { $gt: 50000 } }
+  ]
+})
+
+// $nor    none if the condition should be true
+db.employees.find({
+  $nor: [
+    { department: "IT" },
+    { salary: { $gt: 50000 } }
+  ]
 })
 
 // ------------------------------------------------
