@@ -35,17 +35,9 @@ db.employees.insertMany([
 /* 
     find() 
 
-        find() method returns cursor that points to matching document, 
-        not actual document directly.
+        find() method returns all matching documents as a cursor. 
         
-            - It provide access to query result and
-            - allow documents to be retrieved efficiently in batches
-                instead of loading all result into memory at once. 
-        
-
-        Cursor: A cursor is an object return by find() method. 
-                that allows you to iterate over the query results 
-                without loading all documents into memory at once.
+        cursor allow us to return documents in batches instead of loading all documents into memory once.
 
             - in native mongo driver cursor is converted into array.
 
@@ -54,7 +46,7 @@ db.employees.insertMany([
 
     findOne()
 
-        returns the first document that matches the specified filter. 
+        returns the first matching document based on query filter. 
         If no document matches, it returns null.
 
 */
@@ -63,12 +55,7 @@ db.collection.find()
 db.collection.find({})
 
 
-// -------------------------------
-
 // Query filter
-db.collection.find({
-    field: value
-})
 
 // single condition
 db.employees.find({
@@ -85,18 +72,15 @@ db.employees.find({
 
 /* 
     Projection
-        Projection controls which fields are returned.
-        
-        _id: 0,
-        name: 1,
-        salary: 1
+        Projection  means selecting only fields we want from document.
+        It reduces unnecessory data returned from database.
 
-        0 => exclusion = hide
-        1 => inclusion = show
+        0 = hide
+        1 = show
 
         -   by default _id is visible.
 
-        -   we can not mix inclusion and exclusion expect _id field.
+        -   we can not mix 0 and 1 except _id field.
 
 */
 find(filter, projection)
@@ -108,3 +92,35 @@ db.employees.find(
         name: 1
     }
 )
+
+
+//--------------------------------------------------
+
+/*. sort(), limit(), skip()
+
+       sort()  : sort documents in ascending or descending order.
+
+       limit() : shows only specified number of documents.
+
+       skip()  : skip first specified number of documents.
+
+*/
+
+// Ascending order
+db.employees.find().sort({ age: 1 });
+
+// Descending order
+db.employees.find().sort({ age: -1 });
+
+// limit
+db.employees.find().limit(5);
+
+// skip
+db.employees.find().skip(5);
+
+
+// pagination
+const page = 2;
+const limit = 10;
+
+db.employees.find().skip((page - 1) * limit).limit(limit);
