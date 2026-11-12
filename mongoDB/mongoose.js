@@ -1,20 +1,3 @@
-/*  MongoDB
-
-    MongoDB is a NoSQL document based database that stores data in JSON-like format (BSON).
-
-    “MongoDB is suitable when data is unstructured or rapidly changing, like social media apps, chat apps, or real-time systems.”
-
-    
-    SQL	                        MongoDB
-
-    Database	                Database
-    Table	                    Collection
-    Row (Record)	            Document
-    Column	                    Field
-
-*/
-
-
 /*  Mongoose
 
     Mongoose is an ODM (Object Data Modeling) library for MongoDB in Node.js.
@@ -45,7 +28,7 @@
             “How data should look”
 
     2.  Model (Interface / Tool)
-            “How we interact with database”
+            “How to interact with database”
 
             we have pre-built methods on Model to interact with database
             
