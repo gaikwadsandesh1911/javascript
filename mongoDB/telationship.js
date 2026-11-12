@@ -80,3 +80,8 @@ const posts = await Post.find().populate("author", "name email");
 
 
 
+/*. Transition
+
+      
+*/
+
