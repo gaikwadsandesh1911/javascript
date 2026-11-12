@@ -82,6 +82,48 @@ const posts = await Post.find().populate("author", "name email");
 
 /*. Transition
 
+      A transaction is a group of database operations that are executed as one logical unit.
       
+      ACID stands for:
+        Atomicity: All operations either succeed or failed
+        Consistency: Data remains valid.
+        Isolation: Concurrent transactions are isolated
+        Durability: Committed changes persist.
+      
+*/
+
+const session = await mongoose.startSession();
+
+try {
+  session.startTransaction();
+
+  await Account.updateOne(
+    { _id: 1 },
+    { $inc: { balance: -2000 } },
+    { session }
+  );
+
+  await Account.updateOne(
+    { _id: 2 },
+    { $inc: { balance: 2000 } },
+    { session }
+  );
+
+  await session.commitTransaction();
+
+} catch (error) {
+  await session.abortTransaction();
+  throw error;
+
+} finally {
+  await session.endSession();
+}
+
+/*
+   startTransaction() starts the transaction.
+   { session } makes both operations part of that transaction.
+   commitTransaction() commits both operations.
+   abortTransaction() rolls back the transaction if something fails.
+   endSession() ends the session.
 */
 
