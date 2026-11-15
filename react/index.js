@@ -59,15 +59,15 @@
         In a SPA (Single Page Application):
 
         - The browser loads single HTML page initially. 
-          as user interacts with the application, 
-          it uses JavaScript to dynamically updates the UI without reloading the entire page.
+          as user navigate between different section of the application, 
+          JavaScript dynamically updates the content without reloading the entire page.
 
         - It Provide a faster and smoother user experience.
 
 
         In an MPA (Multi Page Application):
 
-        - Every navigation sends a request to the server, 
+        - MPA has multiple pages, Every navigation sends a request to the server, 
           and the server returns a new HTML page, causing a full page reload.
 
         
