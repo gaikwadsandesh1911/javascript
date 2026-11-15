@@ -149,6 +149,12 @@ accountHolder.withdraw(1000);   //
         Polymorphism:
             means "many forms".
             It allow same method behave differently depending on the object that uses it.
+
+            we have two types of polymorphism:
+
+            1. compile time polymorphism: eg. method overloading 
+
+            2. runtime polymorphism: eg. method overriding 
 */
 
 // --------------------------------------------------------
@@ -162,6 +168,8 @@ accountHolder.withdraw(1000);   //
 
     Method Overloading:
         means having multiple methods with the same name but different parameters.
+
+
 
             ** js does not support traditional method overloading.
                we achieve simillar behaviour using optional parameter with default value.
