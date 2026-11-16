@@ -1,25 +1,14 @@
 /* useEffect
 
     useEffect is react hook used to perform side effects in React functional components.
-    
+    A side effect is any operation that interacts with something outside the component's rendering process.
     Some common examples of side effects include:
 
-      - Fetching data from an API.
-      - Directly interacting with the DOM.
+      - Fetching data from an API on component mount.
       - Setting up timers (setTimeout / setInterval).
-      - Event listeners (scroll, resize, etc.)
+      - Add Event listeners (scroll, resize, etc.)
 
-
-    useEffect accepts two arguments:
-      1. callback function
-      2. dependency array
-
-      useEffect(<function>, <dependency>)
-
-
-    useEffect hook runs after component render means 
-    after browser has painted the updated UI.
-
+    useEffect hook runs after component render means after browser has painted the UI.
 
     useEffect runs in following three situations :
 
@@ -50,7 +39,7 @@ useEffect(() => {
   return () => {};
 }, []);
 
-// --------- fetch api ---------------------
+// --------- fetch api on component mount ---------------------
 
 import { useEffect, useState } from "react";
 
@@ -102,6 +91,61 @@ export default function App() {
   );
   
 }
+
+
+// api call on btn click, we dont need useEffect.
+
+import { useState } from "react";
+
+function Users() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function fetchUsers() {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+
+      // Handle HTTP errors
+      if (!response.ok) {
+        throw new Error("Failed to fetch users");
+      }
+
+      const data = await response.json();
+
+      setUsers(data);
+
+    } catch (err) {
+      setError(err.message);
+      setUsers([]);
+
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div>
+      <button onClick={fetchUsers} disabled={loading}>
+        {loading ? "Loading..." : "Fetch Users"}
+      </button>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {users.map((user) => (
+        <p key={user.id}>{user.name}</p>
+      ))}
+    </div>
+  );
+}
+
+export default Users;
+
 
 // ---------------------------------------------------
 
