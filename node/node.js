@@ -72,13 +72,29 @@ const randomBytes = crypto.randomBytes(16).toString('hex');
 // ---------------------------------------------------------
 
 
-/* EventEmitter.
+/* Event
+
+    Event is simply an action that happens in a program.
+    for eg
+       - user click button
+       - user send request to server
+       - file operation complete
+       - database query return result
+       - timer expires
+
+
+Event driven architecture.
+   
+    Event-driven architecture is a programming approach where the flow of the application is driven by events. 
+    When an event occurs, a corresponding function (handler or callback) is executed.
+
+
+EventEmitter.
 
     Node.js built-in 'events' module provides EventEmitter class,
-    which allow objects to emit events and 
-    other parts of application listen for those events.
+    which allow event object to trigger event using emit() method
+    and register an event listner using on() method.
 
-    It is important pattern used in Node.js for event-driven programming.
 */
 
 import EventEmitter  from 'events'
@@ -89,7 +105,7 @@ const handleLogin = (user) => {
     console.log(user);
 };
 
-// listen for event
+// register event listner
 emitter.on("login", handleLogin);
 
 // trigger an event
@@ -99,7 +115,7 @@ emitter.emit('login', { name: 'sandesh', role: 'admin'});
 emitter.off()   
 
 /* 
-    on()    -   listen an event.
+    on()    -   register  an event listner function.
     emit()  -   triger an event.
     once()  -   listen only once.
     off()   -   remove listner.
