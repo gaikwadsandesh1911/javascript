@@ -1,17 +1,62 @@
 /*  What is node.js
 
-    Node.js is javascript's runtime built on google chrome's v8 engine,
-    which allow us to run js on server side.
+    Node.js is javascript's runtime environment built on google chrome's v8 engine,
+    which allow us to execute js outside browser mainly for backend development.
+    
+    Using node.js we can create server side applications, REST api's, handle file related operations
+    communicate with databases.
+    
+    It provides built in modules like:
+       - fs for handling file system operations
+       - http for creating http server
+       - os for operating system information
+       - events for event handling
+    
 
 */
 
+/* why node.js was introduced
 
-/*  Runtime
-
-    runtime is system or environment which provides all necessory component
-    to run and execute js code.
+   Before Node.js, JavaScript was primarily used in browsers for frontend development.
+   The main idea was, to use JavaScript on the server side as well.
+   So, developers can use JavaScript for both frontend and backend development
 
 */
+
+/* Is node.js single threaded
+
+   Node.js executes JavaScript code on a single main thread by default, 
+   but internally it uses additional threads and system-level mechanisms to handle certain operations.
+
+   Asynchronous I/O operations are handled using operating system facilities or 
+   the libuv thread pool, depending on the operation.
+   But js execution happens on main thread.
+
+   This architecture helps Node.js handle multiple concurrent requests without blocking the main JavaScript thread.
+
+*/
+
+/* Advantages of node.js
+
+     - Same language for frontend and backend.
+     - NPM ecosystem Provides thousands of packages.
+     - Can handle many concurrent connections efficiently.
+     - support non-blocking I/O operations.
+
+*/
+
+/*  oncurrency vs parallelisim.
+
+   Concurrency: Multiple operations can be in progress during overlapping periods.
+
+   Parallelism: Multiple operations actually execute simultaneously.
+
+   Node.js supports concurrency through its event-driven architecture. 
+   Certain operations can also execute in parallel using additional threads or operating system facilities.
+
+
+*/
+
 
 
 /* Node.js arch.
