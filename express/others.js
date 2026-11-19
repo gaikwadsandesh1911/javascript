@@ -1,8 +1,7 @@
 /* env variables.
-    env variable contain configuration values that application can read while it is running.
-
-    in node we store it in .env file and access through:
-        dotenv library and process object 
+    env variable contain configuration values .
+which are stored on .env file and  
+we can access that variables on global object (process)
 
 */
 
@@ -10,8 +9,8 @@
 
 /* HTTP status code
 
-    it's  three digit number returned by server in HTTP response,
-    which indicates status or result of client's request.
+    it's  three digit number server send in response,
+    which indicates status or result of client's request
 
     code    meaning         use for
 
