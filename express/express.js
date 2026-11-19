@@ -1,16 +1,17 @@
 /* what is middleware
 
     middleware is nothing but function in Express.js.
-    which is runs between recieving request and sending response.
+    which is runs between request-response cycle.
 
     It has access to request object, response object and next() function.
 
     middleware commonly used for authentication, validatiion, and error handling.
 
-    we mostly call next() function within middleware.
+    we call next() function within middleware.
     which passes control to next function in request-response cycle.
 
 */
+
 
 /*  Express.js provides several built-in middleware functions
     like:
