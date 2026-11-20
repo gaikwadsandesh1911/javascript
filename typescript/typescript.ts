@@ -53,7 +53,7 @@
 
 // ------------------------------------------------------------------------------
 
-// implicit typing..... compiler guess types based on initialize value
+// type inference or implicit typing..... compiler guess types based on initialize value
 
 let str = "sandesh";
 // str = 10        // error
@@ -66,7 +66,7 @@ age = 18;
 
 // ------------------------------------------------------------------------------
 
-//  explicit typing.... we define type for variable
+//  type annotation or explicit typing.... we define type for variable
 
 let nameStr: string;
 nameStr = "sandesh";
