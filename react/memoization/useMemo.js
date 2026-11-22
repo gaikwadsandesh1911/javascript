@@ -1,13 +1,15 @@
 /* useMemo:
 
-    Is react hook which takes callback function and dependecy array.
+    it is mainly used to memoize value of expensive function.
+    because it may freeze the UI.
+
+    Is takes callback function and dependecy array.
     useMemo(() => {},[]) 
 
     it memoized value return by callback function.
     and does not re-calculate (does not execute callback) untill one of its dependency changed.
 
-    it is mainly used to memoize value of expensive function
-    because it may freeze the UI.
+
 */
 
 const products = [
