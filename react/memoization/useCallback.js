@@ -1,12 +1,15 @@
 /* useCallback:
 
-It returns the same function reference between renders, until one of its dependencies changes.
+usecallback preserve function reference between renders, until one of its dependencies changes.
 
-It is useful when we pass function to child component.
+It is useful when we pass function to child component as a prop.
 
-by default when parent component re-render child component re-render as well
+by default when parent component re-render child component re-render as well.
 
-we can prevent child component from Re-rendering until it's prop is changed by wrapping child component with memo function.
+we can prevent child component from un-necessory Re-rendering until it's prop is changed by wrapping child component with React.memo
+
+React.memo compare function reference, if same reference it skip child component re-render.
+
 */
 
 function Parent() {
