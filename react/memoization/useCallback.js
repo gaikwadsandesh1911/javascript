@@ -1,9 +1,12 @@
 /* useCallback:
 
-    useCallback is a React Hook used to memoize a function.
+It returns the same function reference between renders, until one of its dependencies changes.
 
-    It returns the same function reference between renders 
-    until one of its dependencies changes.
+It is useful when we pass function to child component.
+
+by default when parent component re-render child component re-render as well
+
+we can prevent child component from Re-rendering until it's prop is changed by wrapping child component with memo function.
 */
 
 function Parent() {
