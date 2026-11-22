@@ -12,117 +12,114 @@
 
 */
 
-const products = [
-  { id: 1, name: "iPhone", price: 70000 },
-  { id: 2, name: "Laptop", price: 50000 },
-  { id: 3, name: "Headphones", price: 2000 },
-  { id: 4, name: "Smart Watch", price: 5000 },
-];
 
 // without memo
-function Products() {
-    
+
+import { useState } from "react";
+
+const products = [
+  "iPhone",
+  "Samsung",
+  "OnePlus",
+  "Realme",
+  "Redmi"
+];
+
+function App() {
   const [search, setSearch] = useState("");
+  const [count, setCount] = useState(0);
 
-  const [cartCount, setCartCount] = useState(0);
+  console.log("Component rendered");
 
-  const getFilteredProducts = (products) => {
-    console.log("Filtering + sorting...");
-    return products
-      .filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
-      .sort((a, b) => a.price - b.price);
-  };
+  // Filtering happens on every render
+  const filteredProducts = products.filter(product =>
+    product.toLowerCase().includes(search.toLowerCase())
+  );
 
-  const filteredProducts = getFilteredProducts(products);
+  console.log("Filtering products...");
 
   return (
     <>
+      <h2>Search Products</h2>
+
       <input
         value={search}
+        onChange={e => setSearch(e.target.value)}
         placeholder="Search product..."
-        onChange={(e) => setSearch(e.target.value)}
       />
 
-      <br />
+      <h3>Products:</h3>
 
-      <button onClick={() => setCartCount(cartCount + 1)}>
-        Cart: {cartCount}
-      </button>
+      {filteredProducts.map(product => (
+        <p key={product}>{product}</p>
+      ))}
 
       <hr />
 
-      {filteredProducts.map((item) => (
-        <p key={item.id}>
-          {item.name} - ₹{item.price}
-        </p>
-      ))}
+      <h3>Count: {count}</h3>
+
+      <button onClick={() => setCount(count + 1)}>
+        Increase Count
+      </button>
     </>
   );
 }
 
-export default Products;
-
-/* 
-    when cartCount changes, component re-renders.
-
-    Without useMemo, getFilteredProducts run every time component re-render
-    even it has nothing to do with cart count.
-
-*/
-
+export default App;
 
 // ---------------------------------------------------
 
 // with memo
 
-import { useMemo, useState } from "react";
+import { useState, useMemo } from "react";
 
-function Products() {
+const products = [
+  "iPhone",
+  "Samsung",
+  "OnePlus",
+  "Realme",
+  "Redmi"
+];
+
+function App() {
   const [search, setSearch] = useState("");
-  const [cartCount, setCartCount] = useState(0);
-
-  function getFilteredProducts(products, search) {
-    console.log("Filtering + sorting...");
-
-    return [...products]
-      .filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
-      )
-      .sort((a, b) => a.price - b.price);
-  }
+  const [count, setCount] = useState(0);
 
   const filteredProducts = useMemo(() => {
-    return getFilteredProducts(products, search);
+    console.log("Filtering products...");
+
+    return products.filter(product =>
+      product.toLowerCase().includes(search.toLowerCase())
+    );
   }, [search]);
 
   return (
     <>
+      <h2>Search Products</h2>
+
       <input
         value={search}
+        onChange={e => setSearch(e.target.value)}
         placeholder="Search product..."
-        onChange={(e) => setSearch(e.target.value)}
       />
 
-      <br />
+      <h3>Products:</h3>
 
-      <button onClick={() => setCartCount(cartCount + 1)}>
-        Cart: {cartCount}
-      </button>
+      {filteredProducts.map(product => (
+        <p key={product}>{product}</p>
+      ))}
 
       <hr />
 
-      {filteredProducts.map((item) => (
-        <p key={item.id}>
-          {item.name} - ₹{item.price}
-        </p>
-      ))}
+      <h3>Count: {count}</h3>
+
+      <button onClick={() => setCount(count + 1)}>
+        Increase Count
+      </button>
     </>
   );
 }
 
-/* 
-    here filteredProducts executed only serch is changed,
-    not on click of button.
-*/
+export default App;
 
 // -------------------------------------------------------
