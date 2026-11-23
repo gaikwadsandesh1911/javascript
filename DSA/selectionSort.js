@@ -1,7 +1,7 @@
 /*  selection sort
 
     Search for the smallest element in the unsorted portion and 
-    replace (swap) it with the first element of that portion
+    swap it with the first element of that portion
 
 */ 
 
@@ -30,3 +30,8 @@ function selectionSort(arr) {
 }
 
 console.log(selectionSort([64, 25, 12, 22, 11]));
+
+
+/* after first pass smallest element set at first position
+
+*/
