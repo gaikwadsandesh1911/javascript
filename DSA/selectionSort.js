@@ -1,3 +1,10 @@
+/*  selection sort
+
+    Search for the smallest element in the unsorted portion and 
+    replace (swap) it with the first element of that portion
+
+*/ 
+
 
 function selectionSort(arr) {
     
