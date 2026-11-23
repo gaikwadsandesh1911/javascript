@@ -41,3 +41,8 @@ function bubbleSort(arr) {
 }
 
 console.log(bubbleSort([1, 2, 3, 4, 5]));
+
+
+/* after first passs largest element set at end
+
+*/
