@@ -1,19 +1,16 @@
 
 /* array
 
-    - array is collection of simillar type data elements.
-      but In js we store values of different types as well.
+    - array is linear data structure which stores elements in continous memory location.
 
-    - array stores elements in continous memory location.
+    - and we can access array elements by its index which is start from 0.
 
-    - we can access array by its index which is start from 0.
-
-    - In js, built-in array methods help us add, remove, access, modify, search and process array elements.
+    - In js, built-in array methods help us add, remove, access, modify, search array elements.
 
 */
 
 
-/* Modifies original array	        Does not modify original array
+/* Modifies original array	    Does not modify original array
 
     push()	                    map()
     pop()	                    filter()
