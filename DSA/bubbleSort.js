@@ -1,6 +1,6 @@
 /* Bubble sort
 
-  it sort an array by repeatedly comparing two adjacent elements and 
+  Bubble sort comparing two adjacent elements and 
   swapping them if they are in the wrong order.
 
   
