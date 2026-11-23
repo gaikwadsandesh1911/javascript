@@ -6,6 +6,14 @@
     - and we can access array elements by its index which is start from 0.
 
     - In js, built-in array methods help us add, remove, access, modify, search array elements.
+    
+    
+    - in traditional data structure philosophy size of array considered as fixed,
+      means once array is created its size can not be modified. like array in java.
+    
+      But size of array in javascript is dynamic, means it grows and shrink as needed.
+    
+      in java we use arrayList for dynamic size array.
 
 */
 
