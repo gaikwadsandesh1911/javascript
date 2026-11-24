@@ -32,7 +32,7 @@ function bubbleSort(arr) {
     
     }
 // If an entire pass finishes without a swap, break stops the outer loop.
-    if (!swapped) {
+    if (swapped == false) {
       break;
     }
     
