@@ -9,11 +9,17 @@
     Some common examples of side effects include:
 
       - Fetching data from an API on component mount.
-      - Setting up timers (setTimeout / setInterval) as component lifecycle rather being triggered by user action
-      - Adding browser Event listeners (scroll, resize, etc.)
-      - Directly interact with browser api
-      - Subscribe to external system
+        we dont need useEffect, If we want to make api call on event.
 
+      - Setting up timers (setTimeout / setInterval) as a part of component synchronization like timer start on component mount
+        we dont need useEffect, if we want timer on event.
+
+      - Adding/ removing browser Event listeners (scroll, resize, etc.)
+
+      - Subscribe to external library( websocket )
+
+  
+  useEffect takes setup function and optional dependency array.
 
   useEffect hook runs after component render means after browser has painted the UI.
 
@@ -166,6 +172,7 @@ useEffect(() => {
     clearInterval(timer);
   };
 }, []);
+
 
 /*  
   We don't have to use useRef for every timer. 
