@@ -3,6 +3,7 @@
   Bubble sort comparing two adjacent elements and 
   swapping them if they are in the wrong order.
 
+in every pass largest element is bubble up at the end
   
   Outer loop: control passes:
      We need at most n - 1 passes because 
