@@ -1,22 +1,58 @@
 /*  useRef
 
-    
-    - useRef is used to store mutable values that persist across renders 
+    useRef mainly use for two purpose: 
+
+    - access dom element directly throught its .current property
+
+    - store mutable values that we want it to persist across re-renders like timer value.
       and updating that value does not re-render component. 
       Since component is not get re-rendered, It does not update the UI.
-
-    - useRef is a React Hook that returns a mutable object that has only one property.   
-      [.current] property.
     
-    - useRef() Commonly use for:
+    - Common use cases of useRef:
 
-      - Access and manipulate DOM elements directly.
       - Focus input fields.
       - Track scroll position.
-      - Store mutable values without re-rendering.
-      - Store timer/interval IDs.
+      - Store timer/interval IDs, if we have to use same timer id in different functions.
       - Store previous values.
 */
+
+
+/*
+    we can access and manipulate dom elements directly inside useEffect through browser api like:
+    document.getElementById() etc. methods,
+    
+    but useRef is recomnded way to acess dom element directly.
+*/
+
+// useEffect
+import { useEffect } from "react";
+
+function App() {
+  
+  useEffect(() => {
+    const heading = document.getElementById("heading");
+
+    console.log(heading);
+    heading.style.color = "red";
+  }, []);
+
+  return <h1 id="heading">Hello React</h1>;
+}
+
+
+// useRef
+import { useEffect, useRef } from "react";
+
+function App() {
+  
+  const headingRef = useRef(null);
+
+  useEffect(() => {
+    headingRef.current.style.color = "red";
+  }, []);
+
+  return <h1 ref={headingRef}>Hello React</h1>;
+}
 
 /*  
     value also persists with useState but updating it cause component re-render
