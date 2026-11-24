@@ -1,16 +1,23 @@
 /* useEffect
 
-    useEffect is react hook used to perform side effects in React functional components.
-    A side effect is any operation that interacts with something outside the component's rendering process.
-    Some common examples of side effects include:
+React component manages state, prop and UI. but it also has to communicate with external system like browsers api timers, event listeners etc. 
+
+useEffect help react component to synchronous with external system.
+
+It allow us to perform side effects. 
+Some common examples of side effects include:
 
       - Fetching data from an API on component mount.
-      - Setting up timers (setTimeout / setInterval).
-      - Add Event listeners (scroll, resize, etc.)
+      - Setting up timers (setTimeout / setInterval) as component lifecycle rather being triggered by user action
+      - Adding browser Event listeners (scroll, resize, etc.)
+      - Directly interact with browser api
+      - Subscribe to external system
 
-    useEffect hook runs after component render means after browser has painted the UI.
 
-    useEffect runs in following three situations :
+useEffect hook runs after component render means after browser has painted the UI.
+
+
+useEffect runs in following three situations :
 
       - if no dependecy array is provided, useEffect runs after evey render of the component.
       
