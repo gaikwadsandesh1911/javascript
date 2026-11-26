@@ -1,14 +1,21 @@
 /* useReducer
 
-useReducer is a React Hook used for complex state management 
-by updating state through dispatched actions and a reducer function.
+to manage complex state or
+when multiple state updates depends on different action
+useReducer hook is used.
 
-useReducer takes two main parameters: a reducer function and an initial state. 
+it's an alternative to usestate.
+
+useReducer takes two main parameters: 
+
+a reducer function and an initial state. 
+
 The initial state can be of any type, but it is commonly an object when managing complex state.
+
+reducer function recieves two parameters (state, action) and return new state
 
 useReducer returns the current state and a dispatch function that sends actions to the reducer for state updates..
 
-reducer function recieves two parameters (state, action) and return new state
 
 */
 
