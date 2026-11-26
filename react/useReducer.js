@@ -8,13 +8,14 @@ it's an alternative to usestate.
 
 useReducer takes two main parameters: 
 
-a reducer function and an initial state. 
+- a reducer function and an initial state. 
 
 The initial state can be of any type, but it is commonly an object when managing complex state.
 
+- useReducer manage state using reducer function.
 reducer function recieves two parameters (state, action) and return new state
 
-useReducer returns the current state and a dispatch function that sends actions to the reducer for state updates..
+useReducer returns the current state and a dispatch function that sends actions to the reducer function for state updates..
 
 
 */
@@ -22,7 +23,7 @@ useReducer returns the current state and a dispatch function that sends actions 
 const [state, dispatch] = useReducer(reducer, initialState);
 /* 
     state → current state value
-    dispatch → function used to send actions.
+    dispatch → function used to send action to reducer function.
 */
 
 import { useReducer } from "react";
