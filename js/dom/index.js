@@ -1,6 +1,7 @@
-/* BOM (Browser Object Model ) : 
-            is a set of objects provided by the browser that allows JavaScript 
-            to interact with the browser window.
+/* BOM (Browser Object Model ):
+
+    Browser provides set of objects which allow js to interact with browser window.
+
 
     window (global object).
     |
@@ -19,28 +20,30 @@
 
     window
 
-        Is global object. Everything comes under window object.
+    It's a global object. Everything comes under window object.
         
-        variables declare with var keyword / functions declaration, become properties of window object.
+    variables declare with var keyword and normal functions declaration, 
+    also become properties of window object.
             
-            var name = 'sandesh' 
+    var name = 'sandesh'
+    window.name
+
             
-            function hello() { }
-
-            window.name   ...  window.hello()
-
-        
-        Common Window Methods
-
-         - Alert, Prompt, Confirm
+    function hello() { }
+    window.hello()
 
         
-        Simple Analogy
-            BOM = Outside the page (browser controls)
-            DOM = Inside the page (HTML elements)
+    Common Window Methods:
 
-            window represents browser
-            document represents webpage
+    - Alert, Prompt, Confirm
+
+        
+    Simple Analogy
+        BOM = Outside the page (browser controls)
+        DOM = Inside the page (HTML elements)
+
+        window represents browser
+        document represents webpage
             
             
  */
@@ -49,11 +52,11 @@
 
 /*  1. What is DOM? (Document Object Model)
 
-            When a browser loads a webpage, 
-            it converts the HTML into a tree-like structure called the DOM.
+        When a browser loads a webpage, 
+        it converts the HTML into a tree-like structure called the DOM.
 
-                - where Each HTML element becomes a node (object)
-                - JavaScript can read, modify, add, or delete these nodes.
+        - where Each HTML element becomes a node (object)
+        - JavaScript can read, modify, add, or delete these nodes.
                 
 
                 <!DOCTYPE html>
@@ -79,13 +82,14 @@
 
 /*  2. Node?
 
-            A node is any object in the DOM tree.
+        A node is any object in the DOM tree.
 
-            Types of nodes:
-                - Document Node -  Represents the whole HTML document
-                - element node  -  Represent any html element. element means open tag content close tag.
-                - text node    -   text inside tag
-                - comment node -   comments we write also one of node.
+        Types of nodes:
+
+        - Document Node -  Represents the whole HTML document
+        - element node  -  Represent any html element. element means open tag content close tag.
+        - text node    -   text inside tag
+        - comment node -   comments we write also one of node.
 
      */
 
@@ -132,8 +136,7 @@
             | Returned by     | getElementsBy*      | querySelectorAll |
             | forEach support | ❌ No              | ✅ Yes           |
 
-
-    */
+*/
 
 // ---------------------------------------------------------------------------------------------
 
