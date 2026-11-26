@@ -8,14 +8,17 @@ it's an alternative to usestate.
 
 useReducer takes two main parameters: 
 
-- a reducer function and an initial state. 
+- a reducer function and an initial state.
+
+- and returns current state and dispatch function.
+
+dispatch function sends action ( plain js object ) to reducer function. action has type and payload property.
 
 The initial state can be of any type, but it is commonly an object when managing complex state.
 
 - useReducer manage state using reducer function.
 reducer function recieves two parameters (state, action) and return new state
 
-useReducer returns the current state and a dispatch function that sends actions to the reducer function for state updates..
 
 
 */
@@ -83,3 +86,15 @@ function App() {
 }
 
 export default App;
+
+
+/*
+
+useState vs useReducer
+useState useReducer
+Manages state directly Manages state through a reducer
+Uses setter function Uses dispatch function
+Suitable for simple state Useful for complex state logic
+Update logic often stays in component Update logic is centralized in reducer
+No action required Uses actions
+*/
