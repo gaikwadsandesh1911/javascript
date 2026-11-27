@@ -1,16 +1,4 @@
-/* useCallback:
-
-usecallback preserve function reference between renders, until one of its dependencies changes.
-
-It is useful when we pass function to child component as a prop.
-
-by default when parent component re-render child component re-render as well.
-
-we can prevent child component from un-necessory Re-rendering until it's prop is changed by wrapping child component with React.memo
-
-React.memo compare function reference, if same reference it skip child component re-render.
-
-*/
+//  without useCallback:
 
 function Parent() {
   const [count, setCount] = useState(0);
@@ -44,7 +32,9 @@ const Child = React.memo(({ onClick }) => {
 
 
 
-// -----------------with useCallback ----------------------------------------------------------
+// ---------------------------------------------------------------------------
+
+// with usecallback
 
 function Parent() {
   const [count, setCount] = useState(0);
@@ -81,16 +71,3 @@ const Child = React.memo(({ onClick }) => {
 });
 
 
-
-/* 
-    It memoize callback function of useCallback() hook.
-
-    for eg.1
-    when we pass function to child componet we can prevent child component from un-necessory re-rendering
-
-    if the pass same reference is passed to child component, child component does not re-renders.
-
-    But it is effective only when child wrapped with React.memo()
-
-
-*/
