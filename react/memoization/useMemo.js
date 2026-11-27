@@ -1,18 +1,3 @@
-/* useMemo:
-
-    it is mainly used to memoize value of expensive function.
-    because it may freeze the UI.
-
-    Is takes callback function and dependecy array.
-    useMemo(() => {},[]) 
-
-    it memoized value return by callback function.
-    and does not re-calculate (does not execute callback) untill one of its dependency changed.
-
-
-*/
-
-
 // without memo
 
 import { useState } from "react";
@@ -67,7 +52,9 @@ function App() {
 
 export default App;
 
-// ---------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // with memo
 
@@ -120,6 +107,4 @@ function App() {
   );
 }
 
-export default App;
-
-// -------------------------------------------------------
+export default App
