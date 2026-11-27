@@ -275,6 +275,10 @@ function findPair(arr, target) {
     }
   }
 
+  if (pairs.length === 0) {
+    return null;
+  }
+
   return pairs;
 }
 
