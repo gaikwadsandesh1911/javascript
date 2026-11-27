@@ -249,13 +249,44 @@ frequency([10, 20, 30, 30, 40, 10]);
 function findPair(arr, target) {
   for (let i = 0; i < arr.length; i++) {
     for (let j = i + 1; j < arr.length; j++) {
-      if (arr[i] + arr[j] == target) {
-        // console.log(arr[i], arr[j]);
+      if (arr[i] + arr[j] === target) {
+        return [arr[i], arr[j]]; // stops after finding first pair
       }
     }
   }
+
+  return null;
 }
-findPair([10, 20, 30, 40], 50);
+
+console.log(findPair([10, 20, 30, 40], 50));
+// [10, 40]
+
+
+// if we have to check more than one pair
+
+function findPair(arr, target) {
+  let pairs = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] + arr[j] === target) {
+        pairs.push([arr[i], arr[j]]);
+      }
+    }
+  }
+
+  return pairs;
+}
+
+console.log(findPair([10, 20, 30, 40, 50], 60));
+
+/* output
+
+    [
+       [10, 50],
+       [20, 40]
+    ]
+*/
 
 // -------------------------------------------------------------------
 
