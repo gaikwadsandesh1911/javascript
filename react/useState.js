@@ -1,7 +1,7 @@
 
 /*  useState:
 
-        useState is a React Hook used to manage state in functional components.
+        To manage state in functional components, useState hook is used.
 
         - It takes an initial state value and
 
@@ -29,7 +29,7 @@
     })
 
     setUser((prev) => ({
-        ...prev,                // create shallow copy
+        ...prev,                     // create shallow copy
         name: "sandesh gaikwad",    // changing new object
         address: {
             ...prev.address,
@@ -55,31 +55,32 @@
         ),
         skills: [...prev.skills, "Node"]
     }));
-
-
-/*  when we update the state:
-
-        - react compare previous state with new state
-            - for primitive (number, string, boolean, undefined, etc.), It compares by values. 
-            - for non-primitive (objects, arrays, and functions), It compares by references( memory address ).
-
-        - if React detect the change, It re-render component with new state.
-        - if doesn't detect change, component does not re-render with updated state.
-
     
-        Because In js :
-            - Primitive data types are immutable and compared by value.
-            - Non-Primitive data types are mutable and compared by their reference.
-                If same reference react do not detect the change, and component do not re-render.
+// when we update array or object we create new copy first, then makes required changes.
+
+
+
+/*  state update and re-rendering.
+
+    When we update state, React compares the new state with the previous state 
+    using its internal Object.is() method.
+
+    where primitive types are compare by value and object types are compare by reference.
+
+    If React detects a change, it schedules the component for re-rendering.
+
+
+
+    During re-rendering? The component executes again."
+
+    - Primitive values: Their expressions are evaluated again. their value may remain same.
+
+    - New references are created for objects, arrays and functions.
             
 
-        when updating an object or array in React, 
-        we commonly create a new copy first and then make the required change.
-    
-
-        React state is considered as immutable, 
-            - and we must not update the state direclty.
-            - we must use setter function to update the state.
+   when component re- render new copy if vdom created
+   React compare this new copy of vdom with previous one and 
+   update only changed part in real dom.
 
 */
 
