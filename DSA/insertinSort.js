@@ -24,7 +24,7 @@ function insertionSort(arr) {
         let key = arr[i];
         let j = i - 1;
 
-        while (j >= 0 && arr[j] > current) {
+        while (j >= 0 && arr[j] > key) {
             
             arr[j + 1] = arr[j];
             j--;
