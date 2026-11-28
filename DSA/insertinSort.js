@@ -1,0 +1,5 @@
+/*   Insertin sort
+
+     It devides array into sorted and unsorted part
+
+*/
