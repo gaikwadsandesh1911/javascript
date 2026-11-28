@@ -9,7 +9,7 @@
      it shift element to right in sorted part only to make space for picked element
      and place picked element into its correct position in sorted part.
      
-     if sorted element smaller or equal to key it stops
+     if sorted element smaller or equal to picked element it stops
      if it reaches to begining of sorted part it place picked element at first position.
 
     
