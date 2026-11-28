@@ -1,20 +1,19 @@
 /*  selection sort
 
-    Search for the smallest element in the unsorted portion and 
-    swap it with the first element of that portion
+It devide the array into sorted and un-sorted part
+It repetedly select smallest element from unsorted part and place it at begining of unsorted part.
 
 
 Initially, the entire array is unsorted.
 
 Consider the first element as the current smallest element (minIndex = i).
 
-Start searching from the second element (j = i + 1) until the end.
+Start comparing from the second element (j = i + 1) until the end if array.
 
 If you find a smaller element, update minIndex.
 
-After completing the search, swap the smallest element with the element at the current position.
+After completing the comparison, swap the smallest element with the element at the current position.
 
-Move to the next position and repeat.
 
 */ 
 
