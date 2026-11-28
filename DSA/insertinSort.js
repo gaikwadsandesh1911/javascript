@@ -13,6 +13,8 @@
      if it reaches to begining of sorted part it place picked element at first position.
 
     
+
+consider first element is sorted, picked next element, start compare with sorted part
 */
 
 function insertionSort(arr) {
